@@ -1,10 +1,19 @@
-var Kinect2 = require('kinect2');
+var Kinect2 = require('kinect2'),
+	express = require('express'),
+	app = express(),
+	server = require('http').createServer(app),
+	io = require('socket.io').listen(server);
+
 var kinect = new Kinect2();
+
 if(kinect.open()) {
-	console.log('kinect opened');
+	server.listen(8000);
+	console.log('Server listening on port 8000');
+	console.log('Point your browser to http://localhost:8000');
+
 	kinect.on('bodyFrame', function(bodyFrame){
-		console.log(bodyFrame.bodies);
+		io.sockets.emit('bodyFrame', bodyFrame);
 	});
+
 	kinect.openBodyReader();
-	setTimeout(kinect.close.bind(kinect), 5000);
 }

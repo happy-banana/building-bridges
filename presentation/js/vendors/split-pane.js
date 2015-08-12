@@ -9,7 +9,7 @@ https://raw.github.com/shagstrom/split-pane/master/LICENSE
 
 */
 (function($) {
-	
+
 	$.fn.splitPane = function() {
 		var $splitPanes = this;
 		$splitPanes.each(setMinHeightAndMinWidth);
@@ -98,7 +98,7 @@ https://raw.github.com/shagstrom/split-pane/master/LICENSE
 			var lastComponentMinHeight = minHeight(lastComponent);
 			return function(event) {
 				var maxfirstComponentHeight = splitPane.offsetHeight - lastComponentMinHeight - divider.offsetHeight;
-				if (firstComponent.offsetHeight > maxfirstComponentHeight) {
+				if (splitPane.offsetHeight > 0 && firstComponent.offsetHeight > maxfirstComponentHeight) {
 					setTop(firstComponent, divider, lastComponent, maxfirstComponentHeight + 'px');
 				}
 				$splitPane.resize();
@@ -107,7 +107,7 @@ https://raw.github.com/shagstrom/split-pane/master/LICENSE
 			var firstComponentMinHeight = minHeight(firstComponent);
 			return function(event) {
 				var maxLastComponentHeight = splitPane.offsetHeight - firstComponentMinHeight - divider.offsetHeight;
-				if (lastComponent.offsetHeight > maxLastComponentHeight) {
+				if (splitPane.offsetHeight > 0 && lastComponent.offsetHeight > maxLastComponentHeight) {
 					setBottom(firstComponent, divider, lastComponent, maxLastComponentHeight + 'px')
 				}
 				$splitPane.resize();
@@ -117,10 +117,10 @@ https://raw.github.com/shagstrom/split-pane/master/LICENSE
 				firstComponentMinHeight = minHeight(firstComponent);
 			return function(event) {
 				var maxLastComponentHeight = splitPane.offsetHeight - firstComponentMinHeight - divider.offsetHeight;
-				if (lastComponent.offsetHeight > maxLastComponentHeight) {
+				if (splitPane.offsetHeight > 0 && lastComponent.offsetHeight > maxLastComponentHeight) {
 					setBottom(firstComponent, divider, lastComponent, (maxLastComponentHeight / splitPane.offsetHeight * 100) + '%');
 				} else {
-					if (splitPane.offsetHeight - firstComponent.offsetHeight - divider.offsetHeight < lastComponentMinHeight) {
+					if (splitPane.offsetHeight > 0 && splitPane.offsetHeight - firstComponent.offsetHeight - divider.offsetHeight < lastComponentMinHeight) {
 						setBottom(firstComponent, divider, lastComponent, (lastComponentMinHeight / splitPane.offsetHeight * 100) + '%');
 					}
 				}
@@ -130,7 +130,7 @@ https://raw.github.com/shagstrom/split-pane/master/LICENSE
 			var lastComponentMinWidth = minWidth(lastComponent);
 			return function(event) {
 				var maxFirstComponentWidth = splitPane.offsetWidth - lastComponentMinWidth - divider.offsetWidth;
-				if (firstComponent.offsetWidth > maxFirstComponentWidth) {
+				if (splitPane.offsetWidth > 0 && firstComponent.offsetWidth > maxFirstComponentWidth) {
 					setLeft(firstComponent, divider, lastComponent, maxFirstComponentWidth + 'px');
 				}
 				$splitPane.resize();
@@ -139,7 +139,7 @@ https://raw.github.com/shagstrom/split-pane/master/LICENSE
 			var firstComponentMinWidth = minWidth(firstComponent);
 			return function(event) {
 				var maxLastComponentWidth = splitPane.offsetWidth - firstComponentMinWidth - divider.offsetWidth;
-				if (lastComponent.offsetWidth > maxLastComponentWidth) {
+				if (splitPane.offsetWidth > 0 && lastComponent.offsetWidth > maxLastComponentWidth) {
 					setRight(firstComponent, divider, lastComponent, maxLastComponentWidth + 'px');
 				}
 				$splitPane.resize();
@@ -149,10 +149,10 @@ https://raw.github.com/shagstrom/split-pane/master/LICENSE
 				firstComponentMinWidth = minWidth(firstComponent);
 			return function(event) {
 				var maxLastComponentWidth = splitPane.offsetWidth - firstComponentMinWidth - divider.offsetWidth;
-				if (lastComponent.offsetWidth > maxLastComponentWidth) {
+				if (splitPane.offsetWidth > 0 && lastComponent.offsetWidth > maxLastComponentWidth) {
 					setRight(firstComponent, divider, lastComponent, (maxLastComponentWidth / splitPane.offsetWidth * 100) + '%');
 				} else {
-					if (splitPane.offsetWidth - firstComponent.offsetWidth - divider.offsetWidth < lastComponentMinWidth) {
+					if (splitPane.offsetWidth > 0 && splitPane.offsetWidth - firstComponent.offsetWidth - divider.offsetWidth < lastComponentMinWidth) {
 						setRight(firstComponent, divider, lastComponent, (lastComponentMinWidth / splitPane.offsetWidth * 100) + '%');
 					}
 				}

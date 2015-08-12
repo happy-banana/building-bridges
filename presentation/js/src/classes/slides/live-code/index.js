@@ -39,7 +39,7 @@ module.exports = (function(){
 	LiveCode.prototype = Object.create(ContentBase.prototype);
 
 	LiveCode.prototype.layout = function() {
-		//might be triggered after split pane resize
+		//might be triggered after split pane resize or tab switch
 		//codemirror instances need to be updated
 		for(var key in this.codeElements)
 		{
@@ -84,7 +84,12 @@ module.exports = (function(){
 		}
 		else
 		{
-			console.log('TODO: run in browser');
+			//get the web preview element which is handling this code
+			var webPreviewElement = this.getWebPreviewElementForCodeElement(codeElement);
+			if(webPreviewElement)
+			{
+				this.updateWebPreviewElement(webPreviewElement);
+			}
 		}
 	};
 
@@ -119,6 +124,28 @@ module.exports = (function(){
 			}
 		}
 		return false;
+	};
+
+	LiveCode.prototype.getWebPreviewElementForCodeElement = function(codeElement) {
+		return this.webPreviewElements[codeElement.processor];
+	};
+
+	LiveCode.prototype.updateWebPreviewElement = function(webPreviewElement) {
+		//gather all the code for this element
+		var blocks = [];
+		for(var key in this.codeElements)
+		{
+			var codeElement = this.codeElements[key];
+			if(codeElement.processor === webPreviewElement.id)
+			{
+				var block = {
+					language: codeElement.language,
+					code: codeElement.getValue()
+				};
+				blocks.push(block);
+			}
+		}
+		webPreviewElement.updateCode(blocks);
 	};
 
 	LiveCode.prototype.saveClickHandler = function() {

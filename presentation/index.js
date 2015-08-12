@@ -3,18 +3,14 @@ var BrowserWindow = require('browser-window');
 var mainWindow = null;
 
 app.on('window-all-closed', function() {
-// On OSX it is common for applications and their menu bar
-// to stay active until the user quits explicitly with Cmd + Q
-	if (process.platform != 'darwin') {
-		app.quit();
-	}
+	app.quit();
 });
 
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
 	// Create the browser window.
-	mainWindow = new BrowserWindow({width: 1280, height: 960});
+	mainWindow = new BrowserWindow({width: 1300, height: 960});
 
 	// and load the index.html of the app.
 	mainWindow.loadUrl('file://' + __dirname + '/index.html');

@@ -1,9 +1,18 @@
 {
 	"slides": [
 		{
+			"name": "kinect-skeleton-websockets",
+			"presentation": {
+				"url": "slides/kinect-skeleton-websockets.html"
+			},
+			"mobile": {
+				"url": "slides/text.html?text=Building+Bridges"
+			}
+		},
+		{
 			"name": "keynote.001.png",
 			"presentation": {
-				"url": "slides/kinect.html"
+				"url": "slides/image.html?image=images/keynote/keynote.001.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"

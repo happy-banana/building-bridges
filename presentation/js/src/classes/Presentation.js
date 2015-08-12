@@ -23,6 +23,8 @@ module.exports = (function(){
 		}
 		PresentationBase.call(this, data, 'presentation');
 
+		window.onbeforeunload = this.closeHandler.bind(this);
+
 		this.elevatorMusicPlaying = false;
 		this.elevatorMusic = false;
 
@@ -50,6 +52,10 @@ module.exports = (function(){
 
 	Presentation.prototype = Object.create(PresentationBase.prototype);
 
+	Presentation.prototype.closeHandler = function() {
+		ChildApp.getInstance().stop();
+	};
+
 	Presentation.prototype.createMobileServerBridge = function() {
 		return new MobileServerBridge(this, Config.mobileServerUrl);
 	};
@@ -65,8 +71,10 @@ module.exports = (function(){
 
 	//create webviews instead of iframes
 	Presentation.prototype.createIFrames = function() {
+		//TODO: we cannot nest webviews, which makes dynamic code execution impossible
+		//so slides will have to decide on their own if they run in a webview...
 		for(var i = 0; i < this.numIframes; i++) {
-			var $iframe = $('<webview class="slide-frame" nodeintegration />');
+			var $iframe = $('<webview class="slide-frame" nodeintegration plugins disablewebsecurity />');
 			this.iframes.push($iframe);
 			$('#presentation').append($iframe);
 		}

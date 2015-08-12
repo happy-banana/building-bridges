@@ -23,6 +23,7 @@
     "CodeMirror": false,
     "Spacebrew": false,
     "io": false,
-    "bean": false
+    "bean": false,
+    "process": false
   }
 }

@@ -8,6 +8,7 @@ require('../../js/vendors/rAF.js');
 
 window.CodeMirror = require('../../codemirror/lib/codemirror.js');
 require('../../codemirror/mode/javascript/javascript.js');
+require('../../codemirror/mode/htmlmixed/htmlmixed.js');
 require('../../codemirror/mode/clike/clike.js');
 require('../../codemirror/addon/hint/show-hint.js');
 require('../../codemirror/addon/hint/javascript-hint.js');

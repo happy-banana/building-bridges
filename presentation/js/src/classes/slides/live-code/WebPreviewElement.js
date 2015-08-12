@@ -18,5 +18,8 @@ module.exports = (function(){
 		this.$el.css('width', '100%').css('height', '100%');
 	}
 
+	WebPreviewElement.prototype.updateCode = function(blocks) {
+	};
+
 	return WebPreviewElement;
 })();

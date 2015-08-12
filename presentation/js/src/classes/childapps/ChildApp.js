@@ -1,9 +1,43 @@
 var Config = require('../config'),
 	events = requireNode('events'),
 	fs = requireNode('fs'),
-	process = requireNode('child_process'),
+	childProcess = requireNode('child_process'),
 	util = requireNode('util'),
 	path = requireNode('path');
+
+//kill entire process tree
+//http://krasimirtsonev.com/blog/article/Nodejs-managing-child-processes-starting-stopping-exec-spawn
+var kill = function (pid, signal, callback) {
+	signal = signal || 'SIGKILL';
+	callback = callback || function () {};
+	//var isWin = /^win/.test(process.platform);
+	var isWin = true;
+	if(!isWin) {
+		var psTree = requireNode('ps-tree');
+		var killTree = true;
+		if(killTree) {
+			psTree(pid, function (err, children) {
+				[pid].concat(
+					children.map(function (p) {
+						return p.PID;
+					})
+				).forEach(function (tpid) {
+					try { process.kill(tpid, signal); }
+					catch (ex) { }
+					});
+					callback();
+			});
+		} else {
+			try { process.kill(pid, signal); }
+			catch (ex) { }
+			callback();
+		}
+	} else {
+		childProcess.exec('taskkill /PID ' + pid + ' /T /F', function (error, stdout, stderr) {
+			callback();
+		});
+	}
+};
 
 function ChildApp() {
 	events.EventEmitter.call(this);
@@ -50,10 +84,10 @@ ChildApp.prototype.runCode = function(code, type) {
 	this.saveCode(code, type, (function(){
 		//run the code
 		if(type === 'tessel') {
-			this.runner = process.spawn("tessel", ["run", Config.childTesselAppFilePath], {cwd: path.dirname(Config.childTesselAppFilePath)});
+			this.runner = childProcess.spawn("tessel", ["run", Config.childTesselAppFilePath], {cwd: path.dirname(Config.childTesselAppFilePath)});
 		} else {
 			//this.runner = process.spawn("node", [Config.childNodeAppFilePath], {cwd: path.dirname(Config.childNodeAppFilePath)});
-			this.runner = process.spawn("cmd", ["nvmw", "use", "iojs-v2.3.1"], {cwd: path.dirname(Config.childNodeAppFilePath)});
+			this.runner = childProcess.spawn("cmd", ["nvmw", "use", "iojs-v2.3.1"], {cwd: path.dirname(Config.childNodeAppFilePath)});
 			setTimeout((function(){
 				//execute first command
 				this.runner.stdin.write("node " + Config.childNodeAppFilePath + "\n");
@@ -68,10 +102,12 @@ ChildApp.prototype.runCode = function(code, type) {
 
 ChildApp.prototype.stop = function() {
 	if(this.runner) {
+		console.log("[ChildApp] stop");
+		console.log(this.runner.pid);
 		this.runner.stdout.removeAllListeners();
 		this.runner.stderr.removeAllListeners();
 		this.runner.stdin.end();
-		this.runner.kill();
+		kill(this.runner.pid);
 		this.runner = false;
 	}
 };
