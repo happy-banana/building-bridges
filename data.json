@@ -3,7 +3,7 @@
 		{
 			"name": "keynote.001.png",
 			"presentation": {
-				"url": "slides/image.html?image=images/keynote/keynote.001.png"
+				"url": "slides/kinect.html"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
@@ -19,12 +19,12 @@
 			}
 		},
 		{
-			"name": "keynote.003.png",
+			"name": "showreel-devine",
 			"presentation": {
-				"url": "slides/image.html?image=images/keynote/keynote.003.png"
+				"url": "slides/video.html?video=videos/devine-showreel-2015-2994.mp4"
 			},
 			"mobile": {
-				"url": "slides/text.html?text=Building+Bridges"
+				"url": "slides/text.html?text=Showreel+Devine"
 			}
 		},
 		{

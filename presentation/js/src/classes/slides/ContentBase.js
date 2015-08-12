@@ -2,6 +2,7 @@ module.exports = (function(){
 
 	var SharedContentBase = require('shared/ContentBase');
 	var Constants = require('Constants');
+	var ipc = requireNode('ipc');
 
 	var KEYCODE_LEFT = 37;
 	var KEYCODE_RIGHT = 39;
@@ -9,10 +10,23 @@ module.exports = (function(){
 	function ContentBase(name) {
 		SharedContentBase.call(this, name);
 		this.slideControlEnabled = true;
-		$(window).on('keydown', this.keydownHandler.bind(this));			
+		$(window).on('keydown', this.keydownHandler.bind(this));
 	}
 
 	ContentBase.prototype = Object.create(SharedContentBase.prototype);
+
+	ContentBase.prototype.startListeningForMessages = function() {
+		//electron works with ipc-channels
+		requireNode('ipc').on('message', (function(message) {
+			//wrap in object
+			this.receiveMessage({data: message});
+		}).bind(this));
+	};
+
+	ContentBase.prototype.postMessage = function(data) {
+		//electron works with ipc-channels
+		ipc.sendToHost('message', data);
+	};
 
 	ContentBase.prototype.keydownHandler = function(event) {
 		if(this.slideControlEnabled) {

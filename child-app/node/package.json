@@ -1,0 +1,15 @@
+{
+  "name": "building-bridges-child-app",
+  "description": "child demo app running in the presentation",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Wouter Verweirder <wouter.verweirder@gmail.com>",
+  "license": "MIT",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "kinect2": "0.0.24",
+    "socket.io": "^1.3.6"
+  }
+}

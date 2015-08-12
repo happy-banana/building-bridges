@@ -41,9 +41,12 @@ module.exports = (function(){
 	IFrameBridge.prototype.attachToIframe = function(iframe, src, cb) {
 		this.iframe = iframe;
 		$(iframe).off('load');
+		$(iframe).off('dom-ready');
 		$(iframe).attr('name', this.name);
+		$(iframe).addClass('loading');
 		if(src !== $(iframe).attr('src')) {
-			$(iframe).on('load dom-ready', (function(event){
+			$(iframe).on('load', (function(event){
+				$(iframe).removeClass('loading');
 				this.tryToPostMessage({
 					action: 'setState',
 					state: this.state

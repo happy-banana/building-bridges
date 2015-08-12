@@ -33,7 +33,7 @@ gulp.task('presentation-js', ['presentation-lint'], function(){
 	bundler.require(__dirname + '/shared/js/classes/MobileServerBridge.js', { expose: 'shared/MobileServerBridge'});
 
 	bundler.require(__dirname + '/presentation/js/src/classes/slides/video-slide/index.js', { expose: 'slides/VideoSlide'});
-	bundler.require(__dirname + '/presentation/js/src/classes/slides/childapp-editor/index.js', { expose: 'slides/ChildAppEditor'});
+	bundler.require(__dirname + '/presentation/js/src/classes/slides/live-code/index.js', { expose: 'slides/LiveCode'});
 	return bundler.bundle()
 		.on('error', function(err) {
 			gutil.log(err.message);
@@ -144,7 +144,7 @@ gulp.task('mobile-vendors-js', function(){
 
 gulp.task('default', ['watch']);
 
-gulp.task('watch', ['mobile-js', 'mobile-styles', 'presentation-js', 'presentation-styles'], function(){
+gulp.task('watch', ['mobile-js', 'mobile-styles', 'mobile-vendors-js', 'presentation-js', 'presentation-styles', 'presentation-vendors-js'], function(){
 
 	gulp.watch('server/www/src/js/**/**', ['mobile-js']);
 	gulp.watch('server/www/src/css/**/*.less', ['mobile-styles']);

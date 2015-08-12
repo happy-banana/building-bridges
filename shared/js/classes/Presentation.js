@@ -20,10 +20,14 @@ module.exports = (function(){
 		this.createIFrameBridges(this.data);
 
 		this.mobileServerBridge = this.createMobileServerBridge();
-		window.addEventListener("message", this.iFrameMessageHandler.bind(this), false);
+		this.startListeningForMessages();
 
 		this.setCurrentSlideIndex(0);
 	}
+
+	Presentation.prototype.startListeningForMessages = function() {
+		window.addEventListener("message", this.iFrameMessageHandler.bind(this), false);
+	};
 
 	Presentation.prototype.createIFrames = function() {
 		for(var i = 0; i < this.numIframes; i++) {
@@ -179,16 +183,22 @@ module.exports = (function(){
 				if(this.mobileServerBridge) {
 					this.mobileServerBridge.tryToSend(Constants.LEAVE_SLIDE_ROOM, $(iFrame).attr('name'));
 				}
-				//add the join as a callback for the onload event
-				iFrameBridge.attachToIframe(iFrame, src, (function(){
-					//join new channel
-					if(this.mobileServerBridge) {
-						this.mobileServerBridge.tryToSend(Constants.JOIN_SLIDE_ROOM, $(iFrame).attr('name'));
-					}
-				}).bind(this));
+				this.attachToIFrame(iFrame, iFrameBridge, src);
 			}
 			iFrameBridge.setState(state);
 			$(iFrame).css('left', left);
+		}
+	};
+
+	Presentation.prototype.attachToIFrame = function(iFrame, iFrameBridge, src) {
+		//add the join as a callback for the onload event
+		iFrameBridge.attachToIframe(iFrame, src, this.iFrameLoaded.bind(this, iFrame, iFrameBridge, src));
+	};
+
+	Presentation.prototype.iFrameLoaded = function(iFrame, iFrameBridge) {
+		//join new channel
+		if(this.mobileServerBridge) {
+			this.mobileServerBridge.tryToSend(Constants.JOIN_SLIDE_ROOM, $(iFrame).attr('name'));
 		}
 	};
 

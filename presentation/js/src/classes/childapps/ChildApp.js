@@ -30,6 +30,7 @@ ChildApp.prototype.saveCode = function(code, type, cb) {
 		if(type === 'tessel') {
 			filePath = Config.childTesselAppFilePath;
 		}
+		//create folder / file if needed
 		fs.writeFile(filePath, code, function(err) {
 				if(err) {
 						console.log(err);
@@ -51,10 +52,15 @@ ChildApp.prototype.runCode = function(code, type) {
 		if(type === 'tessel') {
 			this.runner = process.spawn("tessel", ["run", Config.childTesselAppFilePath], {cwd: path.dirname(Config.childTesselAppFilePath)});
 		} else {
-			this.runner = process.spawn("node", [Config.childNodeAppFilePath], {cwd: path.dirname(Config.childNodeAppFilePath)});
+			//this.runner = process.spawn("node", [Config.childNodeAppFilePath], {cwd: path.dirname(Config.childNodeAppFilePath)});
+			this.runner = process.spawn("cmd", ["nvmw", "use", "iojs-v2.3.1"], {cwd: path.dirname(Config.childNodeAppFilePath)});
+			setTimeout((function(){
+				//execute first command
+				this.runner.stdin.write("node " + Config.childNodeAppFilePath + "\n");
+			}).bind(this), 500);
 		}
 		this.runner.stdout.on('data', this.onRunnerData.bind(this));
-		this.runner.stderr.on('data', this.onRunnerData.bind(this));
+		this.runner.stderr.on('data', this.onRunnerError.bind(this));
 		this.runner.on('disconnect', this.onDisconnect.bind(this));
 		this.runner.on('close', this.onClose.bind(this));
 	}).bind(this));
@@ -71,7 +77,11 @@ ChildApp.prototype.stop = function() {
 };
 
 ChildApp.prototype.onRunnerData = function(data) {
-	console.log(data.toString().trim());
+	this.emit('stdout-data', data.toString().trim());
+};
+
+ChildApp.prototype.onRunnerError = function(error) {
+	this.emit('stderr-data', error.toString().trim());
 };
 
 ChildApp.prototype.onDisconnect = function() {

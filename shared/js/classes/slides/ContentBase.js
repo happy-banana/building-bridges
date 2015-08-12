@@ -1,5 +1,5 @@
 module.exports = (function(){
-	
+
 	var Constants = require('Constants');
 
 	function ContentBase(name) {
@@ -12,11 +12,15 @@ module.exports = (function(){
 		this._lastTime = new Date().getTime();
 		this.currentFrame = 0;
 
-		window.addEventListener("message", this.receiveMessage.bind(this), false);
+		this.startListeningForMessages();
 
 		this.__drawLoop = this._drawLoop.bind(this);
 		this._interval = 1000 / this.fps;
 	}
+
+	ContentBase.prototype.startListeningForMessages = function() {
+		window.addEventListener("message", this.receiveMessage.bind(this), false);
+	};
 
 	ContentBase.prototype.receiveMessage = function(event) {
 		if(!event.data) {

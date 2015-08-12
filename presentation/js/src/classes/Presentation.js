@@ -10,6 +10,8 @@ module.exports = (function(){
 	var ChildApp = require('./childapps/ChildApp');
 	var MobileServerBridge = require('./MobileServerBridge');
 
+	var IFrameBridge = require('./IFrameBridge');
+
 	var KEYCODE_LEFT = 37;
 	var KEYCODE_RIGHT = 39;
 
@@ -36,10 +38,14 @@ module.exports = (function(){
 
 		$(window).on('keydown', $.proxy(this.keydownHandler, this));
 
-		$('body').on(Constants.GO_TO_PREVIOUS_SLIDE, $.proxy(this.goToPreviousSlide, this));
-		$('body').on(Constants.GO_TO_NEXT_SLIDE, $.proxy(this.goToNextSlide, this));
-		$('body').on(Constants.OPEN_COMMAND_LINE, $.proxy(this.openCommandLine, this));
-		$('body').on(Constants.OPEN_CAMERA, $.proxy(this.openCamera, this));
+		//forward childapp messages
+		ChildApp.getInstance().on('stdout-data', this.childAppDataHandler.bind(this));
+		ChildApp.getInstance().on('stderr-data', this.childAppErrorHandler.bind(this));
+
+		$('body').on(Constants.GO_TO_PREVIOUS_SLIDE, this.goToPreviousSlide.bind(this));
+		$('body').on(Constants.GO_TO_NEXT_SLIDE, this.goToNextSlide.bind(this));
+		$('body').on(Constants.OPEN_COMMAND_LINE, this.openCommandLine.bind(this));
+		$('body').on(Constants.OPEN_CAMERA, this.openCamera.bind(this));
 	}
 
 	Presentation.prototype = Object.create(PresentationBase.prototype);
@@ -88,6 +94,20 @@ module.exports = (function(){
 		});
 	};
 
+	Presentation.prototype.createIframeBridge = function(slide) {
+		//use our own bridge to webviews
+		return new IFrameBridge(slide);
+	};
+
+	Presentation.prototype.attachToIFrame = function(iFrame, iFrameBridge, src) {
+		//listen for ipc messages on this iframe
+		$(iFrame).off('ipc-message');
+		$(iFrame).on('ipc-message', (function(event) {
+			this.iFrameMessageHandler({data: event.originalEvent.args[0]});
+		}).bind(this));
+		PresentationBase.prototype.attachToIFrame.call(this, iFrame, iFrameBridge, src);
+	};
+
 	Presentation.prototype.iFrameMessageHandler = function(event) {
 		PresentationBase.prototype.iFrameMessageHandler.call(this, event);
 		if(!event.data) {
@@ -123,6 +143,26 @@ module.exports = (function(){
 			case KEYCODE_RIGHT:
 				this.goToNextSlide();
 				break;
+		}
+	};
+
+	Presentation.prototype.childAppDataHandler = function(data) {
+		var currentIFrameBridge = this.getIFrameBridgeByIndex(this.currentSlideIndex);
+		if(currentIFrameBridge) {
+			currentIFrameBridge.tryToPostMessage({
+				action: Constants.CHILD_APP_STDOUT_DATA,
+				data: data
+			});
+		}
+	};
+
+	Presentation.prototype.childAppErrorHandler = function(data) {
+		var currentIFrameBridge = this.getIFrameBridgeByIndex(this.currentSlideIndex);
+		if(currentIFrameBridge) {
+			currentIFrameBridge.tryToPostMessage({
+				action: Constants.CHILD_APP_STDERR_DATA,
+				data: data
+			});
 		}
 	};
 

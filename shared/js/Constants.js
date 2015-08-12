@@ -22,6 +22,9 @@ module.exports = (function(){
 
 		CHILD_APP_SAVE_CODE : 'childAppSaveCode',
 		CHILD_APP_RUN_CODE : 'childAppRunCode',
+		CHILD_APP_STDOUT_DATA : 'childAppStdoutData',
+		CHILD_APP_STDERR_DATA : 'childAppStderrData',
+
 		OPEN_COMMAND_LINE: 'openCommandLine',
 		OPEN_CAMERA: 'openCamera'
 	};
