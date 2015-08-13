@@ -28,7 +28,7 @@ gulp.task('presentation-js', ['presentation-lint'], function(){
 
 	bundler.require(__dirname + '/shared/js/Constants.js', { expose: 'Constants'});
 	bundler.require(__dirname + '/shared/js/classes/slides/ContentBase.js', { expose: 'shared/ContentBase'});
-	bundler.require(__dirname + '/shared/js/classes/IFrameBridge.js', { expose: 'shared/IFrameBridge'});
+	bundler.require(__dirname + '/shared/js/classes/SlideBridge.js', { expose: 'shared/SlideBridge'});
 	bundler.require(__dirname + '/shared/js/classes/Presentation.js', { expose: 'shared/Presentation'});
 	bundler.require(__dirname + '/shared/js/classes/MobileServerBridge.js', { expose: 'shared/MobileServerBridge'});
 
@@ -96,7 +96,7 @@ gulp.task('mobile-js', ['mobile-lint'], function(){
 
 	bundler.require(__dirname + '/shared/js/Constants.js', { expose: 'Constants'});
 	bundler.require(__dirname + '/shared/js/classes/slides/ContentBase.js', { expose: 'shared/ContentBase'});
-	bundler.require(__dirname + '/shared/js/classes/IFrameBridge.js', { expose: 'shared/IFrameBridge'});
+	bundler.require(__dirname + '/shared/js/classes/SlideBridge.js', { expose: 'shared/SlideBridge'});
 	bundler.require(__dirname + '/shared/js/classes/Presentation.js', { expose: 'shared/Presentation'});
 	bundler.require(__dirname + '/shared/js/classes/MobileServerBridge.js', { expose: 'shared/MobileServerBridge'});
 

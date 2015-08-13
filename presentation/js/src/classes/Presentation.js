@@ -10,7 +10,7 @@ module.exports = (function(){
 	var ChildApp = require('./childapps/ChildApp');
 	var MobileServerBridge = require('./MobileServerBridge');
 
-	var IFrameBridge = require('./IFrameBridge');
+	var SlideBridge = require('./SlideBridge');
 
 	var KEYCODE_LEFT = 37;
 	var KEYCODE_RIGHT = 39;
@@ -69,32 +69,29 @@ module.exports = (function(){
 		}
 	};
 
-	//create webviews instead of iframes
-	Presentation.prototype.createIFrames = function() {
-		//TODO: we cannot nest webviews, which makes dynamic code execution impossible
-		//so slides will have to decide on their own if they run in a webview...
-		for(var i = 0; i < this.numIframes; i++) {
-			var $iframe = $('<webview class="slide-frame" nodeintegration plugins disablewebsecurity />');
-			this.iframes.push($iframe);
-			$('#presentation').append($iframe);
+	Presentation.prototype.createSlideHolders = function() {
+		for(var i = 0; i < this.numSlideHolders; i++) {
+			var $slideHolder = $('<div class="slide-frame" />');
+			this.slideHolders.push($slideHolder);
+			$('#presentation').append($slideHolder);
 		}
 	};
 
 	//prepend urls with file:/// (faster?)
-	Presentation.prototype.processIFrameSrc = function(src) {
+	Presentation.prototype.processSlideSrc = function(src) {
 		src = 'file:///' + path.resolve('./presentation/' + src);
 		src = src.replace(/\\/g,"/");
 		return src;
 	};
 
-	Presentation.prototype.createIFrameBridges = function(data) {
-		PresentationBase.prototype.createIFrameBridges.call(this, data);
+	Presentation.prototype.createSlideBridges = function(data) {
+		PresentationBase.prototype.createSlideBridges.call(this, data);
 		var that = this;
 		var $slideMenu = $('#slideMenu');
-		var numIFrameBridges = this.iFrameBridges.length;
-		for(var i = 0; i < numIFrameBridges; i++) {
-			var iFrameBridge = this.iFrameBridges[i];
-			$slideMenu.append('<li><a href="#" data-slidenr="' + i + '">' + (i + 1) + ' ' + iFrameBridge.name + '</a></li>');
+		var numSlideBridges = this.slideBridges.length;
+		for(var i = 0; i < numSlideBridges; i++) {
+			var slideBridge = this.slideBridges[i];
+			$slideMenu.append('<li><a href="#" data-slidenr="' + i + '">' + (i + 1) + ' ' + slideBridge.name + '</a></li>');
 		}
 		$slideMenu.find('a').on('click', function(event){
 			event.preventDefault();
@@ -102,22 +99,22 @@ module.exports = (function(){
 		});
 	};
 
-	Presentation.prototype.createIframeBridge = function(slide) {
+	Presentation.prototype.createSlideBridge = function(slide) {
 		//use our own bridge to webviews
-		return new IFrameBridge(slide);
+		return new SlideBridge(slide);
 	};
 
-	Presentation.prototype.attachToIFrame = function(iFrame, iFrameBridge, src) {
-		//listen for ipc messages on this iframe
-		$(iFrame).off('ipc-message');
-		$(iFrame).on('ipc-message', (function(event) {
-			this.iFrameMessageHandler({data: event.originalEvent.args[0]});
+	Presentation.prototype.attachToSlideHolder = function(slideHolder, slideBridge, src) {
+		//listen for ipc messages on this slideHolder
+		$(slideHolder).off('ipc-message');
+		$(slideHolder).on('ipc-message', (function(event) {
+			this.slideMessageHandler({data: event.originalEvent.args[0]});
 		}).bind(this));
-		PresentationBase.prototype.attachToIFrame.call(this, iFrame, iFrameBridge, src);
+		PresentationBase.prototype.attachToSlideHolder.call(this, slideHolder, slideBridge, src);
 	};
 
-	Presentation.prototype.iFrameMessageHandler = function(event) {
-		PresentationBase.prototype.iFrameMessageHandler.call(this, event);
+	Presentation.prototype.slideMessageHandler = function(event) {
+		PresentationBase.prototype.slideMessageHandler.call(this, event);
 		if(!event.data) {
 			return;
 		}
@@ -155,9 +152,9 @@ module.exports = (function(){
 	};
 
 	Presentation.prototype.childAppDataHandler = function(data) {
-		var currentIFrameBridge = this.getIFrameBridgeByIndex(this.currentSlideIndex);
-		if(currentIFrameBridge) {
-			currentIFrameBridge.tryToPostMessage({
+		var currentSlideBridge = this.getSlideBridgeByIndex(this.currentSlideIndex);
+		if(currentSlideBridge) {
+			currentSlideBridge.tryToPostMessage({
 				action: Constants.CHILD_APP_STDOUT_DATA,
 				data: data
 			});
@@ -165,9 +162,9 @@ module.exports = (function(){
 	};
 
 	Presentation.prototype.childAppErrorHandler = function(data) {
-		var currentIFrameBridge = this.getIFrameBridgeByIndex(this.currentSlideIndex);
-		if(currentIFrameBridge) {
-			currentIFrameBridge.tryToPostMessage({
+		var currentSlideBridge = this.getSlideBridgeByIndex(this.currentSlideIndex);
+		if(currentSlideBridge) {
+			currentSlideBridge.tryToPostMessage({
 				action: Constants.CHILD_APP_STDERR_DATA,
 				data: data
 			});

@@ -1,43 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title></title>
-	<link rel="stylesheet" href="../css/style.css">
-	<script>
-		window.requireNode = window.require;
-    window.require = undefined;
-	</script>
-</head>
-<body>
-	<script src="../js/vendors.min.js"></script>
-	<script src="../js/script.min.js"></script>
-	<script>
-	(function(){
+<template>
+	<div style="width: 100%; height: 100%"></div>
+<script>
+(function(){
 
-		function init() {
-			$('body').css({
-				backgroundRepeat: 'no-repeat',
-				backgroundSize: 'contain',
-				backgroundPosition: 'center center',
-				backgroundImage: 'url(' + getParameterByName('image') + ')'
-			});
-		}
+	var $slideHolder = $(document.currentScript).closest('.slide-frame');
 
-		/**
-		 * http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
-		 */
-		function getParameterByName(name) {
-			name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-			var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-			results = regex.exec(location.search);
-			return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-		}
+	function init() {
+		var imageUrl = getParameterByName($slideHolder.attr('data-src'), 'image');
+		$slideHolder.find('div').css({
+			backgroundRepeat: 'no-repeat',
+			backgroundSize: 'contain',
+			backgroundPosition: 'center center',
+			backgroundImage: 'url(' + imageUrl + ')'
+		});
+	}
 
-		init();
+	function getParameterByName(url, name) {
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		results = regex.exec(url);
+		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
 
-	})();
-	</script>
-</body>
-</html>
+	init();
+
+})();
+</script>
+</template>

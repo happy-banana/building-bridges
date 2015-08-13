@@ -1,7 +1,7 @@
 module.exports = (function(){
 
 	var Constants = require('Constants');
-	var IFrameBridge = require('./IFrameBridge');
+	var SlideBridge = require('./SlideBridge');
 
 	/*
 	 * data: json object with slides array property
@@ -11,13 +11,13 @@ module.exports = (function(){
 		this.data = data;
 		this.role = role;
 		this.currentSlideIndex = -1;
-		this.iframes = [];
-		this.numIframes = 3;
-		this.iFrameBridges = [];
-		this.iFrameBridgesBySlideName = {};
+		this.slideHolders = [];
+		this.numSlideHolders = 3;
+		this.slideBridges = [];
+		this.slideBridgesBySlideName = {};
 
-		this.createIFrames();
-		this.createIFrameBridges(this.data);
+		this.createSlideHolders();
+		this.createSlideBridges(this.data);
 
 		this.mobileServerBridge = this.createMobileServerBridge();
 		this.startListeningForMessages();
@@ -26,32 +26,32 @@ module.exports = (function(){
 	}
 
 	Presentation.prototype.startListeningForMessages = function() {
-		window.addEventListener("message", this.iFrameMessageHandler.bind(this), false);
+		window.addEventListener("message", this.slideMessageHandler.bind(this), false);
 	};
 
-	Presentation.prototype.createIFrames = function() {
-		for(var i = 0; i < this.numIframes; i++) {
-			var $iframe = $('<iframe class="slide-frame" />');
-			this.iframes.push($iframe);
-			$('#presentation').append($iframe);
+	Presentation.prototype.createSlideHolders = function() {
+		for(var i = 0; i < this.numSlideHolders; i++) {
+			var $slideHolder = $('<iframe class="slide-frame" />');
+			this.slideHolders.push($slideHolder);
+			$('#presentation').append($slideHolder);
 		}
 	};
 
-	Presentation.prototype.createIFrameBridges = function(data) {
+	Presentation.prototype.createSlideBridges = function(data) {
 		var that = this;
 		var numSlides = data.slides.length;
 		for(var i = 0; i < numSlides; i++) {
-			var iFrameBridge = this.createIframeBridge(data.slides[i]);
-			this.iFrameBridges.push(iFrameBridge);
-			this.iFrameBridgesBySlideName[iFrameBridge.name] = iFrameBridge;
+			var slideBridge = this.createSlideBridge(data.slides[i]);
+			this.slideBridges.push(slideBridge);
+			this.slideBridgesBySlideName[slideBridge.name] = slideBridge;
 		}
 	};
 
-	Presentation.prototype.createIframeBridge = function(slide) {
-		return new IFrameBridge(slide);
+	Presentation.prototype.createSlideBridge = function(slide) {
+		return new SlideBridge(slide);
 	};
 
-	Presentation.prototype.iFrameMessageHandler = function(event) {
+	Presentation.prototype.slideMessageHandler = function(event) {
 		if(!event.data) {
 			return;
 		}
@@ -65,18 +65,18 @@ module.exports = (function(){
 	};
 
 	Presentation.prototype.mobileServerBridgeConnected = function() {
-		//join the rooms of the iframes
-		for(var i = 0; i < this.numIframes; i++) {
-			this.mobileServerBridge.tryToSend(Constants.JOIN_SLIDE_ROOM, $(this.iframes[i]).attr('name'));
+		//join the rooms of the slideHolders
+		for(var i = 0; i < this.numSlideHolders; i++) {
+			this.mobileServerBridge.tryToSend(Constants.JOIN_SLIDE_ROOM, $(this.slideHolders[i]).attr('data-name'));
 		}
 	};
 
 	Presentation.prototype.mobileServerMessageHandler = function(message) {
 		if(message.target.slide) {
 			//slide has to handle the message
-			var iFrameBridge = this.getIFrameBridgeBySlideName(message.target.slide);
-			if(iFrameBridge) {
-				iFrameBridge.tryToPostMessage({
+			var slideBridge = this.getSlideBridgeByName(message.target.slide);
+			if(slideBridge) {
+				slideBridge.tryToPostMessage({
 					action: Constants.SOCKET_RECEIVE,
 					message: message
 				});
@@ -91,34 +91,34 @@ module.exports = (function(){
 		console.log('[shared/Presentation] handleMobileServerMessage', message);
 	};
 
-	Presentation.prototype.getIFrameBridgeByIndex = function(index) {
-		if(index >= 0 && index < this.iFrameBridges.length) {
-			return this.iFrameBridges[index];
+	Presentation.prototype.getSlideBridgeByIndex = function(index) {
+		if(index >= 0 && index < this.slideBridges.length) {
+			return this.slideBridges[index];
 		}
 		return false;
 	};
 
-	Presentation.prototype.getIFrameBridgeBySlideName = function(slideName) {
-		return this.iFrameBridgesBySlideName[slideName];
+	Presentation.prototype.getSlideBridgeByName = function(slideName) {
+		return this.slideBridgesBySlideName[slideName];
 	};
 
-	Presentation.prototype.getIFrameForSlide = function(slide, slidesNotToClear) {
+	Presentation.prototype.getSlideHolderForSlide = function(slide, slidesNotToClear) {
 		if(slide) {
-			var $iframe = $('.slide-frame[name="' + slide.name + '"]');
-			if($iframe.length > 0) {
-				return $iframe[0];
+			var $slideHolder = $('.slide-frame[data-name="' + slide.name + '"]');
+			if($slideHolder.length > 0) {
+				return $slideHolder[0];
 			}
-			//get a free iframe
+			//get a free slideHolder
 			var slideNamesNotToClear = [];
 			$(slidesNotToClear).each(function(index, obj){
 				slideNamesNotToClear.push(obj.name);
 			});
-			var $iframes = $('.slide-frame');
-			for (var i = $iframes.length - 1; i >= 0; i--) {
-				$iframe = $($iframes[i]);
-				var name = $iframe.attr('name');
+			var $slideHolders = $('.slide-frame');
+			for (var i = $slideHolders.length - 1; i >= 0; i--) {
+				$slideHolder = $($slideHolders[i]);
+				var name = $slideHolder.attr('data-name');
 				if(!name || slideNamesNotToClear.indexOf(name) === -1) {
-					return $iframe[0];
+					return $slideHolder[0];
 				}
 			}
 		}
@@ -134,75 +134,75 @@ module.exports = (function(){
 	};
 
 	Presentation.prototype.setCurrentSlideIndex = function(value) {
-		value = Math.max(0, Math.min(value, this.iFrameBridges.length - 1));
+		value = Math.max(0, Math.min(value, this.slideBridges.length - 1));
 		if(value !== this.currentSlideIndex) {
 			this.currentSlideIndex = value;
 
-			var currentIFrameBridge = this.getIFrameBridgeByIndex(this.currentSlideIndex);
-			var previousIFrameBridge = this.getIFrameBridgeByIndex(this.currentSlideIndex - 1);
-			var nextIFrameBridge = this.getIFrameBridgeByIndex(this.currentSlideIndex + 1);
+			var currentSlideBridge = this.getSlideBridgeByIndex(this.currentSlideIndex);
+			var previousSlideBridge = this.getSlideBridgeByIndex(this.currentSlideIndex - 1);
+			var nextSlideBridge = this.getSlideBridgeByIndex(this.currentSlideIndex + 1);
 
-			var currentIframe = this.getIFrameForSlide(currentIFrameBridge, [previousIFrameBridge, nextIFrameBridge]);
-			this.setupIFrame(currentIframe, currentIFrameBridge, Constants.STATE_ACTIVE, 0);
+			var currentSlideHolder = this.getSlideHolderForSlide(currentSlideBridge, [previousSlideBridge, nextSlideBridge]);
+			this.setupSlideHolder(currentSlideHolder, currentSlideBridge, Constants.STATE_ACTIVE, 0);
 
-			var previousIframe = this.getIFrameForSlide(previousIFrameBridge, [currentIFrameBridge, nextIFrameBridge]);
-			this.setupIFrame(previousIframe, previousIFrameBridge, Constants.STATE_INACTIVE, '-100%');
+			var previousSlideHolder = this.getSlideHolderForSlide(previousSlideBridge, [currentSlideBridge, nextSlideBridge]);
+			this.setupSlideHolder(previousSlideHolder, previousSlideBridge, Constants.STATE_INACTIVE, '-100%');
 
-			var nextIframe = this.getIFrameForSlide(nextIFrameBridge, [previousIFrameBridge, currentIFrameBridge]);
-			this.setupIFrame(nextIframe, nextIFrameBridge, Constants.STATE_INACTIVE, '100%');
+			var nextSlideHolder = this.getSlideHolderForSlide(nextSlideBridge, [previousSlideBridge, currentSlideBridge]);
+			this.setupSlideHolder(nextSlideHolder, nextSlideBridge, Constants.STATE_INACTIVE, '100%');
 
-			//all other iframe bridges should be unlinked from their iframe
-			this.iFrameBridges.forEach(function(iFrameBridge){
-				if(iFrameBridge === currentIFrameBridge) {
+			//all other slideHolder bridges should be unlinked from their slideHolder
+			this.slideBridges.forEach(function(slideBridge){
+				if(slideBridge === currentSlideBridge) {
 					return;
 				}
-				if(iFrameBridge === previousIFrameBridge) {
+				if(slideBridge === previousSlideBridge) {
 					return;
 				}
-				if(iFrameBridge === nextIFrameBridge) {
+				if(slideBridge === nextSlideBridge) {
 					return;
 				}
-				iFrameBridge.iframe = null;
+				slideBridge.slideHolder = null;
 			});
 
 			bean.fire(this, Constants.SET_CURRENT_SLIDE_INDEX, [this.currentSlideIndex]);
 		}
 	};
 
-	Presentation.prototype.setupIFrame = function(iFrame, iFrameBridge, state, left) {
-		if(iFrame) {
-			var src = "slides/" + iFrameBridge.name + '.html';
-			if(iFrameBridge.data[this.role] && iFrameBridge.data[this.role].url) {
-				src = iFrameBridge.data[this.role].url;
+	Presentation.prototype.setupSlideHolder = function(slideHolder, slideBridge, state, left) {
+		if(slideHolder) {
+			var src = "slides/" + slideBridge.name + '.html';
+			if(slideBridge.data[this.role] && slideBridge.data[this.role].url) {
+				src = slideBridge.data[this.role].url;
 			}
-			src = this.processIFrameSrc(src);
-			if(iFrameBridge.isAlreadyCorrectlyAttached(iFrame, src)) {
-				//console.log(iFrameBridge.name + ' already attached');
+			src = this.processSlideSrc(src);
+			if(slideBridge.isAlreadyCorrectlyAttached(slideHolder, src)) {
+				//console.log(slideBridge.name + ' already attached');
 			} else {
-				//leave previous channel of this iframe
+				//leave previous channel of this slideHolder
 				if(this.mobileServerBridge) {
-					this.mobileServerBridge.tryToSend(Constants.LEAVE_SLIDE_ROOM, $(iFrame).attr('name'));
+					this.mobileServerBridge.tryToSend(Constants.LEAVE_SLIDE_ROOM, $(slideHolder).attr('data-name'));
 				}
-				this.attachToIFrame(iFrame, iFrameBridge, src);
+				this.attachToSlideHolder(slideHolder, slideBridge, src);
 			}
-			iFrameBridge.setState(state);
-			$(iFrame).css('left', left);
+			slideBridge.setState(state);
+			$(slideHolder).css('left', left);
 		}
 	};
 
-	Presentation.prototype.attachToIFrame = function(iFrame, iFrameBridge, src) {
+	Presentation.prototype.attachToSlideHolder = function(slideHolder, slideBridge, src) {
 		//add the join as a callback for the onload event
-		iFrameBridge.attachToIframe(iFrame, src, this.iFrameLoaded.bind(this, iFrame, iFrameBridge, src));
+		slideBridge.attachToSlideHolder(slideHolder, src, this.slideLoaded.bind(this, slideHolder, slideBridge, src));
 	};
 
-	Presentation.prototype.iFrameLoaded = function(iFrame, iFrameBridge) {
+	Presentation.prototype.slideLoaded = function(slideHolder, slideBridge) {
 		//join new channel
 		if(this.mobileServerBridge) {
-			this.mobileServerBridge.tryToSend(Constants.JOIN_SLIDE_ROOM, $(iFrame).attr('name'));
+			this.mobileServerBridge.tryToSend(Constants.JOIN_SLIDE_ROOM, $(slideHolder).attr('data-name'));
 		}
 	};
 
-	Presentation.prototype.processIFrameSrc = function(src) {
+	Presentation.prototype.processSlideSrc = function(src) {
 		return src;
 	};
 

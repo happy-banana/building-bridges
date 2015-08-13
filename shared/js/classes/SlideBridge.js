@@ -29,35 +29,35 @@ module.exports = (function(){
 		return undefined;
 	}
 
-	function IFrameBridge(data) {
+	function SlideBridge(data) {
 		this.data = data;
 		this.name = this.data.name;
 	}
 
-	IFrameBridge.prototype.isAlreadyCorrectlyAttached = function(iframe, src) {
-		return (this.iframe === iframe && $(iframe).attr('name') === this.name && $(iframe).attr('src') === src);
+	SlideBridge.prototype.isAlreadyCorrectlyAttached = function(slideHolder, src) {
+		return (this.slideHolder === slideHolder && $(slideHolder).attr('data-name') === this.name && $(slideHolder).attr('data-src') === src);
 	};
 
-	IFrameBridge.prototype.attachToIframe = function(iframe, src, cb) {
-		this.iframe = iframe;
-		$(iframe).off('load');
-		$(iframe).off('dom-ready');
-		$(iframe).attr('name', this.name);
-		$(iframe).addClass('loading');
-		if(src !== $(iframe).attr('src')) {
-			$(iframe).on('load', (function(event){
-				$(iframe).removeClass('loading');
+	SlideBridge.prototype.attachToSlideHolder = function(slideHolder, src, cb) {
+		this.slideHolder = slideHolder;
+		$(slideHolder).off('load');
+		$(slideHolder).attr('data-name', this.name);
+		$(slideHolder).addClass('loading');
+		if(src !== $(slideHolder).attr('data-src')) {
+			$(slideHolder).on('load', (function(event){
+				$(slideHolder).removeClass('loading');
 				this.tryToPostMessage({
 					action: 'setState',
 					state: this.state
 				});
 				cb();
 			}).bind(this));
-			$(iframe).attr('src', src);
+			$(slideHolder).attr('data-src', src);
+			$(slideHolder).attr('src', src);
 		}
 	};
 
-	IFrameBridge.prototype.setState = function(state) {
+	SlideBridge.prototype.setState = function(state) {
 		this.state = state;
 		this.tryToPostMessage({
 			action: 'setState',
@@ -65,15 +65,15 @@ module.exports = (function(){
 		});
 	};
 
-	IFrameBridge.prototype.tryToPostMessage = function(message) {
-		if(!this.iframe) {
+	SlideBridge.prototype.tryToPostMessage = function(message) {
+		if(!this.slideHolder) {
 			return;
 		}
-		var w = getIframeWindow(this.iframe);
+		var w = getIframeWindow(this.slideHolder);
 		if(w) {
 			w.postMessage(message, "*");
 		}
 	};
 
-	return IFrameBridge;
+	return SlideBridge;
 })();
