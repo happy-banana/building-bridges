@@ -54,6 +54,8 @@ module.exports = (function(){
 
 	LiveCode.prototype.createWebPreviewElement = function(webPreviewEl) {
 		var webPreviewElement = new WebPreviewElement(webPreviewEl);
+		webPreviewElement.$wrapperEl.on('console.log', this.webPreviewConsoleLogHandler.bind(this, webPreviewElement));
+		webPreviewElement.$wrapperEl.on('console.error', this.webPreviewConsoleErrorHandler.bind(this, webPreviewElement));
 		this.webPreviewElements[webPreviewElement.id] = webPreviewElement;
 	};
 
@@ -97,7 +99,7 @@ module.exports = (function(){
 		var consoleElement;
 		if(message.action === Constants.CHILD_APP_STDOUT_DATA)
 		{
-			consoleElement = this.getConsoleElement('node');
+			consoleElement = this.getConsoleElementForRuntime('node');
 			if(consoleElement)
 			{
 				consoleElement.info(message.data);
@@ -105,7 +107,7 @@ module.exports = (function(){
 		}
 		else if(message.action === Constants.CHILD_APP_STDERR_DATA)
 		{
-			consoleElement = this.getConsoleElement('node');
+			consoleElement = this.getConsoleElementForRuntime('node');
 			if(consoleElement)
 			{
 				consoleElement.error(message.data);
@@ -113,7 +115,19 @@ module.exports = (function(){
 		}
 	};
 
-	LiveCode.prototype.getConsoleElement = function(runtime) {
+	LiveCode.prototype.webPreviewConsoleLogHandler = function(webPreviewElement, event, message) {
+		//get the console element for this web preview
+		var consoleElement = this.getConsoleElementForWebPreview(webPreviewElement);
+		consoleElement.info(message);
+	};
+
+	LiveCode.prototype.webPreviewConsoleErrorHandler = function(webPreviewElement, event, message) {
+		//get the console element for this web preview
+		var consoleElement = this.getConsoleElementForWebPreview(webPreviewElement);
+		consoleElement.error(message);
+	};
+
+	LiveCode.prototype.getConsoleElementForRuntime = function(runtime) {
 		//<textarea id="node-code" data-type="code" data-runtime="node" data-console="node-console" data-language="javascript">
 		for(var key in this.codeElements)
 		{
@@ -124,6 +138,10 @@ module.exports = (function(){
 			}
 		}
 		return false;
+	};
+
+	LiveCode.prototype.getConsoleElementForWebPreview = function(webPreviewElement) {
+		return this.consoleElements[webPreviewElement.console];
 	};
 
 	LiveCode.prototype.getWebPreviewElementForCodeElement = function(codeElement) {

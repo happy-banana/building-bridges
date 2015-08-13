@@ -10,6 +10,15 @@
 			}
 		},
 		{
+			"name": "kinect-rgb-electron",
+			"presentation": {
+				"url": "slides/kinect-rgb-electron.html"
+			},
+			"mobile": {
+				"url": "slides/text.html?text=Building+Bridges"
+			}
+		},
+		{
 			"name": "keynote.001.png",
 			"presentation": {
 				"url": "slides/image.html?image=slides/images/keynote/keynote.001.png"

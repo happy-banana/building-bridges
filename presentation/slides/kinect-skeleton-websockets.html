@@ -149,7 +149,7 @@ if(kinect.open()) {
 			$(e.target).closest('li').addClass('active');
 			$tab.addClass("active");
 			liveCode.layout();
-		})
+		}).first().click();
 		$slideHolder.find('div.split-pane').splitPane();
 		$slideHolder.find('div.split-pane').on('resize', function(){
 			liveCode.layout();

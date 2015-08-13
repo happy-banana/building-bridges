@@ -8,8 +8,8 @@
   },
   "author": "Wouter Verweirder <wouter.verweirder@gmail.com>",
   "license": "MIT",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
+    "kinect2": "0.0.24"
   }
 }
