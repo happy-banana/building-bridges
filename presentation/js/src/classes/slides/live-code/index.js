@@ -6,32 +6,32 @@ module.exports = (function(){
 	var CodeElement = require('./CodeElement');
 	var WebPreviewElement = require('./WebPreviewElement');
 
-	function LiveCode(name) {
-		ContentBase.call(this, name);
+	function LiveCode($slideHolder) {
+		ContentBase.call(this, $slideHolder);
 
 		this.slideControlEnabled = false;
 		console.log("[LiveCode] init");
 
 		//create the consoles
 		this.consoleElements = {};
-		$('[data-type="console"]').each((function(index, consoleEl){
+		this.$slideHolder.find('[data-type="console"]').each((function(index, consoleEl){
 			this.createConsoleElement(consoleEl);
 		}).bind(this));
 
 		//create the previews
 		this.webPreviewElements = {};
-		$('[data-type="web-preview"]').each((function(index, webPreviewEl){
+		this.$slideHolder.find('[data-type="web-preview"]').each((function(index, webPreviewEl){
 			this.createWebPreviewElement(webPreviewEl);
 		}).bind(this));
 
 		//create the code editors
 		this.codeElements = {};
-		$('[data-type="code"]').each((function(index, codeEl){
+		this.$slideHolder.find('[data-type="code"]').each((function(index, codeEl){
 			this.createCodeElement(codeEl);
 		}).bind(this));
 
 		//create run buttons
-		$('[data-type="run-button"]').each((function(index, runButtonEl){
+		this.$slideHolder.find('[data-type="run-button"]').each((function(index, runButtonEl){
 			this.createRunButton(runButtonEl);
 		}).bind(this));
 	}

@@ -11,15 +11,7 @@
 	var $slideHolder = $(document.currentScript).closest('.slide-frame');
 
 	function init() {
-		var videoUrl = getParameterByName($slideHolder.attr('data-src'), 'video');
-		var videoSlide = new VideoSlide($slideHolder.find('video')[0], videoUrl);
-	}
-
-	function getParameterByName(url, name) {
-		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-		results = regex.exec(url);
-		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		var videoSlide = new VideoSlide($slideHolder);
 	}
 
 	init();

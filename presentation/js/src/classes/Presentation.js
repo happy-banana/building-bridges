@@ -105,10 +105,10 @@ module.exports = (function(){
 	};
 
 	Presentation.prototype.attachToSlideHolder = function(slideHolder, slideBridge, src) {
-		//listen for ipc messages on this slideHolder
-		$(slideHolder).off('ipc-message');
-		$(slideHolder).on('ipc-message', (function(event) {
-			this.slideMessageHandler({data: event.originalEvent.args[0]});
+		//listen for events on this slideHolder
+		$(slideHolder).off('message-from-slide');
+		$(slideHolder).on('message-from-slide', (function(event, message) {
+			this.slideMessageHandler({data: message});
 		}).bind(this));
 		PresentationBase.prototype.attachToSlideHolder.call(this, slideHolder, slideBridge, src);
 	};

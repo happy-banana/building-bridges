@@ -1,57 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title></title>
-	<link rel="stylesheet" href="../css/style.css">
-	<script>
-		window.requireNode = window.require;
-    window.require = undefined;
-	</script>
-	<style>
-	.tab-content {
-		position: absolute;
-		width: 100%;
-		top: 62px;
-		bottom: 0;
-	}
-	.tab-pane {
-		height: 100%;
-	}
-	.split-pane-divider {
-		background: #aaa;
-	}
-	#body .top-pane {
-		bottom: 10em;
-		margin-bottom: 5px;
-		min-height: 5em;
-	}
-	#body .divider {
-		bottom: 10em;
-		height: 5px;
-	}
-	#body .bottom-pane {
-		height: 10em;
-		min-height: 10em;
-	}
-	</style>
-</head>
-<body class="slide" id="body">
-
+<template>
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
-	<li role="presentation" class="active"><a href="#node" aria-controls="node" role="tab" data-toggle="tab">Node</a></li>
-	<li role="presentation"><a href="#html" aria-controls="html" role="tab" data-toggle="tab">HTML</a></li>
-	<li role="presentation"><a href="#output" aria-controls="output" role="tab" data-toggle="tab">Output</a></li>
+	<li role="presentation" class="active"><a href="#" aria-controls="node" role="tab">Node</a></li>
+	<li role="presentation"><a href="#" aria-controls="html" role="tab">HTML</a></li>
+	<li role="presentation"><a href="#" aria-controls="output" role="tab">Output</a></li>
 </ul>
 
 <!-- Tab panes -->
-<div class="tab-content">
-	<div role="tabpanel" class="tab-pane active" id="node">
+<div class="tab-content" style="position: absolute; width: 100%; top: 62px; bottom: 0;">
+	<div role="tabpanel" class="tab-pane active" data-tab-id="node" style="height: 100%;">
 		<div class="split-pane fixed-bottom">
-			<div class="split-pane-component top-pane">
-				<textarea id="node-code" data-type="code" data-runtime="node" data-console="node-console">var Kinect2 = require('kinect2'),
+			<div class="split-pane-component top-pane" style="bottom: 10em; margin-bottom: 5px; min-height: 5em;">
+				<textarea data-id="node-code" data-type="code" data-runtime="node" data-console="node-console">var Kinect2 = require('kinect2'),
 	express = require('express'),
 	app = express(),
 	server = require('http').createServer(app),
@@ -73,14 +33,14 @@ if(kinect.open()) {
 </textarea>
 				<button class="btn btn-default" data-type="run-button" data-target="node-code" style="position: absolute; top: 1em; right: 1em; z-index: 10">Run</button>
 			</div>
-			<div class="split-pane-divider divider"></div>
-			<div class="split-pane-component bottom-pane">
-				<div id="node-console" style="height: 100%" data-type="console"></div>
+			<div class="split-pane-divider divider" style="background: #aaa; bottom: 10em; height: 5px;"></div>
+			<div class="split-pane-component bottom-pane" style="height: 10em; min-height: 10em;">
+				<div data-id="node-console" style="height: 100%" data-type="console"></div>
 			</div>
 		</div>
 	</div>
-	<div role="tabpanel" class="tab-pane" id="html">
-		<textarea id="html-code" data-type="code" data-runtime="web" data-mode="htmlmixed" data-language="html" data-processor="web-preview"><!DOCTYPE html>
+	<div role="tabpanel" class="tab-pane" data-tab-id="html" style="height: 100%;">
+		<textarea data-id="html-code" data-type="code" data-runtime="web" data-mode="htmlmixed" data-language="html" data-processor="web-preview"><!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -90,9 +50,9 @@ if(kinect.open()) {
 </head>
 <body>
 	<canvas id="bodyCanvas" width="512" height="424"></canvas>
-	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://localhost:8000/socket.io/socket.io.js"></script>
 	<script>
-		var socket = io.connect('/');
+		var socket = io.connect('http://localhost:8000');
 		var canvas = document.getElementById('bodyCanvas');
 		var ctx = canvas.getContext('2d');
 		var colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff'];
@@ -159,38 +119,45 @@ if(kinect.open()) {
 </textarea>
 		<button class="btn btn-default" data-type="run-button" data-target="html-code" style="position: absolute; top: 1em; right: 1em; z-index: 10">Run</button>
 	</div>
-	<div role="tabpanel" class="tab-pane" id="output">
+	<div role="tabpanel" class="tab-pane" data-tab-id="output" style="height: 100%;">
 		<div class="split-pane fixed-bottom">
-			<div class="split-pane-component top-pane">
-				<div id="web-preview" data-type="web-preview" data-console="web-preview-console"></div>
+			<div class="split-pane-component top-pane" style="bottom: 10em; margin-bottom: 5px; min-height: 5em;">
+				<div data-id="web-preview" data-type="web-preview" data-console="web-preview-console"></div>
 			</div>
-			<div class="split-pane-divider divider"></div>
-			<div class="split-pane-component bottom-pane">
-				<div id="web-preview-console" style="height: 100%" data-type="console"></div>
+			<div class="split-pane-divider divider" style="background: #aaa; bottom: 10em; height: 5px;"></div>
+			<div class="split-pane-component bottom-pane" style="height: 10em; min-height: 10em;">
+				<div data-id="web-preview-console" style="height: 100%" data-type="console"></div>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+(function(){
 
-	<script src="../js/vendors.min.js"></script>
-	<script src="../js/script.min.js"></script>
-	<script>
-	(function(){
+	var LiveCode = require('slides/LiveCode');
+	var $slideHolder = $(document.currentScript).closest('.slide-frame');
 
-		var LiveCode = require('slides/LiveCode');
-		var liveCode = new LiveCode('kinect');
+	function init() {
+		var liveCode = new LiveCode($slideHolder);
 
-		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-			//$tab = $($(e.target).attr('href'));
+		//manual manage tabs, as we don't want to work with element ids
+		$slideHolder.find('a[role=tab]').click(function (e) {
+			e.preventDefault();
+			var tabId = $(e.target).attr('aria-controls');
+			var $tab = $slideHolder.find('[data-tab-id="' + tabId + '"]');
+			$slideHolder.find(".nav-tabs .active, .tab-content .active").removeClass("active");
+			$(e.target).closest('li').addClass('active');
+			$tab.addClass("active");
+			liveCode.layout();
+		})
+		$slideHolder.find('div.split-pane').splitPane();
+		$slideHolder.find('div.split-pane').on('resize', function(){
 			liveCode.layout();
 		});
+	}
 
-		$('.split-pane').splitPane();
-		$('.split-pane').on('resize', function(){
-			liveCode.layout();
-		});
+	init();
 
-	})();
-	</script>
-</body>
-</html>
+})();
+</script>
+</template>

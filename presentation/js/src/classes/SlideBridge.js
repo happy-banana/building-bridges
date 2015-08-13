@@ -28,16 +28,11 @@ module.exports = (function(){
 				}
 				$importEl.remove();
 				$(slideHolder).removeClass('loading');
-				//send message to the content
-				/*
 				this.tryToPostMessage({
-					action: 'boot',
-					message: {
-						name: this.name,
-						src: src
-					}
+					action: 'setState',
+					state: this.state
 				});
-				*/
+				cb();
 			}).bind(this));
 			$(slideHolder).html($importEl);
 			$importEl.attr('href', src);
@@ -45,20 +40,13 @@ module.exports = (function(){
 		}
 	};
 
-	/*
-	{
-		action: Constants.SOCKET_RECEIVE,
-		message: message
-	}
-	*/
 	SlideBridge.prototype.tryToPostMessage = function(message) {
 		if(!this.slideHolder)
 		{
 			return;
 		}
-		//use jquery trigger to communicate
-		//$(importEl.import).trigger('message-to-slide', message);
-		//this.slideHolder.send('message', message);
+		//trigger with jquery
+		$(this.slideHolder).trigger('message-to-slide', message);
 	};
 
 	return SlideBridge;

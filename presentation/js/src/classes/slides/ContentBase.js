@@ -2,30 +2,32 @@ module.exports = (function(){
 
 	var SharedContentBase = require('shared/ContentBase');
 	var Constants = require('Constants');
-	var ipc = requireNode('ipc');
 
 	var KEYCODE_LEFT = 37;
 	var KEYCODE_RIGHT = 39;
 
-	function ContentBase(name) {
-		SharedContentBase.call(this, name);
+	function ContentBase($slideHolder) {
+		this.$slideHolder = $slideHolder;
+		this.src = $slideHolder.attr('data-src');
+		SharedContentBase.call(this, $slideHolder.attr('data-name'));
+		/*
 		this.slideControlEnabled = true;
 		$(window).on('keydown', this.keydownHandler.bind(this));
+		*/
 	}
 
 	ContentBase.prototype = Object.create(SharedContentBase.prototype);
 
 	ContentBase.prototype.startListeningForMessages = function() {
-		//electron works with ipc-channels
-		requireNode('ipc').on('message', (function(message) {
-			//wrap in object
+		//we work with jquery events to message to / from DOM nodes
+		this.$slideHolder.on('message-to-slide', (function(event, message){
+			//wrap in message
 			this.receiveMessage({data: message});
 		}).bind(this));
 	};
 
 	ContentBase.prototype.postMessage = function(data) {
-		//electron works with ipc-channels
-		ipc.sendToHost('message', data);
+		this.$slideHolder.trigger('message-from-slide', data);
 	};
 
 	ContentBase.prototype.keydownHandler = function(event) {

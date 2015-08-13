@@ -102,7 +102,7 @@ ChildApp.prototype.runCode = function(code, type) {
 
 ChildApp.prototype.stop = function() {
 	if(this.runner) {
-		console.log("[ChildApp] stop");
+		console.log("[ChildApp] execute stop");
 		console.log(this.runner.pid);
 		this.runner.stdout.removeAllListeners();
 		this.runner.stderr.removeAllListeners();

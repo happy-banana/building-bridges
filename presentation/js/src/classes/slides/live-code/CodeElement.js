@@ -7,12 +7,12 @@ module.exports = (function(){
 		this.$wrapperEl = $(el).wrap('<div class="live-code-element live-code-code-element"></div>').parent();
 		this.wrapperEl = this.$wrapperEl[0];
 
-		this.id = this.$el.attr('id');
+		this.id = this.$el.attr('data-id');
 		if(!this.id)
 		{
 			//generate id
 			this.id = 'code-' + Math.round(Math.random() * 1000 * new Date().getTime());
-			this.$el.attr('id', this.id);
+			this.$el.attr('data-id', this.id);
 		}
 
 		this.runtime = this.$el.data('runtime');
