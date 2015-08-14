@@ -42,6 +42,7 @@ var kill = function (pid, signal, callback) {
 function ChildApp() {
 	events.EventEmitter.call(this);
 	console.log("[ChildApp] constructor");
+	this.runner = false;
 }
 
 util.inherits(ChildApp, events.EventEmitter);
@@ -56,9 +57,7 @@ ChildApp.getInstance = function() {
 ChildApp.prototype.saveCode = function(code, type, cb) {
 	//if code is running, stop it
 	if(this.runner) {
-		this.stop();
-		console.log("[ChildApp] kill() executed");
-		setTimeout(this.saveCode.bind(this, code, type, cb), 500);
+		this.stop(this.saveCode.bind(this, code, type, cb));
 	} else {
 		var filePath = Config.childNodeAppFilePath;
 		if(type === 'tessel') {
@@ -97,18 +96,47 @@ ChildApp.prototype.runCode = function(code, type) {
 		this.runner.stderr.on('data', this.onRunnerError.bind(this));
 		this.runner.on('disconnect', this.onDisconnect.bind(this));
 		this.runner.on('close', this.onClose.bind(this));
+		this.runner.on('exit', this.onExit.bind(this));
 	}).bind(this));
 };
 
-ChildApp.prototype.stop = function() {
+ChildApp.prototype.isRunning = function() {
+	return (this.runner !== false);
+};
+
+ChildApp.prototype.stop = function(cb) {
 	if(this.runner) {
 		console.log("[ChildApp] execute stop");
 		console.log(this.runner.pid);
 		this.runner.stdout.removeAllListeners();
 		this.runner.stderr.removeAllListeners();
 		this.runner.stdin.end();
+		//listen for runner events and execute callbacks
+		var cbCalled = false;
+		this.runner.on('disconnect', function(){
+			if(cb && !cbCalled)
+			{
+				cb();
+			}
+		});
+		this.runner.on('close', function(){
+			if(cb && !cbCalled)
+			{
+				cb();
+			}
+		});
+		this.runner.on('exit', function(){
+			if(cb && !cbCalled)
+			{
+				cb();
+			}
+		});
 		kill(this.runner.pid);
 		this.runner = false;
+	} else {
+		if(cb) {
+			cb();
+		}
 	}
 };
 
@@ -127,6 +155,11 @@ ChildApp.prototype.onDisconnect = function() {
 
 ChildApp.prototype.onClose = function() {
 	console.log('[ChildApp] runner closed');
+	this.runner = false;
+};
+
+ChildApp.prototype.onExit = function() {
+	console.log('[ChildApp] runner exited');
 	this.runner = false;
 };
 

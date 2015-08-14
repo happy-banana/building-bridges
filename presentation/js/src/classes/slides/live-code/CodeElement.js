@@ -50,6 +50,9 @@ module.exports = (function(){
 		this.layout();
 	}
 
+	CodeElement.prototype.destroy = function() {
+	};
+
 	CodeElement.prototype.getValue = function() {
 		return this.codeMirror.getValue();
 	};

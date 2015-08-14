@@ -18,6 +18,9 @@ module.exports = (function(){
 		this.$el.css('width', '100%').css('height', '100%');
 	}
 
+	ConsoleElement.prototype.destroy = function() {
+	};
+
 	ConsoleElement.prototype.info = function(data) {
 		this.el.innerHTML += '<pre>' + data + '</pre>';
 		this.wrapperEl.scrollTop = this.wrapperEl.scrollHeight;

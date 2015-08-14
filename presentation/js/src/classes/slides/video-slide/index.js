@@ -9,10 +9,16 @@ module.exports = (function(){
 
 		this.video = this.$slideHolder.find('video')[0];
 		$(this.video).attr('src', videoUrl);
-		$(this.video).on('click', this.clickHandler.bind(this));
+		this._clickHandler = this.clickHandler.bind(this);
+		$(this.video).on('click', this._clickHandler);
 	}
 
 	VideoSlide.prototype = Object.create(ContentBase.prototype);
+
+	VideoSlide.prototype.destroy = function() {
+		ContentBase.prototype.destroy.call(this);
+		$(this.video).off('click', this._clickHandler);
+	};
 
 	VideoSlide.prototype.clickHandler = function(event) {
 		this.videoPlaying = !this.videoPlaying;

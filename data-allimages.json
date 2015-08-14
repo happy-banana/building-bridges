@@ -19,12 +19,12 @@
 			}
 		},
 		{
-			"name": "showreel-devine",
+			"name": "keynote.003.png",
 			"presentation": {
-				"url": "slides/video.html?video=slides/videos/showreel-devine.mp4"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.003.png"
 			},
 			"mobile": {
-				"url": "slides/text.html?text=Showreel+Devine"
+				"url": "slides/text.html?text=Building+Bridges"
 			}
 		},
 		{
@@ -37,9 +37,9 @@
 			}
 		},
 		{
-			"name": "video-stella",
+			"name": "keynote.005.png",
 			"presentation": {
-				"url": "slides/video.html?video=slides/videos/video-stella.mp4"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.005.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
@@ -127,9 +127,9 @@
 			}
 		},
 		{
-			"name": "video-spacegame",
+			"name": "keynote.015.png",
 			"presentation": {
-				"url": "slides/video.html?video=slides/videos/video-spacegame.mp4"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.015.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
@@ -154,18 +154,18 @@
 			}
 		},
 		{
-			"name": "video-openni",
+			"name": "keynote.018.png",
 			"presentation": {
-				"url": "slides/video.html?video=slides/videos/video-openni.mp4"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.018.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
 			}
 		},
 		{
-			"name": "video-as3osceleton",
+			"name": "keynote.019.png",
 			"presentation": {
-				"url": "slides/video.html?video=slides/videos/video-as3osceleton.mp4"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.019.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
@@ -208,36 +208,36 @@
 			}
 		},
 		{
-			"name": "video-airkinect-pointcloud",
+			"name": "keynote.024.png",
 			"presentation": {
-				"url": "slides/video.html?video=slides/videos/video-airkinect-pointcloud.mp4"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.024.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
 			}
 		},
 		{
-			"name": "video-airkinect-rigging",
+			"name": "keynote.025.png",
 			"presentation": {
-				"url": "slides/video.html?video=slides/videos/video-airkinect-rigging.mp4"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.025.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
 			}
 		},
 		{
-			"name": "video-air-opencv",
+			"name": "keynote.026.png",
 			"presentation": {
-				"url": "slides/video.html?video=slides/videos/video-air-opencv.mp4"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.026.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
 			}
 		},
 		{
-			"name": "video-airkinect-opencv",
+			"name": "keynote.027.png",
 			"presentation": {
-				"url": "slides/video.html?video=slides/videos/video-airkinect-opencv.mp4"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.027.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
@@ -253,9 +253,9 @@
 			}
 		},
 		{
-			"name": "video-leapmotion-labyrinth",
+			"name": "keynote.029.png",
 			"presentation": {
-				"url": "slides/video.html?video=slides/videos/video-leapmotion-labyrinth.mp4"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.029.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
@@ -487,9 +487,9 @@
 			}
 		},
 		{
-			"name": "kinect-skeleton-websockets",
+			"name": "keynote.055.png",
 			"presentation": {
-				"url": "slides/kinect-skeleton-websockets.html"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.055.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"
@@ -523,9 +523,9 @@
 			}
 		},
 		{
-			"name": "kinect-rgb-electron",
+			"name": "keynote.059.png",
 			"presentation": {
-				"url": "slides/kinect-rgb-electron.html"
+				"url": "slides/image.html?image=slides/images/keynote/keynote.059.png"
 			},
 			"mobile": {
 				"url": "slides/text.html?text=Building+Bridges"

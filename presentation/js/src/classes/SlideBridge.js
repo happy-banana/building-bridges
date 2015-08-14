@@ -11,6 +11,8 @@ module.exports = (function(){
 
 	SlideBridge.prototype.attachToSlideHolder = function(slideHolder, src, cb) {
 		this.slideHolder = slideHolder;
+		//notify the content it is being cleared
+		this.tryToPostMessage({action: 'destroy'});
 		//clear the current content
 		this.slideHolder.innerHTML = '';
 		$(slideHolder).off('load');

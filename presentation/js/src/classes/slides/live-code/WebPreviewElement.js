@@ -20,6 +20,9 @@ module.exports = (function(){
 		this.$el.css('width', '100%').css('height', '100%');
 	}
 
+	WebPreviewElement.prototype.destroy = function() {
+	};
+
 	WebPreviewElement.prototype.updateCode = function(blocks) {
 		//create a webview tag
 		if(this.webview) {
@@ -76,7 +79,7 @@ module.exports = (function(){
 				//notify live code editor
 				this.$wrapperEl.trigger('console.log', event.args[0]);
 			}
-			else if(event.channel == 'console.error')
+			else if(event.channel === 'console.error')
 			{
 				//notify live code editor
 				this.$wrapperEl.trigger('console.error', event.args[0]);

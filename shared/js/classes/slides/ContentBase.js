@@ -19,7 +19,12 @@ module.exports = (function(){
 	}
 
 	ContentBase.prototype.startListeningForMessages = function() {
-		window.addEventListener("message", this.receiveMessage.bind(this), false);
+		this._receiveMessage = this.receiveMessage.bind(this);
+		window.addEventListener("message", this._receiveMessage, false);
+	};
+
+	ContentBase.prototype.stopListeningForMessages = function() {
+		window.removeEventListener('message', this._receiveMessage);
 	};
 
 	ContentBase.prototype.receiveMessage = function(event) {
@@ -30,6 +35,9 @@ module.exports = (function(){
 			case 'setState':
 				this.setState(event.data.state);
 				break;
+			case 'destroy':
+				this.destroy();
+				break;
 			case Constants.SOCKET_RECEIVE:
 				this.receiveSocketMessage(event.data.message);
 				break;
@@ -37,6 +45,12 @@ module.exports = (function(){
 				this.handleMessage(event.data);
 				break;
 		}
+	};
+
+	ContentBase.prototype.destroy = function() {
+		console.log('destroy called', this.name);
+		this.stopListeningForMessages();
+		window.cancelAnimationFrame(this._animationFrameId);
 	};
 
 	ContentBase.prototype.postMessage = function(data) {

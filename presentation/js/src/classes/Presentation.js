@@ -52,8 +52,14 @@ module.exports = (function(){
 
 	Presentation.prototype = Object.create(PresentationBase.prototype);
 
-	Presentation.prototype.closeHandler = function() {
-		ChildApp.getInstance().stop();
+	Presentation.prototype.closeHandler = function(e) {
+		if(ChildApp.getInstance().isRunning()) {
+			ChildApp.getInstance().stop(function(){
+				console.log('Presentation: childapp stopped');
+				requireNode('remote').getCurrentWindow().close();
+			});
+			return false;
+		}
 	};
 
 	Presentation.prototype.createMobileServerBridge = function() {

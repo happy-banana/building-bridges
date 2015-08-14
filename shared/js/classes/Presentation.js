@@ -179,10 +179,6 @@ module.exports = (function(){
 			if(slideBridge.isAlreadyCorrectlyAttached(slideHolder, src)) {
 				//console.log(slideBridge.name + ' already attached');
 			} else {
-				//leave previous channel of this slideHolder
-				if(this.mobileServerBridge) {
-					this.mobileServerBridge.tryToSend(Constants.LEAVE_SLIDE_ROOM, $(slideHolder).attr('data-name'));
-				}
 				this.attachToSlideHolder(slideHolder, slideBridge, src);
 			}
 			slideBridge.setState(state);
@@ -191,6 +187,10 @@ module.exports = (function(){
 	};
 
 	Presentation.prototype.attachToSlideHolder = function(slideHolder, slideBridge, src) {
+		//leave previous channel of this slideHolder
+		if(this.mobileServerBridge) {
+			this.mobileServerBridge.tryToSend(Constants.LEAVE_SLIDE_ROOM, $(slideHolder).attr('data-name'));
+		}
 		//add the join as a callback for the onload event
 		slideBridge.attachToSlideHolder(slideHolder, src, this.slideLoaded.bind(this, slideHolder, slideBridge, src));
 	};

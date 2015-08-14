@@ -9,9 +9,6 @@ module.exports = (function(){
 	function LiveCode($slideHolder) {
 		ContentBase.call(this, $slideHolder);
 
-		this.slideControlEnabled = false;
-		console.log("[LiveCode] init");
-
 		//create the consoles
 		this.consoleElements = {};
 		this.$slideHolder.find('[data-type="console"]').each((function(index, consoleEl){
@@ -31,12 +28,36 @@ module.exports = (function(){
 		}).bind(this));
 
 		//create run buttons
+		this.runButtonEls = [];
 		this.$slideHolder.find('[data-type="run-button"]').each((function(index, runButtonEl){
 			this.createRunButton(runButtonEl);
 		}).bind(this));
+
+		//disable keyboard bubbling up
 	}
 
 	LiveCode.prototype = Object.create(ContentBase.prototype);
+
+	LiveCode.prototype.destroy = function() {
+		ContentBase.prototype.destroy.call(this);
+		var key;
+		for(key in this.consoleElements)
+		{
+			this.destroyConsoleElement(this.consoleElements[key]);
+		}
+		for(key in this.webPreviewElements)
+		{
+			this.destroyWebPreviewElement(this.webPreviewElements[key]);
+		}
+		for(key in this.codeElements)
+		{
+			this.destroyCodeElement(this.codeElements[key]);
+		}
+		for(key = 0; key < this.runButtonEls.length; key++)
+		{
+			this.destroyRunButton(this.runButtonEls[key]);
+		}
+	};
 
 	LiveCode.prototype.layout = function() {
 		//might be triggered after split pane resize or tab switch
@@ -52,6 +73,10 @@ module.exports = (function(){
 		this.consoleElements[consoleElement.id] = consoleElement;
 	};
 
+	LiveCode.prototype.destroyConsoleElement = function(consoleElement) {
+		consoleElement.destroy();
+	};
+
 	LiveCode.prototype.createWebPreviewElement = function(webPreviewEl) {
 		var webPreviewElement = new WebPreviewElement(webPreviewEl);
 		webPreviewElement.$wrapperEl.on('console.log', this.webPreviewConsoleLogHandler.bind(this, webPreviewElement));
@@ -59,18 +84,33 @@ module.exports = (function(){
 		this.webPreviewElements[webPreviewElement.id] = webPreviewElement;
 	};
 
+	LiveCode.prototype.destroyWebPreviewElement = function(webPreviewElement) {
+		webPreviewElement.$wrapperEl.off('console.log');
+		webPreviewElement.$wrapperEl.off('console.error');
+		webPreviewElement.destroy();
+	};
+
 	LiveCode.prototype.createCodeElement = function(codeEl) {
 		var codeElement = new CodeElement(codeEl);
 		this.codeElements[codeElement.id] = codeElement;
 	};
 
+	LiveCode.prototype.destroyCodeElement = function(codeElement) {
+		codeElement.destroy();
+	};
+
 	LiveCode.prototype.createRunButton = function(runButtonEl) {
+		this.runButtonEls.push(runButtonEl);
 		$(runButtonEl).on('click', (function(){
 			//run code in target element
 			if(this.codeElements[$(runButtonEl).data('target')]) {
 				this.runCode(this.codeElements[$(runButtonEl).data('target')]);
 			}
 		}).bind(this));
+	};
+
+	LiveCode.prototype.destroyRunButton = function(runButtonEl) {
+		$(runButtonEl).off('click');
 	};
 
 	LiveCode.prototype.runCode = function(codeElement) {
@@ -118,13 +158,19 @@ module.exports = (function(){
 	LiveCode.prototype.webPreviewConsoleLogHandler = function(webPreviewElement, event, message) {
 		//get the console element for this web preview
 		var consoleElement = this.getConsoleElementForWebPreview(webPreviewElement);
-		consoleElement.info(message);
+		if(consoleElement)
+		{
+			consoleElement.info(message);
+		}
 	};
 
 	LiveCode.prototype.webPreviewConsoleErrorHandler = function(webPreviewElement, event, message) {
 		//get the console element for this web preview
 		var consoleElement = this.getConsoleElementForWebPreview(webPreviewElement);
-		consoleElement.error(message);
+		if(consoleElement)
+		{
+			consoleElement.error(message);
+		}
 	};
 
 	LiveCode.prototype.getConsoleElementForRuntime = function(runtime) {
