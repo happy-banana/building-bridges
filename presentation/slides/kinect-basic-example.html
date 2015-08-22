@@ -1,41 +1,41 @@
 <template>
-	<div style="width: 100%; height: 100%">
-		<div class="split-pane fixed-bottom">
-			<div class="split-pane-component" style="bottom: 10em; margin-bottom: 5px; min-height: 5em;">
-				<textarea data-id="node-code" data-type="code" data-runtime="node" data-console="node-console" data-language="javascript">var Kinect2 = require('kinect2');
-	var kinect = new Kinect2();
-	if(kinect.open()) {
-		console.log('kinect opened');
-		kinect.on('bodyFrame', function(bodyFrame){
-			console.log(bodyFrame);
-		});
-		kinect.openBodyReader();
-		setTimeout(kinect.close.bind(kinect), 5000);
-	}</textarea>
-				<button class="btn btn-default" data-type="run-button" data-target="node-code" style="position: absolute; top: 1em; right: 1em; z-index: 10">Run</button>
-			</div>
-			<div class="split-pane-divider" style="background: #aaa; bottom: 10em; height: 5px;"></div>
-			<div class="split-pane-component" style="height: 10em; min-height: 10em;">
-				<div data-id="node-console" style="height: 100%" data-type="console"></div>
-			</div>
-		</div>
-	</div>
-	<script>
-	(function(){
+  <div style="width: 100%; height: 100%">
+    <div class="split-pane fixed-bottom">
+      <div class="split-pane-component" style="bottom: 10em; margin-bottom: 5px; min-height: 5em;">
+        <textarea data-id="node-code" data-type="code" data-runtime="node" data-console="node-console" data-language="javascript">var Kinect2 = require('kinect2');
+  var kinect = new Kinect2();
+  if(kinect.open()) {
+    console.log('kinect opened');
+    kinect.on('bodyFrame', function(bodyFrame){
+      console.log(bodyFrame);
+    });
+    kinect.openBodyReader();
+    setTimeout(kinect.close.bind(kinect), 5000);
+  }</textarea>
+        <button class="btn btn-default" data-type="run-button" data-target="node-code" style="position: absolute; top: 1em; right: 1em; z-index: 10">Run</button>
+      </div>
+      <div class="split-pane-divider" style="background: #aaa; bottom: 10em; height: 5px;"></div>
+      <div class="split-pane-component" style="height: 10em; min-height: 10em;">
+        <div data-id="node-console" style="height: 100%" data-type="console"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function(){
 
-		var LiveCode = require('slides/LiveCode');
-		var $slideHolder = $(document.currentScript).closest('.slide-frame');
+    var LiveCode = require('slides/LiveCode');
+    var $slideHolder = $(document.currentScript).closest('.slide-frame');
 
-		function init() {
-			var liveCode = new LiveCode($slideHolder);
-			$slideHolder.find('div.split-pane').splitPane();
-			$slideHolder.find('div.split-pane').on('resize', function(){
-				liveCode.layout();
-			});
-		}
+    function init() {
+      var liveCode = new LiveCode($slideHolder);
+      $slideHolder.find('div.split-pane').splitPane();
+      $slideHolder.find('div.split-pane').on('resize', function(){
+        liveCode.layout();
+      });
+    }
 
-		init();
+    init();
 
-	})();
-	</script>
+  })();
+  </script>
 </template>

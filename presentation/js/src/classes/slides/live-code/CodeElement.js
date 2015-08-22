@@ -1,6 +1,9 @@
 module.exports = (function(){
 
+  var self;
+
 	function CodeElement(el) {
+    self = this;
 		this.el = el;
 		this.$el = $(el);
 		//wrap element in a container
@@ -48,9 +51,21 @@ module.exports = (function(){
 
 		this.$el.css('width', '100%').css('height', '100%');
 		this.layout();
+
+    //disable keyboard bubbling up
+    $(window).on('keydown', this.keyDownHandler);
 	}
 
+  CodeElement.prototype.keyDownHandler = function(e) {
+    console.log('keydownhandler');
+    //cancel if code mirror has focus
+    if(self.codeMirror.hasFocus()){
+      e.stopImmediatePropagation();
+    }
+  };
+
 	CodeElement.prototype.destroy = function() {
+    $(window).off('keydown', this.keyDownHandler);
 	};
 
 	CodeElement.prototype.getValue = function() {

@@ -8,83 +8,33 @@
 <!-- Tab panes -->
 <div class="tab-content" style="position: absolute; width: 100%; top: 62px; bottom: 0;">
   <div role="tabpanel" class="tab-pane" data-tab-id="html" style="height: 100%;">
-    <textarea data-id="html-code" data-type="code" data-runtime="web" data-mode="htmlmixed" data-language="html" data-processor="web-preview"><!DOCTYPE html>
-<html>
-  <head>
-    <title>Hello World!</title>
-    <style>
-    html, head {
-      height: 100%;
+    <textarea data-id="html-code" data-type="code" data-runtime="web" data-mode="htmlmixed" data-language="html" data-processor="web-preview"><script>
+  (function(){
+    ws = new WebSocket("ws://localhost:6437/");
+
+    // On successful connection
+    ws.onopen = function(event) {
+      var enableMessage = JSON.stringify({enableGestures: true});
+      ws.send(enableMessage); // Enable gestures
+    };
+
+    // On message received
+    ws.onmessage = function(event) {
+      var trackingdata = JSON.parse(event.data);
+      console.log(trackingdata);
+    };
+
+    // On socket close
+    ws.onclose = function(event) {
+      ws = null;
     }
-    #toggleFeedButton {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    #outputCanvas {
-      width: 100%;
-    }
-    </style>
-  </head>
-  <body>
-    <button id="toggleFeedButton" disabled="disabled">Stop Video</button>
-    <canvas id="outputCanvas" width="1920" height="1080"></canvas>
-    <script>
-    (function(){
-      var Kinect2 = require('kinect2');
-      var kinect = new Kinect2();
 
-      var canvas = document.getElementById('outputCanvas');
-      var ctx = canvas.getContext('2d');
-      var imageData = ctx.createImageData(canvas.width, canvas.height);
-      var imageDataSize = imageData.data.length;
-      var imageDataArray = imageData.data;;
-
-      var toggleFeedButton = document.getElementById('toggleFeedButton');
-
-      var feedOpen = false;
-      var processing = false;
-
-      function setFeedOpen(value) {
-        if(value !== feedOpen) {
-          feedOpen = value;
-          if(feedOpen) {
-            toggleFeedButton.innerHTML = 'Stop Video';
-            kinect.openColorReader();
-          } else {
-            toggleFeedButton.innerHTML = 'Start Video';
-            kinect.closeColorReader();
-          }
-        }
-      }
-
-      if(kinect.open()) {
-        console.log('kinect open');
-        kinect.on('colorFrame', function(newPixelData){
-          if(processing) {
-            return;
-          }
-          console.log('color frame');
-          processing = true;
-          for (var i = 0; i < imageDataSize; i++) {
-            imageDataArray[i] = newPixelData[i];
-          }
-          ctx.putImageData(imageData, 0, 0);
-          processing = false;
-        });
-
-        toggleFeedButton.addEventListener('click', function(){
-          setFeedOpen(!feedOpen);
-        });
-
-        toggleFeedButton.removeAttribute('disabled');
-
-        setFeedOpen(true);
-      }
-    })();
-    </script>
-  </body>
-</html></textarea>
+    // On socket error
+    ws.onerror = function(event) {
+      alert("Received error");
+    };
+  })();
+</script></textarea>
     <button class="btn btn-default" data-type="run-button" data-target="html-code" style="position: absolute; top: 1em; right: 1em; z-index: 10">Run</button>
   </div>
   <div role="tabpanel" class="tab-pane" data-tab-id="output" style="height: 100%;">

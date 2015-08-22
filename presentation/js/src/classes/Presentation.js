@@ -147,14 +147,21 @@ module.exports = (function(){
 	};
 
 	Presentation.prototype.keydownHandler = function(event) {
-		switch(event.keyCode) {
-			case KEYCODE_LEFT:
-				this.goToPreviousSlide();
-				break;
-			case KEYCODE_RIGHT:
-				this.goToNextSlide();
-				break;
-		}
+    var self = this;
+    //one frame delay
+    requestAnimationFrame(function(){
+      if(event.isImmediatePropagationStopped()) {
+        return;
+      }
+      switch(event.keyCode) {
+        case KEYCODE_LEFT:
+          self.goToPreviousSlide();
+          break;
+        case KEYCODE_RIGHT:
+          self.goToNextSlide();
+          break;
+      }
+    });
 	};
 
 	Presentation.prototype.childAppDataHandler = function(data) {

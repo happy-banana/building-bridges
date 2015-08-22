@@ -40,24 +40,16 @@ module.exports = (function(){
 		htmlSrc += "console.log = function(){\n";
 		htmlSrc += "args = [];\n";
 		htmlSrc += "[].forEach.call(arguments, function(argument){\n";
-		htmlSrc += "args.push(htmlEscape(argument));\n";
+		htmlSrc += "args.push(argument);\n";
 		htmlSrc += "});\n";
-		htmlSrc += "require('ipc').sendToHost('console.log', args);\n";
+		htmlSrc += "require('ipc').sendToHost('console.log', JSON.stringify({args: args}));\n";
 		htmlSrc += "}\n";
 		htmlSrc += "console.error = function(){\n";
 		htmlSrc += "args = [];\n";
 		htmlSrc += "[].forEach.call(arguments, function(argument){\n";
-		htmlSrc += "args.push(htmlEscape(argument));\n";
+		htmlSrc += "args.push(argument);\n";
 		htmlSrc += "});\n";
-		htmlSrc += "require('ipc').sendToHost('console.error', args);\n";
-		htmlSrc += "}\n";
-		htmlSrc += "function htmlEscape(str) {\n";
-		htmlSrc += "return String(str)\n";
-		htmlSrc += ".replace(/&/g, '&amp;')\n";
-		htmlSrc += ".replace(/\"/g, '&quot;')\n";
-		htmlSrc += ".replace(/'/g, '&#39;')\n";
-		htmlSrc += ".replace(/</g, '&lt;')\n";
-		htmlSrc += ".replace(/>/g, '&gt;');\n";
+		htmlSrc += "require('ipc').sendToHost('console.error', JSON.stringify({args: args}));\n";
 		htmlSrc += "}\n";
 		htmlSrc += "</script>";
 		for(var i = 0; i < blocks.length; i++)

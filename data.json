@@ -1,6 +1,15 @@
 {
 	"slides": [
 		{
+			"name": "leap-basic-websockets",
+			"presentation": {
+				"url": "slides/leap-basic-websockets.html"
+			},
+			"mobile": {
+				"url": "slides/text.html?text=Building+Bridges"
+			}
+		},
+		{
 			"name": "keynote.001.png",
 			"presentation": {
 				"url": "slides/image.html?image=slides/images/keynote/keynote.001.png"

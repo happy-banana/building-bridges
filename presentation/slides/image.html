@@ -1,28 +1,28 @@
 <template>
-	<div style="width: 100%; height: 100%"></div>
+  <div style="width: 100%; height: 100%"></div>
 <script>
 (function(){
 
-	var $slideHolder = $(document.currentScript).closest('.slide-frame');
+  var $slideHolder = $(document.currentScript).closest('.slide-frame');
 
-	function init() {
-		var imageUrl = getParameterByName($slideHolder.attr('data-src'), 'image');
-		$slideHolder.find('div').css({
-			backgroundRepeat: 'no-repeat',
-			backgroundSize: 'contain',
-			backgroundPosition: 'center center',
-			backgroundImage: 'url(' + imageUrl + ')'
-		});
-	}
+  function init() {
+    var imageUrl = getParameterByName($slideHolder.attr('data-src'), 'image');
+    $slideHolder.find('div').css({
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'contain',
+      backgroundPosition: 'center center',
+      backgroundImage: 'url(' + imageUrl + ')'
+    });
+  }
 
-	function getParameterByName(url, name) {
-		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-		results = regex.exec(url);
-		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
+  function getParameterByName(url, name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(url);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
 
-	init();
+  init();
 
 })();
 </script>
