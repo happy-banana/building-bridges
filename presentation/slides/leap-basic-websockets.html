@@ -72,6 +72,11 @@
     $slideHolder.find('div.split-pane').on('resize', function(){
       liveCode.layout();
     });
+
+    //focus webpreview tab on run click
+    $slideHolder.find('[data-type="run-button"][data-target="html-code"]').on('click', function(){
+      $slideHolder.find('a[role=tab][aria-controls=output]').click();
+    });
   }
 
   init();
