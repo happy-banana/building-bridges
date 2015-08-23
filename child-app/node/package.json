@@ -9,7 +9,8 @@
   "dependencies": {
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
-    "kinect2": "0.0.24",
-    "socket.io": "^1.3.6"
+    "kinect2": "0.0.29",
+    "socket.io": "^1.3.6",
+    "edge": "git+https://github.com/wouterverweirder/edge.git"
   }
 }

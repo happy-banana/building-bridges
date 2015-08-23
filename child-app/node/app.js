@@ -1,19 +1,13 @@
-var Kinect2 = require('kinect2'),
-  express = require('express'),
-  app = express(),
-  server = require('http').createServer(app),
-  io = require('socket.io').listen(server);
+var edge = require('edge');
 
-var kinect = new Kinect2();
+var hello = edge.func(function () {/*
+  async (input) =>
+  {
+    return ".NET welcomes " + input.ToString();
+  }
+*/});
 
-if(kinect.open()) {
-  server.listen(8000);
-  console.log('Server listening on port 8000');
-  console.log('Point your browser to http://localhost:8000');
-
-  kinect.on('bodyFrame', function(bodyFrame){
-    io.sockets.emit('bodyFrame', bodyFrame);
-  });
-
-  kinect.openBodyReader();
-}
+hello('Node.js', function (error, result) {
+  if (error) throw error;
+  console.log(result);
+});
