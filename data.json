@@ -1,14 +1,23 @@
 {
 	"slides": [
-		{
-			"name": "leap-basic-websockets",
-			"presentation": {
-				"url": "slides/leap-basic-websockets.html"
-			},
-			"mobile": {
-				"url": "slides/text.html?text=Building+Bridges"
-			}
-		},
+    {
+      "name": "leap-basic-websockets",
+      "presentation": {
+        "url": "slides/leap-basic-websockets.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "leap-basic-threejs",
+      "presentation": {
+        "url": "slides/leap-basic-threejs.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
 		{
 			"name": "keynote.001.png",
 			"presentation": {

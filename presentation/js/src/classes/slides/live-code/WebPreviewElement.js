@@ -65,7 +65,9 @@ module.exports = (function(){
 		}
 
 		this.webview.addEventListener("dom-ready", (function(){
-		//this.webview.openDevTools();
+      if(this.$el.attr('data-open-devtools')) {
+        this.webview.openDevTools();
+      }
 		}).bind(this));
 
 		this.webview.addEventListener('ipc-message', (function(event) {
