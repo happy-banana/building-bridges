@@ -57,6 +57,19 @@ module.exports = (function(){
     }
   };
 
+  LiveCode.prototype.onStateChanged = function() {
+    //stop running apps when not active
+    if(this.state !== Constants.STATE_ACTIVE)
+    {
+      //stop the web previews
+      for(var key in this.webPreviewElements)
+      {
+        this.webPreviewElements[key].stop();
+      }
+      //node child apps get stopped in presentation
+    }
+  };
+
   LiveCode.prototype.layout = function() {
     //might be triggered after split pane resize or tab switch
     //codemirror instances need to be updated

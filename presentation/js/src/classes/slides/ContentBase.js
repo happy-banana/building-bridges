@@ -1,10 +1,6 @@
 module.exports = (function(){
 
 	var SharedContentBase = require('shared/ContentBase');
-	var Constants = require('Constants');
-
-	var KEYCODE_LEFT = 37;
-	var KEYCODE_RIGHT = 39;
 
 	function ContentBase($slideHolder) {
 		this.$slideHolder = $slideHolder;

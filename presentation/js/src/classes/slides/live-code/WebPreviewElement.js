@@ -23,6 +23,13 @@ module.exports = (function(){
 	WebPreviewElement.prototype.destroy = function() {
 	};
 
+  WebPreviewElement.prototype.stop = function() {
+    if(this.webview) {
+      this.webview.parentNode.removeChild(this.webview);
+      this.webview = false;
+    }
+  };
+
 	WebPreviewElement.prototype.updateCode = function(blocks) {
 		//create a webview tag
 		if(this.webview) {

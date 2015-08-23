@@ -57,7 +57,6 @@ module.exports = (function(){
 	}
 
   CodeElement.prototype.keyDownHandler = function(e) {
-    console.log('keydownhandler');
     //cancel if code mirror has focus
     if(self.codeMirror.hasFocus()){
       e.stopImmediatePropagation();

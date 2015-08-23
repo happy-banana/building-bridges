@@ -38,15 +38,10 @@
     <button class="btn btn-default" data-type="run-button" data-target="html-code" style="position: absolute; top: 1em; right: 1em; z-index: 10">Run</button>
   </div>
   <div role="tabpanel" class="tab-pane" data-tab-id="output" style="height: 100%;">
-    <div class="split-pane fixed-bottom">
-      <div class="split-pane-component top-pane" style="bottom: 10em; margin-bottom: 5px; min-height: 5em;">
-        <div data-id="web-preview" data-type="web-preview" data-console="web-preview-console"></div>
-      </div>
-      <div class="split-pane-divider divider" style="background: #aaa; bottom: 10em; height: 5px;"></div>
-      <div class="split-pane-component bottom-pane" style="height: 10em; min-height: 10em;">
-        <div data-id="web-preview-console" style="height: 100%" data-type="console"></div>
-      </div>
+    <div style="height: 1px">
+      <div data-id="web-preview" data-type="web-preview" data-console="web-preview-console"></div>
     </div>
+    <div data-id="web-preview-console" style="height: 100%" data-type="console"></div>
   </div>
 </div>
 <script>
@@ -67,15 +62,15 @@
       $(e.target).closest('li').addClass('active');
       $tab.addClass("active");
       liveCode.layout();
-    }).first().click();
-    $slideHolder.find('div.split-pane').splitPane();
-    $slideHolder.find('div.split-pane').on('resize', function(){
-      liveCode.layout();
     });
 
     //focus webpreview tab on run click
     $slideHolder.find('[data-type="run-button"][data-target="html-code"]').on('click', function(){
       $slideHolder.find('a[role=tab][aria-controls=output]').click();
+    });
+
+    requestAnimationFrame(function(){
+      $slideHolder.find('a[role=tab]').first().click();
     });
   }
 
