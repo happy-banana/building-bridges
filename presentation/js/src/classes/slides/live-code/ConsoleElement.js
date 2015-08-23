@@ -31,13 +31,28 @@ module.exports = (function(){
       .replace(/>/g, '&gt;');
   }
 
+  function needsJSONConversion(arg) {
+    if(
+      typeof arg === 'number'
+      || typeof arg === 'string'
+      || typeof arg === 'boolean'
+    ) {
+      return false;
+    }
+    return true;
+  }
+
   ConsoleElement.prototype.info = function(args) {
     var str = '';
     args.forEach(function(arg){
       if(str.length > 0) {
         str += ' ';
       }
-      str += htmlEscape(JSON.stringify(arg));
+      //is it an object or a simple type?
+      if(needsJSONConversion(arg)) {
+        arg = JSON.stringify(arg);
+      }
+      str += htmlEscape(arg);
     });
     this.logs.push('<pre>' + str + '</pre>');
     while(this.logs.length > 20) {
@@ -54,7 +69,11 @@ module.exports = (function(){
       if(str.length > 0) {
         str += ' ';
       }
-      str += htmlEscape(JSON.stringify(arg));
+      //is it an object or a simple type?
+      if(needsJSONConversion(arg)) {
+        arg = JSON.stringify(arg);
+      }
+      str += htmlEscape(arg);
     });
     this.logs.push('<pre class="console-error">' + str + '</pre>');
     while(this.logs.length > 20) {

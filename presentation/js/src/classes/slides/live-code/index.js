@@ -153,7 +153,7 @@ module.exports = (function(){
       consoleElement = this.getConsoleElementForRuntime('node');
       if(consoleElement)
       {
-        consoleElement.info(message.data);
+        consoleElement.info([message.data]);
       }
     }
     else if(message.action === Constants.CHILD_APP_STDERR_DATA)
@@ -161,7 +161,7 @@ module.exports = (function(){
       consoleElement = this.getConsoleElementForRuntime('node');
       if(consoleElement)
       {
-        consoleElement.error(message.data);
+        consoleElement.error([message.data]);
       }
     }
   };
