@@ -388,18 +388,18 @@
       }
     },
     {
-      "name": "keynote.043.png",
+      "name": "keynote.044.png",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.043.png"
+        "url": "slides/image.html?image=slides/images/keynote/keynote.044.png"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
       }
     },
     {
-      "name": "keynote.044.png",
+      "name": "keynote.045.png",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.044.png"
+        "url": "slides/image.html?image=slides/images/keynote/keynote.045.png"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
@@ -424,27 +424,9 @@
       }
     },
     {
-      "name": "keynote.046.png",
+      "name": "edge-kinect-dll",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.046.png"
-      },
-      "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
-      }
-    },
-    {
-      "name": "keynote.047.png",
-      "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.047.png"
-      },
-      "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
-      }
-    },
-    {
-      "name": "keynote.048.png",
-      "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.048.png"
+        "url": "slides/edge-kinect-dll.html"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
@@ -505,9 +487,9 @@
       }
     },
     {
-      "name": "kinect-skeleton-websockets",
+      "name": "keynote.055.png",
       "presentation": {
-        "url": "slides/kinect-skeleton-websockets.html"
+        "url": "slides/image.html?image=slides/images/keynote/keynote.055.png"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
@@ -532,54 +514,189 @@
       }
     },
     {
-      "name": "keynote.058.png",
+      "name": "kinect-basic-example",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.058.png"
+        "url": "slides/kinect-basic-example.html"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
       }
     },
     {
-      "name": "kinect-rgb-electron",
+      "name": "kinect-skeleton-websockets",
       "presentation": {
-        "url": "slides/kinect-rgb-electron.html"
+        "url": "slides/kinect-skeleton-websockets.html"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
       }
     },
     {
-      "name": "keynote.060.png",
+      "name": "kinect-websocket-color",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.060.png"
+        "url": "slides/kinect-websocket-color.html"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
       }
     },
     {
-      "name": "keynote.061.png",
+      "name": "kinect-websocket-color-pako",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.061.png"
+        "url": "slides/kinect-websocket-color-pako.html"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
       }
     },
     {
-      "name": "keynote.062.png",
+      "name": "kinect-websocket-color-lwip",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.062.png"
+        "url": "slides/kinect-websocket-color-lwip.html"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
       }
     },
     {
-      "name": "keynote.063.png",
+      "name": "kinect-electron-rgb",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.063.png"
+        "url": "slides/kinect-electron-rgb.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "kinect-electron-multiple-feeds",
+      "presentation": {
+        "url": "slides/kinect-electron-multiple-feeds.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "kinect-electron-pointcloud",
+      "presentation": {
+        "url": "slides/kinect-electron-pointcloud.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "kinect-electron-3dmodel",
+      "presentation": {
+        "url": "slides/kinect-electron-3dmodel.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "keynote.067.png",
+      "presentation": {
+        "url": "slides/image.html?image=slides/images/keynote/keynote.067.png"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "keynote.068.png",
+      "presentation": {
+        "url": "slides/image.html?image=slides/images/keynote/keynote.068.png"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "keynote.069.png",
+      "presentation": {
+        "url": "slides/image.html?image=slides/images/keynote/keynote.069.png"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "video-megapudding-intro",
+      "presentation": {
+        "url": "slides/video.html?video=slides/videos/video-megapudding-intro.mp4"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "megapudding-rgb-feed",
+      "presentation": {
+        "url": "slides/megapudding-rgb-feed.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "megapudding-user-mask",
+      "presentation": {
+        "url": "slides/megapudding-user-mask.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "megapudding-user-mask-scaled",
+      "presentation": {
+        "url": "slides/megapudding-user-mask-scaled.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "megapudding-user-mask-phaser",
+      "presentation": {
+        "url": "slides/megapudding-user-mask-phaser.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "megapudding-user-physics",
+      "presentation": {
+        "url": "slides/megapudding-user-physics.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "keynote.076.png",
+      "presentation": {
+        "url": "slides/image.html?image=slides/images/keynote/keynote.076.png"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "keynote.077.png",
+      "presentation": {
+        "url": "slides/image.html?image=slides/images/keynote/keynote.077.png"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "keynote.078.png",
+      "presentation": {
+        "url": "slides/image.html?image=slides/images/keynote/keynote.078.png"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
