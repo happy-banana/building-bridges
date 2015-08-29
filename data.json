@@ -1,15 +1,6 @@
 {
   "slides": [
     {
-      "name": "edge-basic-example",
-      "presentation": {
-        "url": "slides/edge-basic-example.html"
-      },
-      "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
-      }
-    },
-    {
       "name": "keynote.001.png",
       "presentation": {
         "url": "slides/image.html?image=slides/images/keynote/keynote.001.png"
@@ -415,9 +406,18 @@
       }
     },
     {
-      "name": "keynote.045.png",
+      "name": "edge-basic-example",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.045.png"
+        "url": "slides/edge-basic-example.html"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Building+Bridges"
+      }
+    },
+    {
+      "name": "edge-basic-kinect",
+      "presentation": {
+        "url": "slides/edge-basic-kinect.html"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"
