@@ -33,9 +33,9 @@ module.exports = (function(){
 
   function needsJSONConversion(arg) {
     if(
-      typeof arg === 'number'
-      || typeof arg === 'string'
-      || typeof arg === 'boolean'
+      typeof arg === 'number' ||
+      typeof arg === 'string' ||
+      typeof arg === 'boolean'
     ) {
       return false;
     }

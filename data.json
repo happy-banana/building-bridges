@@ -550,9 +550,9 @@
       }
     },
     {
-      "name": "kinect-websocket-color-lwip",
+      "name": "kinect-websocket-color-jpeg",
       "presentation": {
-        "url": "slides/kinect-websocket-color-lwip.html"
+        "url": "slides/kinect-websocket-color-jpeg.html"
       },
       "mobile": {
         "url": "slides/text.html?text=Building+Bridges"

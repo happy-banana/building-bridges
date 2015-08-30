@@ -24,11 +24,19 @@ if(kinect.open()) {
   console.log('Server listening on port 8000');
   console.log('Point your browser to http://localhost:8000');
 
-  kinect.on('bodyFrame', function(bodyFrame){
-    io.sockets.emit('bodyFrame', bodyFrame);
+  var frameNr = 0;
+
+  kinect.on('colorFrame', function(colorFrame){
+    console.log('send colorFrame', ++frameNr);
+    io.sockets.emit('colorFrame', colorFrame);
+    /*
+    io.sockets.sockets.forEach(function(socket){
+      socket.volatile.emit('colorFrame', colorFrame);
+    });
+    */
   });
 
-  kinect.openBodyReader();
+  kinect.openColorReader();
 }
 </textarea>
         <button class="btn btn-default" data-type="run-button" data-target="node-code" style="position: absolute; top: 1em; right: 1em; z-index: 10">Run</button>
@@ -49,69 +57,24 @@ if(kinect.open()) {
   <link rel="stylesheet" href="">
 </head>
 <body>
-  <canvas id="bodyCanvas" width="512" height="424"></canvas>
+  <canvas id="rgbCanvas" width="1920" height="1080"></canvas>
   <script src="http://localhost:8000/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect('http://localhost:8000');
-    var canvas = document.getElementById('bodyCanvas');
+    var canvas = document.getElementById('rgbCanvas');
     var ctx = canvas.getContext('2d');
-    var colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff'];
+    var imageData = ctx.createImageData(canvas.width, canvas.height);
+    var imageDataSize = imageData.data.length;
+    var imageDataArray = imageData.data;
+    var frameNr = 0;
 
-    // handstate circle size
-    var HANDSIZE = 20;
-
-    // closed hand state color
-    var HANDCLOSEDCOLOR = "red";
-
-    // open hand state color
-    var HANDOPENCOLOR = "green";
-
-    // lasso hand state color
-    var HANDLASSOCOLOR = "blue";
-
-    function updateHandState(handState, jointPoint) {
-      switch (handState) {
-        case 3:
-          drawHand(jointPoint, HANDCLOSEDCOLOR);
-        break;
-
-        case 2:
-          drawHand(jointPoint, HANDOPENCOLOR);
-        break;
-
-        case 4:
-          drawHand(jointPoint, HANDLASSOCOLOR);
-        break;
+    socket.on('colorFrame', function(colorFrame){
+      console.log('colorFrame', ++frameNr);
+      var newPixelData = new Uint8Array(colorFrame);
+      for (var i = 0; i < imageDataSize; i++) {
+        imageDataArray[i] = newPixelData[i];
       }
-    }
-
-    function drawHand(jointPoint, handColor) {
-      // draw semi transparent hand cicles
-      ctx.globalAlpha = 0.75;
-      ctx.beginPath();
-      ctx.fillStyle = handColor;
-      ctx.arc(jointPoint.depthX * 512, jointPoint.depthY * 424, HANDSIZE, 0, Math.PI * 2, true);
-      ctx.fill();
-      ctx.closePath();
-      ctx.globalAlpha = 1;
-    }
-
-    socket.on('bodyFrame', function(bodyFrame){
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      var index = 0;
-      bodyFrame.bodies.forEach(function(body){
-        if(body.tracked) {
-          for(var jointType in body.joints) {
-            var joint = body.joints[jointType];
-            ctx.fillStyle = colors[index];
-            ctx.fillRect(joint.depthX * 512, joint.depthY * 424, 10, 10);
-          }
-          //draw hand states
-          updateHandState(body.leftHandState, body.joints[7]);
-          updateHandState(body.rightHandState, body.joints[11]);
-          index++;
-        }
-      });
+      ctx.putImageData(imageData, 0, 0);
     });
   </script>
 </body>
@@ -121,11 +84,11 @@ if(kinect.open()) {
   </div>
   <div role="tabpanel" class="tab-pane" data-tab-id="output" style="height: 100%;">
     <div class="split-pane fixed-bottom">
-      <div class="split-pane-component top-pane" style="bottom: 10em; margin-bottom: 5px; min-height: 5em;">
+      <div class="split-pane-component top-pane" style="bottom: 3em; margin-bottom: 5px; min-height: 5em;">
         <div data-id="web-preview" data-type="web-preview" data-console="web-preview-console"></div>
       </div>
-      <div class="split-pane-divider divider" style="background: #aaa; bottom: 10em; height: 5px;"></div>
-      <div class="split-pane-component bottom-pane" style="height: 10em; min-height: 10em;">
+      <div class="split-pane-divider divider" style="background: #aaa; bottom: 3em; height: 5px;"></div>
+      <div class="split-pane-component bottom-pane" style="height: 3em; min-height: 3em;">
         <div data-id="web-preview-console" style="height: 100%" data-type="console"></div>
       </div>
     </div>

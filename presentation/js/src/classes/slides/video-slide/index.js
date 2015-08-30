@@ -1,5 +1,6 @@
 module.exports = (function(){
 	var ContentBase = require('../ContentBase');
+  var Constants = require('Constants');
 
 	function VideoSlide($slideHolder) {
 		ContentBase.call(this, $slideHolder);
@@ -20,14 +21,32 @@ module.exports = (function(){
 		$(this.video).off('click', this._clickHandler);
 	};
 
+  VideoSlide.prototype.onStateChanged = function() {
+    if(this.state === Constants.STATE_ACTIVE) {
+      this.setVideoPlaying(true);
+    } else {
+      this.setVideoPlaying(false);
+    }
+  };
+
 	VideoSlide.prototype.clickHandler = function(event) {
-		this.videoPlaying = !this.videoPlaying;
-		if(this.videoPlaying) {
-			this.video.play();
-		} else {
-			this.video.pause();
-		}
+		this.toggleVideoPlaying();
 	};
+
+  VideoSlide.prototype.setVideoPlaying = function(value) {
+    if(value !== this.videoPlaying) {
+      this.videoPlaying = value;
+      if(this.videoPlaying) {
+        this.video.play();
+      } else {
+        this.video.pause();
+      }
+    }
+  };
+
+  VideoSlide.prototype.toggleVideoPlaying = function() {
+    this.setVideoPlaying(!this.videoPlaying);
+  };
 
 	function getParameterByName(url, name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

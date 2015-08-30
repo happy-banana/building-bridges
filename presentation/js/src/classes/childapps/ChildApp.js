@@ -83,10 +83,14 @@ ChildApp.prototype.runCode = function(code, type) {
 	this.saveCode(code, type, (function(){
 		//run the code
 		if(type === 'tessel') {
-			this.runner = childProcess.spawn("tessel", ["run", Config.childTesselAppFilePath], {cwd: path.dirname(Config.childTesselAppFilePath)});
+      this.cwd = path.dirname(Config.childTesselAppFilePath);
+      this.numDataEventsReceived = 0;
+			this.runner = childProcess.spawn("tessel", ["run", Config.childTesselAppFilePath], {cwd: this.cwd});
 		} else {
+      this.cwd = path.dirname(Config.childNodeAppFilePath);
+      this.numDataEventsReceived = 0;
 			//this.runner = process.spawn("node", [Config.childNodeAppFilePath], {cwd: path.dirname(Config.childNodeAppFilePath)});
-			this.runner = childProcess.spawn("cmd", ["nvmw", "use", "iojs-v2.3.1"], {cwd: path.dirname(Config.childNodeAppFilePath)});
+			this.runner = childProcess.spawn("cmd", ["nvmw", "use", "iojs-v2.3.1"], {cwd: this.cwd});
 			setTimeout((function(){
 				//execute first command
 				this.runner.stdin.write("node " + Config.childNodeAppFilePath + "\n");
@@ -141,7 +145,19 @@ ChildApp.prototype.stop = function(cb) {
 };
 
 ChildApp.prototype.onRunnerData = function(data) {
-	this.emit('stdout-data', data.toString().trim());
+  this.numDataEventsReceived++;
+  if(this.numDataEventsReceived < 3) {
+    //ignore the first two messages
+    return;
+  }
+  data = data.toString().trim();
+  if(data.indexOf(this.cwd) === 0) {
+    data = data.substr(this.cwd.length);
+    if(data.length === 1) {
+      return;
+    }
+  }
+	this.emit('stdout-data', data);
 };
 
 ChildApp.prototype.onRunnerError = function(error) {
