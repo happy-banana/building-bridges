@@ -1,0 +1,199 @@
+<template>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation"><a href="#" aria-controls="html" role="tab">HTML</a></li>
+  <li role="presentation"><a href="#" aria-controls="output" role="tab">Output</a></li>
+  <li role="presentation"><a href="#" aria-controls="console" role="tab">Console</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content" style="position: absolute; width: 100%; top: 62px; bottom: 0;">
+  <div role="tabpanel" class="tab-pane" data-tab-id="html" style="height: 100%;">
+    <textarea data-id="html-code" data-type="code" data-runtime="web" data-mode="htmlmixed" data-language="html" data-processor="web-preview"><!DOCTYPE html>
+<html>
+  <head>
+    <title>Megapudding</title>
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    </style>
+  </head>
+  <body>
+    <canvas id="rgbCanvas" width="1920" height="1080" style="width: 100%"></canvas>
+    <script src="slides/js/fps.js"></script>
+    <script>
+    (function(){
+      var Kinect2 = require('kinect2');
+      var kinect = new Kinect2();
+
+      var rgbCanvas, rgbCtx, hiddenCanvas, hiddenRenderer, activeBody;
+
+      function init() {
+        rgbCanvas = document.getElementById('rgbCanvas');
+        rgbCtx = rgbCanvas.getContext('2d');
+        hiddenCanvas = document.createElement('canvas');
+        hiddenCanvas.setAttribute('width', 1920);
+        hiddenCanvas.setAttribute('height', 1080);
+        hiddenRenderer = new ColorRenderer(hiddenCanvas);
+         if(kinect.open()) {
+          console.log('kinect open');
+          kinect.on('multiSourceFrame', multiSourceFrameHandler);
+          kinect.openMultiSourceReader({
+            frameTypes: Kinect2.FrameType.bodyIndexColor | Kinect2.FrameType.body,
+            //includeJointFloorData: true
+          });
+        }
+      }
+
+      function multiSourceFrameHandler(frame) {
+        var closestBody = getClosestBody(frame.body);
+        if(closestBody && closestBody !== activeBody) {
+          activeBody = closestBody;
+          kinect.trackPixelsForBodyIndices([activeBody.bodyIndex]);
+        }
+        if(activeBody && frame.bodyIndexColor.bodies[activeBody.bodyIndex].buffer) {
+          hiddenRenderer.update(frame.bodyIndexColor.bodies[activeBody.bodyIndex].buffer);
+
+          var pixelWidth = calculatePixelWidth(frame.bodyIndexColor.horizontalFieldOfView, activeBody.joints[Kinect2.JointType.spineMid].cameraZ * 1000);
+          var scale = 0.3 * pixelWidth;
+
+          var leftJoint = activeBody.joints[0],
+            topJoint = activeBody.joints[0],
+            rightJoint = activeBody.joints[0],
+            bottomJoint = activeBody.joints[0];
+          activeBody.joints.forEach(function(joint){
+            if(joint.colorX < leftJoint.colorX) {
+              leftJoint = joint;
+            }
+            if(joint.colorX > rightJoint.colorX) {
+              rightJoint = joint;
+            }
+            if(joint.colorY < topJoint.colorY) {
+              topJoint = joint;
+            }
+            if(joint.colorY > bottomJoint.colorY) {
+              bottomJoint = joint;
+            }
+          });
+          //head joint is in middle of head, add area (y-distance from neck to head joint) above
+          topJoint = {
+            colorX: topJoint.colorX,
+            colorY: Math.min(topJoint.colorY, activeBody.joints[Kinect2.JointType.head].colorY - (activeBody.joints[Kinect2.JointType.neck].colorY - activeBody.joints[Kinect2.JointType.head].colorY))
+          };
+          var srcRect = {
+            x: leftJoint.colorX * hiddenCanvas.width,
+            y: topJoint.colorY * hiddenCanvas.height,
+            width: (rightJoint.colorX - leftJoint.colorX) * hiddenCanvas.width,
+            height: (bottomJoint.colorY - topJoint.colorY) * hiddenCanvas.height
+          };
+          //height: (activeBody.joints[Kinect2.JointType.spineMid].floorColorY - topJoint.colorY) * hiddenCanvas.height
+
+          var dstRect = {
+            x: rgbCanvas.width * 0.5,
+            y: rgbCanvas.height - (srcRect.height * scale),
+            width: srcRect.width * scale,
+            height: srcRect.height * scale
+          };
+
+          //center the user horizontally - is not minus half width of image as user might reach to one side or the other
+          //do minus the space on the left size of the spine
+          var spaceLeft = activeBody.joints[Kinect2.JointType.spineMid].colorX - leftJoint.colorX;
+          dstRect.x -= (spaceLeft * hiddenCanvas.width * scale);
+          rgbCtx.clearRect(0, 0, rgbCanvas.width, rgbCanvas.height);
+          rgbCtx.drawImage(hiddenCanvas, srcRect.x, srcRect.y, srcRect.width, srcRect.height, dstRect.x, dstRect.y, dstRect.width, dstRect.height);
+        }
+      }
+
+      function calculatePixelWidth(horizontalFieldOfView, depth){
+        // measure the size of the pixel
+        var hFov = horizontalFieldOfView / 2;
+        var numPixels = hiddenCanvas.width / 2;
+        var T = Math.tan((Math.PI * 180) / hFov);
+        var pixelWidth = T * depth;
+        return pixelWidth / numPixels;
+      }
+
+      function getClosestBody(bodyFrame) {
+        var closestZ = Number.MAX_VALUE;
+        var closestBody = false;
+        bodyFrame.bodies.forEach(function(body){
+          if(body.tracked && body.joints[Kinect2.JointType.spineMid].cameraZ < closestZ) {
+            closestZ = body.joints[Kinect2.JointType.spineMid.cameraZ];
+            closestBody = body;
+          }
+        });
+        return closestBody;
+      }
+
+      function ColorRenderer(outputCanvas) {
+        this.canvas = outputCanvas;
+        this.ctx = this.canvas.getContext('2d');
+        this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
+        this.imageDataSize = this.imageData.data.length;
+        this.imageDataArray = this.imageData.data;
+
+        this.update = function(newPixelData) {
+          for (var i = 0; i < this.imageDataSize; i++) {
+            this.imageDataArray[i] = newPixelData[i];
+          }
+          this.ctx.putImageData(this.imageData, 0, 0);
+        }
+      }
+
+      init();
+    })();
+    </script>
+  </body>
+</html></textarea>
+    <button class="btn btn-default" data-type="run-button" data-target="html-code" style="position: absolute; top: 1em; right: 1em; z-index: 10">Run</button>
+  </div>
+  <div role="tabpanel" class="tab-pane" data-tab-id="output" style="height: 100%;">
+    <div data-id="web-preview" data-type="web-preview" data-console="web-preview-console"></div>
+  </div>
+  <div role="tabpanel" class="tab-pane" data-tab-id="console" style="height: 100%;">
+    <div data-id="web-preview-console" style="height: 100%" data-type="console"></div>
+  </div>
+</div>
+<script>
+(function(){
+
+  var LiveCode = require('slides/LiveCode');
+  var $slideHolder = $(document.currentScript).closest('.slide-frame');
+
+  function init() {
+    var liveCode = new LiveCode($slideHolder);
+
+    //manual manage tabs, as we don't want to work with element ids
+    $slideHolder.find('a[role=tab]').click(function (e) {
+      e.preventDefault();
+      var tabId = $(e.target).attr('aria-controls');
+      var $tab = $slideHolder.find('[data-tab-id="' + tabId + '"]');
+      $slideHolder.find(".nav-tabs .active, .tab-content .active").removeClass("active");
+      $(e.target).closest('li').addClass('active');
+      $tab.addClass("active");
+      liveCode.layout();
+    });
+    $slideHolder.find('div.split-pane').splitPane();
+    $slideHolder.find('div.split-pane').on('resize', function(){
+      liveCode.layout();
+    });
+
+    //focus webpreview tab on run click
+    $slideHolder.find('[data-type="run-button"][data-target="html-code"]').on('click', function(){
+      $slideHolder.find('a[role=tab][aria-controls=output]').click();
+    });
+
+    requestAnimationFrame(function(){
+      $slideHolder.find('a[role=tab]').first().click();
+    });
+  }
+
+  init();
+
+})();
+</script>
+</template>
