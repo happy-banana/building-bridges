@@ -42,7 +42,7 @@
         "url": "slides/video.html?video=slides/videos/video-stella.mp4"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Video+Stella"
       }
     },
     {
@@ -132,7 +132,7 @@
         "url": "slides/video.html?video=slides/videos/video-spacegame.mp4"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Video+Space+Game"
       }
     },
     {
@@ -159,7 +159,7 @@
         "url": "slides/video.html?video=slides/videos/video-openni.mp4"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Video+OpenNI"
       }
     },
     {
@@ -168,7 +168,7 @@
         "url": "slides/video.html?video=slides/videos/video-as3osceleton.mp4"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Video+AS3OSCeleton"
       }
     },
     {
@@ -213,7 +213,7 @@
         "url": "slides/video.html?video=slides/videos/video-airkinect-pointcloud.mp4"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Video+AIRKinect+Pointcloud"
       }
     },
     {
@@ -222,7 +222,7 @@
         "url": "slides/video.html?video=slides/videos/video-airkinect-rigging.mp4"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Video+AIRKinect+Rigging"
       }
     },
     {
@@ -231,7 +231,7 @@
         "url": "slides/video.html?video=slides/videos/video-air-opencv.mp4"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Video+AIR+OpenCV"
       }
     },
     {
@@ -240,7 +240,7 @@
         "url": "slides/video.html?video=slides/videos/video-airkinect-opencv.mp4"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Video+AIRKinect+OpenCV"
       }
     },
     {
@@ -258,7 +258,7 @@
         "url": "slides/video.html?video=slides/videos/video-leapmotion-labyrinth.mp4"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Video+LeapMotion+Labyrinth"
       }
     },
     {
@@ -352,12 +352,12 @@
       }
     },
     {
-      "name": "keynote.040.png",
+      "name": "shake-your-phones",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.040.png"
+        "url": "slides/shake-your-phones.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/shake-your-phones.html"
       }
     },
     {
@@ -375,7 +375,7 @@
         "url": "slides/leap-basic-websockets.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Leap+Basic+Websockets"
       }
     },
     {
@@ -384,7 +384,7 @@
         "url": "slides/leap-basic-threejs.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Leap+Threejs"
       }
     },
     {
@@ -411,7 +411,7 @@
         "url": "slides/edge-basic-example.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Edge+Basic+Example"
       }
     },
     {
@@ -420,7 +420,7 @@
         "url": "slides/edge-basic-kinect.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Edge+Basic+Kinect"
       }
     },
     {
@@ -429,7 +429,7 @@
         "url": "slides/edge-kinect-dll.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Edge+Kinect+DLL"
       }
     },
     {
@@ -519,7 +519,7 @@
         "url": "slides/kinect-basic-example.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Kinect+Basic+Example"
       }
     },
     {
@@ -528,7 +528,7 @@
         "url": "slides/kinect-skeleton-websockets.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Kinect+Skeleton+Websockets"
       }
     },
     {
@@ -537,7 +537,7 @@
         "url": "slides/kinect-websocket-color.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Kinect+Websocket+Color"
       }
     },
     {
@@ -546,7 +546,7 @@
         "url": "slides/kinect-websocket-color-pako.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Kinect+Websocket+Color+gzip"
       }
     },
     {
@@ -555,7 +555,7 @@
         "url": "slides/kinect-websocket-color-jpeg.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Kinect+Websocket+Color+jpg"
       }
     },
     {
@@ -564,7 +564,7 @@
         "url": "slides/kinect-electron-rgb.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Kinect+Electron+RGB"
       }
     },
     {
@@ -573,7 +573,7 @@
         "url": "slides/kinect-electron-multiple-feeds.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Kinect+Electron+Multiple+Feeds"
       }
     },
     {
@@ -582,16 +582,7 @@
         "url": "slides/kinect-electron-pointcloud.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
-      }
-    },
-    {
-      "name": "kinect-electron-3dmodel",
-      "presentation": {
-        "url": "slides/kinect-electron-3dmodel.html"
-      },
-      "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Kinect+Electron+Pointcloud"
       }
     },
     {
@@ -627,7 +618,7 @@
         "url": "slides/video.html?video=slides/videos/video-megapudding-intro.mp4"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Video+Megapudding+Intro"
       }
     },
     {
@@ -636,7 +627,7 @@
         "url": "slides/megapudding-rgb-feed.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Megapudding+RGB+Feed"
       }
     },
     {
@@ -645,7 +636,7 @@
         "url": "slides/megapudding-user-mask.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Megapudding+User+Mask"
       }
     },
     {
@@ -654,7 +645,7 @@
         "url": "slides/megapudding-user-mask-scaled.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Megapudding+User+Mask+Scaled"
       }
     },
     {
@@ -663,7 +654,7 @@
         "url": "slides/megapudding-user-mask-phaser.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Megapudding+User+Mask+Phaser"
       }
     },
     {
@@ -672,7 +663,7 @@
         "url": "slides/megapudding-user-physics.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Megapudding+User+Physics"
       }
     },
     {

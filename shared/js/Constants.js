@@ -26,7 +26,22 @@ module.exports = (function(){
 		CHILD_APP_STDERR_DATA : 'childAppStderrData',
 
 		OPEN_COMMAND_LINE: 'openCommandLine',
-		OPEN_CAMERA: 'openCamera'
+		OPEN_CAMERA: 'openCamera',
+
+    SET_TEAM : 'setTeam',
+    UPDATE_MOTION : 'updateMotion',
+
+    YOU_WIN : 'youWin',
+    YOU_LOSE : 'youLose',
+
+    SHAKE_YOUR_PHONES_INTRO : 'shakeYourPhonesIntro',
+    SHAKE_YOUR_PHONES_GAME : 'shakeYourPhonesGame',
+    SHAKE_YOUR_PHONES_FINISHED : 'shakeYourPhonesFinished',
+
+    SHAKE_YOUR_PHONES_CLIENT_ADDED : 'shakeYourPhonesClientAdded',
+    SHAKE_YOUR_PHONES_CLIENT_REMOVED : 'shakeYourPhonesClientRemoved',
+    SHAKE_YOUR_PHONES_CLIENT_LIST : 'shakeYourPhonesClientList',
+    SHAKE_YOUR_PHONES_CLIENT_UPDATE : 'shakeYourPhonesClientUpdate'
 	};
 
 	return Constants;

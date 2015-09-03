@@ -1,0 +1,178 @@
+<template>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation"><a href="#" aria-controls="html" role="tab">HTML</a></li>
+  <li role="presentation"><a href="#" aria-controls="output" role="tab">Output</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content" style="position: absolute; width: 100%; top: 62px; bottom: 0;">
+  <div role="tabpanel" class="tab-pane" data-tab-id="html" style="height: 100%;">
+    <textarea data-id="html-code" data-type="code" data-runtime="web" data-mode="htmlmixed" data-language="html" data-processor="web-preview"><!DOCTYPE html>
+<html>
+  <head>
+    <title>Kinect</title>
+  </head>
+  <body style="background: black;">
+    <canvas id="outputCanvas" width="1280" height="500"></canvas>
+    <script src="slides/js/vendors/threejs/three.min.js"></script>
+    <script src="slides/js/vendors/threejs/TrackballControls.js"></script>
+    <script>
+    (function(){
+      var Kinect2 = require('kinect2');
+      var kinect = new Kinect2();
+      var depthWidth = 512, depthHeight = 424;
+      var renderer, camera, scene, controls;
+      var particles;
+
+      function init() {
+        renderer = new THREE.WebGLRenderer( {
+          canvas: document.getElementById('outputCanvas'),
+          alpha: 1, antialias: true, clearColor: 0xffffff
+        } );
+
+        camera = new THREE.PerspectiveCamera( 40, renderer.domElement.width / renderer.domElement.height, 1, 10000 );
+        camera.position.set( 0, 300, 3000 );
+        controls = new THREE.TrackballControls( camera, renderer.domElement );
+
+        scene = new THREE.Scene();
+
+        createGrid();
+        createParticles();
+        initKinect();
+
+        window.addEventListener( 'resize', onWindowResize, false );
+        onWindowResize();
+        render();
+      }
+
+      function createGrid() {
+        // ground box
+        var geometry = new THREE.BoxGeometry( 500, 2, 500 );
+        material = new THREE.MeshNormalMaterial();
+        var mesh = new THREE.Mesh( geometry, material );
+        mesh.position.set( 0, -1, 0 );
+        scene.add( mesh );
+        mesh = new THREE.GridHelper( 250, 10 );
+        scene.add( mesh );
+
+        // axes
+        var axis = new THREE.AxisHelper( 250 );
+        scene.add( axis );
+        renderer.render( scene, camera );
+
+        var geometry = new THREE.BoxGeometry( 50, 20, 50 );
+        var material = new THREE.MeshNormalMaterial();
+        var box = new THREE.Mesh( geometry, material );
+        scene.add( box );
+      }
+
+      function createParticles() {
+        particles = new THREE.Geometry();
+        var colors = [];
+        var numParticles = depthWidth * depthHeight;
+        for(var i = 0; i < numParticles; i++) {
+          var x = i % depthWidth - depthWidth * 0.5;
+          var y = depthHeight - Math.floor(i / depthWidth);
+          var vertex = new THREE.Vector3(x, y, Math.random());
+          particles.vertices.push(vertex);
+          colors[i] = new THREE.Color(0xffffff);
+        }
+        particles.colors = colors;
+        var material = new THREE.PointCloudMaterial( { size: 3, vertexColors: THREE.VertexColors, transparent: true } );
+        mesh = new THREE.PointCloud(particles, material);
+        scene.add(mesh);
+      }
+
+      function initKinect() {
+        if(kinect.open()) {
+          kinect.on('rawDepthFrame', function(depthBuffer){
+            var nDepthMinReliableDistance = 500;
+            var nDepthMaxDistance = 4500;
+            var mapDepthToByte = nDepthMaxDistance / 256;
+            var j = 0;
+            for(var i = 0; i < depthBuffer.length; i+=2) {
+              var depth = (depthBuffer[i+1] << 8) + depthBuffer[i]; //get uint16 data from buffer
+              if(depth <= nDepthMinReliableDistance || depth >= nDepthMaxDistance) depth = Number.MAX_VALUE; //push them far far away so we don't see them
+              particles.vertices[j].z = (nDepthMaxDistance - depth) - 2000;
+              j++;
+            }
+            particles.verticesNeedUpdate = true;
+            processing = false;
+          });
+
+          kinect.openRawDepthReader();
+        }
+      }
+
+      function onWindowResize(){
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+      }
+
+      function render() {
+        renderer.render( scene, camera );
+        controls.update();
+        requestAnimationFrame(render);
+      }
+
+      init();
+    })();
+    </script>
+  </body>
+</html></textarea>
+    <button class="btn btn-default" data-type="run-button" data-target="html-code" style="position: absolute; top: 1em; right: 1em; z-index: 10">Run</button>
+  </div>
+  <div role="tabpanel" class="tab-pane" data-tab-id="output" style="height: 100%;">
+    <div class="split-pane fixed-bottom">
+      <div class="split-pane-component top-pane" style="bottom: 3em; margin-bottom: 5px; min-height: 5em;">
+        <div data-id="web-preview" data-type="web-preview" data-console="web-preview-console"></div>
+      </div>
+      <div class="split-pane-divider divider" style="background: #aaa; bottom: 3em; height: 5px;"></div>
+      <div class="split-pane-component bottom-pane" style="height: 3em; min-height: 3em;">
+        <div data-id="web-preview-console" style="height: 100%" data-type="console"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+
+  var LiveCode = require('slides/LiveCode');
+  var $slideHolder = $(document.currentScript).closest('.slide-frame');
+
+  function init() {
+    var liveCode = new LiveCode($slideHolder);
+
+    //manual manage tabs, as we don't want to work with element ids
+    $slideHolder.find('a[role=tab]').click(function (e) {
+      e.preventDefault();
+      var tabId = $(e.target).attr('aria-controls');
+      var $tab = $slideHolder.find('[data-tab-id="' + tabId + '"]');
+      $slideHolder.find(".nav-tabs .active, .tab-content .active").removeClass("active");
+      $(e.target).closest('li').addClass('active');
+      $tab.addClass("active");
+      liveCode.layout();
+    });
+    $slideHolder.find('div.split-pane').splitPane();
+    $slideHolder.find('div.split-pane').on('resize', function(){
+      liveCode.layout();
+    });
+
+    //focus webpreview tab on run click
+    $slideHolder.find('[data-type="run-button"][data-target="html-code"]').on('click', function(){
+      $slideHolder.find('a[role=tab][aria-controls=output]').click();
+    });
+
+    requestAnimationFrame(function(){
+      $slideHolder.find('a[role=tab]').first().click();
+    });
+  }
+
+  init();
+
+})();
+</script>
+</template>

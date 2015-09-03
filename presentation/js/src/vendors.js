@@ -1,7 +1,7 @@
 window.$ = window.jQuery = require('../../js/vendors/jquery.min.js');
 window.bean = require('../../js/vendors/bean.min.js');
 
-require('../../js/vendors/underscore.min.js');
+window._ = require('../../js/vendors/underscore.min.js');
 require('../../js/vendors/bootstrap.js');
 require('../../js/vendors/jquery.geturlvars.js');
 require('../../js/vendors/rAF.js');

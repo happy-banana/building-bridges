@@ -57,11 +57,11 @@ if(kinect.open()) {
   <link rel="stylesheet" href="">
 </head>
 <body>
-  <canvas id="rgbCanvas" width="1920" height="1080"></canvas>
+  <canvas id="outputCanvas" width="1920" height="1080" style="width: 100%"></canvas>
   <script src="http://localhost:8000/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect('http://localhost:8000');
-    var canvas = document.getElementById('rgbCanvas');
+    var canvas = document.getElementById('outputCanvas');
     var ctx = canvas.getContext('2d');
     var imageData = ctx.createImageData(canvas.width, canvas.height);
     var imageDataSize = imageData.data.length;

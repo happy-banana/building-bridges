@@ -34,6 +34,8 @@ gulp.task('presentation-js', ['presentation-lint'], function(){
 
 	bundler.require(__dirname + '/presentation/js/src/classes/slides/video-slide/index.js', { expose: 'slides/VideoSlide'});
 	bundler.require(__dirname + '/presentation/js/src/classes/slides/live-code/index.js', { expose: 'slides/LiveCode'});
+
+  bundler.require(__dirname + '/presentation/js/src/classes/slides/shake-your-phones/index.js', { expose: 'slides/ShakeYourPhonesSlide'});
 	return bundler.bundle()
 		.on('error', function(err) {
 			gutil.log(err.message);
@@ -100,7 +102,7 @@ gulp.task('mobile-js', ['mobile-lint'], function(){
 	bundler.require(__dirname + '/shared/js/classes/Presentation.js', { expose: 'shared/Presentation'});
 	bundler.require(__dirname + '/shared/js/classes/MobileServerBridge.js', { expose: 'shared/MobileServerBridge'});
 
-	//bundler.require(__dirname + '/server/www/src/js/classes/slides/shake-your-phones/index.js', { expose: 'slides/ShakeYourPhones'});
+	bundler.require(__dirname + '/server/www/src/js/classes/slides/shake-your-phones/index.js', { expose: 'slides/ShakeYourPhonesSlide'});
 	//bundler.require(__dirname + '/server/www/src/js/classes/slides/react-phones/index.js', { expose: 'slides/ReactPhones'});
 
 	return bundler.bundle()

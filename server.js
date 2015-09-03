@@ -148,8 +148,13 @@ function sendMessage(message) {
 			}else if(message.target.client === 'mobile' || message.target.client === 'presentation') {
 				roomNames.push('role:' + message.target.client);
 			} else {
-				//one specific id
-				sendMessageToIds([message.target.client], message);
+        //multiple or one id?
+        if(message.target.client.constructor === Array) {
+          sendMessageToIds(message.target.client, message);
+        } else {
+          //one specific id
+          sendMessageToIds([message.target.client], message);
+        }
 				allowSend = false;
 			}
 			if(allowSend) {

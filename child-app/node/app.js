@@ -44,17 +44,17 @@ if(kinect.open()) {
         compressing = false;
         return;
       }
-        image.batch()
-          .toBuffer('jpg', { quality: 50 }, function(err, buffer){
-            if(err) {
-              compressing = false;
-              return;
-            }
-            io.sockets.sockets.forEach(function(socket){
-              socket.volatile.emit('colorFrame', buffer);
-            });
+      image.batch()
+        .toBuffer('jpg', { quality: 5 }, function(err, buffer){
+          if(err) {
             compressing = false;
+            return;
+          }
+          io.sockets.sockets.forEach(function(socket){
+            socket.volatile.emit('colorFrame', buffer);
           });
+          compressing = false;
+        });
     });
   });
 
