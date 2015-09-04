@@ -36,6 +36,7 @@ gulp.task('presentation-js', ['presentation-lint'], function(){
 	bundler.require(__dirname + '/presentation/js/src/classes/slides/live-code/index.js', { expose: 'slides/LiveCode'});
 
   bundler.require(__dirname + '/presentation/js/src/classes/slides/shake-your-phones/index.js', { expose: 'slides/ShakeYourPhonesSlide'});
+  bundler.require(__dirname + '/presentation/js/src/classes/slides/megapudding/index.js', { expose: 'slides/MegaPuddingSlide'});
 	return bundler.bundle()
 		.on('error', function(err) {
 			gutil.log(err.message);

@@ -1,15 +1,6 @@
 {
   "slides": [
     {
-      "name": "megapudding-user-physics",
-      "presentation": {
-        "url": "slides/megapudding-user-physics.html"
-      },
-      "mobile": {
-        "url": "slides/text.html?text=Megapudding+User+Physics"
-      }
-    },
-    {
       "name": "keynote.001.png",
       "presentation": {
         "url": "slides/image.html?image=slides/images/keynote/keynote.001.png"
@@ -685,12 +676,12 @@
       }
     },
     {
-      "name": "keynote.077.png",
+      "name": "megapudding",
       "presentation": {
-        "url": "slides/image.html?image=slides/images/keynote/keynote.077.png"
+        "url": "slides/megapudding.html"
       },
       "mobile": {
-        "url": "slides/text.html?text=Building+Bridges"
+        "url": "slides/text.html?text=Megapudding+Game"
       }
     },
     {

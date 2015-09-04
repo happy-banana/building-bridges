@@ -1,0 +1,16 @@
+<template>
+  <webview width="100%" height="100%" nodeintegration />
+  <script>
+  (function(){
+
+    var MegaPuddingSlide = require('slides/MegaPuddingSlide');
+    var $slideHolder = $(document.currentScript).closest('.slide-frame');
+
+    function init() {
+      var megaPuddingSlide = new MegaPuddingSlide($slideHolder);
+    }
+
+    init();
+  })();
+  </script>
+</template>
