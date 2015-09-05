@@ -36,7 +36,7 @@ module.exports = (function(){
     this.elevatorMusic = $('#elevatormusic')[0];
     $('.elevator-button').on('click', $.proxy(this.toggleElevatorMusic, this));
 
-    $('.info .ip').text('jsworkout.herokuapp.com');
+    $('.info .ip').text('bbridges.herokuapp.com');
 
     $(window).on('keydown', $.proxy(this.keydownHandler, this));
     bean.on(this, Constants.SET_CURRENT_SLIDE_INDEX, this.currentSlideIndexChangedHandler.bind(this));

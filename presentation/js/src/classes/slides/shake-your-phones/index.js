@@ -24,7 +24,7 @@ module.exports = (function(){
     this.motions = [0, 0];
     this.music = this.$slideHolder.find('#music')[0];
 
-    this.$slideHolder.find('#ip').text('jsworkout.herokuapp.com');
+    this.$slideHolder.find('#ip').text('bbridges.herokuapp.com');
 
     this.$slideHolder.find('.substate-intro .btn').on('click', this.startClickHandler.bind(this));
 
