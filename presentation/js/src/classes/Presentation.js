@@ -202,6 +202,16 @@ module.exports = (function(){
     $('#webcamModal').modal('show');
   };
 
+  Presentation.prototype.handleMobileServerMessage = function(message) {
+    if(message.content) {
+      if(message.content.action === 'goToNextSlide') {
+        this.goToNextSlide();
+      } else if(message.content.action === 'goToPreviousSlide') {
+        this.goToPreviousSlide();
+      }
+    }
+  };
+
   return Presentation;
 
 })();

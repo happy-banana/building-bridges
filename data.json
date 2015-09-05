@@ -39,7 +39,7 @@
     {
       "name": "video-stella",
       "presentation": {
-        "url": "slides/video.html?video=slides/videos/video-stella.mp4"
+        "url": "slides/video.html?video=slides/videos/video-stella.mp4&loop=1"
       },
       "mobile": {
         "url": "slides/text.html?text=Video+Stella"
@@ -129,7 +129,7 @@
     {
       "name": "video-spacegame",
       "presentation": {
-        "url": "slides/video.html?video=slides/videos/video-spacegame.mp4"
+        "url": "slides/video.html?video=slides/videos/video-spacegame.mp4&loop=1"
       },
       "mobile": {
         "url": "slides/text.html?text=Video+Space+Game"
@@ -156,7 +156,7 @@
     {
       "name": "video-openni",
       "presentation": {
-        "url": "slides/video.html?video=slides/videos/video-openni.mp4"
+        "url": "slides/video.html?video=slides/videos/video-openni.mp4&loop=1"
       },
       "mobile": {
         "url": "slides/text.html?text=Video+OpenNI"
@@ -165,7 +165,7 @@
     {
       "name": "video-as3osceleton",
       "presentation": {
-        "url": "slides/video.html?video=slides/videos/video-as3osceleton.mp4"
+        "url": "slides/video.html?video=slides/videos/video-as3osceleton.mp4&loop=1&muted=1"
       },
       "mobile": {
         "url": "slides/text.html?text=Video+AS3OSCeleton"
@@ -210,7 +210,7 @@
     {
       "name": "video-airkinect-pointcloud",
       "presentation": {
-        "url": "slides/video.html?video=slides/videos/video-airkinect-pointcloud.mp4"
+        "url": "slides/video.html?video=slides/videos/video-airkinect-pointcloud.mp4&loop=1"
       },
       "mobile": {
         "url": "slides/text.html?text=Video+AIRKinect+Pointcloud"
@@ -219,7 +219,7 @@
     {
       "name": "video-airkinect-rigging",
       "presentation": {
-        "url": "slides/video.html?video=slides/videos/video-airkinect-rigging.mp4"
+        "url": "slides/video.html?video=slides/videos/video-airkinect-rigging.mp4&loop=1"
       },
       "mobile": {
         "url": "slides/text.html?text=Video+AIRKinect+Rigging"
@@ -228,7 +228,7 @@
     {
       "name": "video-air-opencv",
       "presentation": {
-        "url": "slides/video.html?video=slides/videos/video-air-opencv.mp4"
+        "url": "slides/video.html?video=slides/videos/video-air-opencv.mp4&loop=1"
       },
       "mobile": {
         "url": "slides/text.html?text=Video+AIR+OpenCV"
@@ -237,7 +237,7 @@
     {
       "name": "video-airkinect-opencv",
       "presentation": {
-        "url": "slides/video.html?video=slides/videos/video-airkinect-opencv.mp4"
+        "url": "slides/video.html?video=slides/videos/video-airkinect-opencv.mp4&loop=1"
       },
       "mobile": {
         "url": "slides/text.html?text=Video+AIRKinect+OpenCV"
@@ -255,7 +255,7 @@
     {
       "name": "video-leapmotion-labyrinth",
       "presentation": {
-        "url": "slides/video.html?video=slides/videos/video-leapmotion-labyrinth.mp4"
+        "url": "slides/video.html?video=slides/videos/video-leapmotion-labyrinth.mp4&loop=1"
       },
       "mobile": {
         "url": "slides/text.html?text=Video+LeapMotion+Labyrinth"
