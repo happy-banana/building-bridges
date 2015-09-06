@@ -15,7 +15,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.002.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Devine+%26+Happy+Banana"
       }
     },
     {
@@ -33,7 +33,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.004.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Flashback"
       }
     },
     {
@@ -51,7 +51,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.006.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Actionscript+1.5"
       }
     },
     {
@@ -60,7 +60,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.007.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Actionscript+2+classes"
       }
     },
     {
@@ -69,7 +69,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.008.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Global+Object"
       }
     },
     {
@@ -78,7 +78,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.009.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=SWFAddress"
       }
     },
     {
@@ -87,7 +87,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.010.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=ExternalInterface"
       }
     },
     {
@@ -96,7 +96,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.011.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=FlexCKEditor"
       }
     },
     {
@@ -105,7 +105,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.012.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Inject+JavaScript"
       }
     },
     {
@@ -114,7 +114,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.013.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Comment"
       }
     },
     {
@@ -123,7 +123,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.014.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=AIR+Sockets"
       }
     },
     {
@@ -141,7 +141,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.016.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=AIR+Websockets"
       }
     },
     {
@@ -150,7 +150,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.017.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Thoughts+On+Flash"
       }
     },
     {
@@ -177,7 +177,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.020.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Release+Kinect+SDK"
       }
     },
     {
@@ -186,7 +186,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.021.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=CSharp"
       }
     },
     {
@@ -195,7 +195,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.022.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=AIR+3+Native+Extensions"
       }
     },
     {
@@ -204,7 +204,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.023.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=C%2B%2B"
       }
     },
     {
@@ -249,7 +249,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.028.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=LeapMotion"
       }
     },
     {
@@ -267,7 +267,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.030.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Sockets"
       }
     },
     {
@@ -276,7 +276,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.031.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Sockets+Diagram"
       }
     },
     {
@@ -285,7 +285,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.032.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Sockets+Diagram"
       }
     },
     {
@@ -294,7 +294,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.033.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Sockets+Diagram"
       }
     },
     {
@@ -303,7 +303,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.034.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Sockets+Diagram"
       }
     },
     {
@@ -312,7 +312,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.035.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Sockets+Diagram"
       }
     },
     {
@@ -321,7 +321,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.036.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Sockets+Diagram"
       }
     },
     {
@@ -330,7 +330,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.037.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Sockets+Do+Everything"
       }
     },
     {
@@ -339,7 +339,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.038.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=SocketIO"
       }
     },
     {
@@ -348,7 +348,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.039.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=SocketIO"
       }
     },
     {
@@ -366,7 +366,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.041.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Leap+JSON"
       }
     },
     {
@@ -393,7 +393,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.044.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=CSharp"
       }
     },
     {
@@ -402,7 +402,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.045.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=EdgeJS"
       }
     },
     {
@@ -438,7 +438,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.049.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Edge+No+iojs"
       }
     },
     {
@@ -447,7 +447,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.050.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=C%2B%2B"
       }
     },
     {
@@ -456,7 +456,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.051.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Nan"
       }
     },
     {
@@ -465,7 +465,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.052.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Nan+Basic+Function"
       }
     },
     {
@@ -474,7 +474,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.053.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Nan+Function+Argument"
       }
     },
     {
@@ -483,7 +483,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.054.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Nan+Callback"
       }
     },
     {
@@ -492,7 +492,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.055.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Nan+Worker"
       }
     },
     {
@@ -501,7 +501,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.056.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Nan+Threads"
       }
     },
     {
@@ -510,7 +510,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.057.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Nan+Threads"
       }
     },
     {
@@ -591,7 +591,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.067.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Ketnet+King+Size"
       }
     },
     {
@@ -600,7 +600,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.068.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Ketnet+Studio+Render"
       }
     },
     {
@@ -609,7 +609,7 @@
         "url": "slides/image.html?image=slides/images/keynote/keynote.069.png"
       },
       "mobile": {
-        "url": "slides/contact.html"
+        "url": "slides/text.html?text=Me+In+Front+Of+Octo"
       }
     },
     {

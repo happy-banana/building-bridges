@@ -51,6 +51,10 @@
 
 @import "../../../../shared/css/shared.less";
 
+body {
+  padding: 2em;
+}
+
 .touchbutton {
 	display: table;
 	color: white;
@@ -75,4 +79,38 @@
 	&.down {
 		padding: 10px;
 	}
+}
+
+.info-card .info-card-details .info-card-header {
+  margin-bottom: 1em;
+}
+
+h1,
+h3 {
+  color: rgb(62, 62, 62);
+  font-size: 22px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+h3 {
+  color: rgb(142, 182, 52);
+  font-size: 15px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+
+.info-card .social-link {
+  display: block;
+}
+
+.info-card .profile-picture {
+  border: solid 0px;
+  -webkit-border-radius: 50% 50%;
+  -moz-border-radius: 50% 50%;
+  border-radius: 50% 50%;
+  margin-bottom: 1em;
+  width: 60px;
+  height: 60px;
 }
