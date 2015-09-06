@@ -58,7 +58,8 @@ module.exports = (function(){
 
   CodeElement.prototype.keyDownHandler = function(e) {
     //cancel if code mirror has focus
-    if(self.codeMirror.hasFocus()){
+    var type = "" + Object.prototype.toString.call(event.target);
+    if(type.toLowerCase().indexOf('textarea') > -1){
       e.stopImmediatePropagation();
     }
   };
