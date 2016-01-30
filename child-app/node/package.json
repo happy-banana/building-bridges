@@ -11,7 +11,7 @@
     "edge": "git+https://github.com/wouterverweirder/edge.git",
     "express": "^4.13.3",
     "jpeg-js": "^0.1.1",
-    "kinect2": "0.0.32",
+    "kinect2": "0.1.1",
     "lodash": "^3.10.1",
     "lwip": "git+https://github.com/EyalAr/lwip.git#e220e53a88bbb21e023b1a723279bddac66c719e",
     "socket.io": "^1.3.6"

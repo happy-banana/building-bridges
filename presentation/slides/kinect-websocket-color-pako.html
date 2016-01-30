@@ -36,9 +36,9 @@ if(kinect.open()) {
     console.log('send colorFrame', ++frameNr);
     zlib.deflate(colorFrame, function(err, result){
       if(!err) {
-        io.sockets.sockets.forEach(function(socket){
-          socket.volatile.emit('colorFrame', result);
-        });
+        for(var socketId in io.sockets.sockets) {
+          io.sockets.sockets[socketId].volatile.emit('colorFrame', result);
+        }
       }
       compressing = false;
     });

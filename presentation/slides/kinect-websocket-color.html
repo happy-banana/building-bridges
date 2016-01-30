@@ -30,9 +30,9 @@ if(kinect.open()) {
     console.log('send colorFrame', ++frameNr);
     io.sockets.emit('colorFrame', colorFrame);
     /*
-    io.sockets.sockets.forEach(function(socket){
-      socket.volatile.emit('colorFrame', colorFrame);
-    });
+    for(var socketId in io.sockets.sockets) {
+      io.sockets.sockets[socketId].volatile.emit('colorFrame', colorFrame);
+    }
     */
   });
 
