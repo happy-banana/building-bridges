@@ -46,6 +46,15 @@
       }
     },
     {
+      "name": "keynote.006.png",
+      "presentation": {
+        "url": "slides/image.html?image=slides/images/keynote/keynote.006.png"
+      },
+      "mobile": {
+        "url": "slides/text.html?text=Parental+Advisory"
+      }
+    },
+    {
       "name": "keynote.007.png",
       "presentation": {
         "url": "slides/image.html?image=slides/images/keynote/keynote.007.png"
