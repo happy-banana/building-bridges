@@ -2,8 +2,8 @@
 //  InterfaceController.swift
 //  PresentationRemoteIOS WatchKit Extension
 //
-//  Created by Wouter Verweirder on 05/09/15.
-//  Copyright (c) 2015 Wouter Verweirder. All rights reserved.
+//  Created by Wouter Verweirder on 20/02/16.
+//  Copyright © 2016 Wouter Verweirder. All rights reserved.
 //
 
 import WatchKit
@@ -11,9 +11,9 @@ import Foundation
 
 
 class InterfaceController: WKInterfaceController {
-    
-    //let urlRoot = "http://192.168.1.11:5000";
-    let urlRoot = "http://bbridges.herokuapp.com";
+  
+    let urlRoot = "https://bbridges.herokuapp.com"
+    var task: NSURLSessionDataTask?
 
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
@@ -22,37 +22,42 @@ class InterfaceController: WKInterfaceController {
     }
 
     @IBAction func previousPressed() {
-        NSLog("previous");
-        executeButtonAction("previous");
+      executeButtonAction("previous")
     }
-    
-    
+  
     @IBAction func nextPressed() {
-        executeButtonAction("next");
+      executeButtonAction("next")
     }
+  
+  func executeButtonAction(remoteKey:String) {
+    let url: NSURL = NSURL(string: urlRoot + "/remote/" + remoteKey)!
+    let request: NSMutableURLRequest = NSMutableURLRequest(URL: url)
     
-    func executeButtonAction(remoteKey:String) {
-        var url: NSURL = NSURL(string: urlRoot + "/remote/" + remoteKey)!
-        var request1: NSMutableURLRequest = NSMutableURLRequest(URL: url)
-        
-        request1.HTTPMethod = "POST"
-        var stringPost="email=wouter.verweirder@gmail.com&password=geheim" // Key and Value
-        
-        let data = stringPost.dataUsingEncoding(NSUTF8StringEncoding)
-        
-        request1.timeoutInterval = 60
-        request1.HTTPBody=data
-        request1.HTTPShouldHandleCookies=false
-        
-        let queue:NSOperationQueue = NSOperationQueue()
-        
-        NSURLConnection.sendAsynchronousRequest(request1, queue: queue, completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-            var err: NSError
-            var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
-            println("AsSynchronous\(jsonResult)")
-        })
+    request.HTTPMethod = "POST"
+    let stringPost="email=wouter.verweirder@gmail.com&password=geheim" // Key and Value
+    let data = stringPost.dataUsingEncoding(NSUTF8StringEncoding)
+    
+    request.timeoutInterval = 60
+    request.HTTPBody=data
+    request.HTTPShouldHandleCookies=false
+    
+    let conf = NSURLSessionConfiguration.defaultSessionConfiguration()
+    let session = NSURLSession(configuration: conf)
+    
+    task = session.dataTaskWithRequest(request) { (data, res, error) -> Void in
+      if let e = error {
+        print("dataTaskWithRequest fail: \(e.debugDescription)")
+        return
+      }
+      if let d = data {
+        let result = NSString(data: d, encoding:
+          NSUTF8StringEncoding)!
+        print(result);
+      }
     }
-    
+    task!.resume()
+  }
+  
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
