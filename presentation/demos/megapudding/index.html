@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Megapudding</title>
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+    html, body {
+      background: black;
+      min-height: 100%;
+      overflow: hidden;
+    }
+    #game {
+      /*
+      transform : scale(0.5, 0.5);
+      */
+      transform-origin: top left;
+    }
+    #settings-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: white;
+      display: none;
+    }
+
+    @font-face {
+      font-family: 'modakregular';
+      src: url('assets/fonts/modak-regular-webfont.eot');
+      src: url('assets/fonts/modak-regular-webfont.eot?#iefix') format('embedded-opentype'),
+           url('assets/fonts/modak-regular-webfont.woff2') format('woff2'),
+           url('assets/fonts/modak-regular-webfont.woff') format('woff'),
+           url('assets/fonts/modak-regular-webfont.ttf') format('truetype'),
+           url('assets/fonts/modak-regular-webfont.svg#modakregular') format('svg');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+
+
+    </style>
+  </head>
+  <body>
+  <div style="font-family:modakregular; position:absolute; left:-10000px">Font Loaded</div>
+    <!-- Main canvas for rendering game stage -->
+    <div id="game"></div>
+    <div id="settings-panel"></div>
+
+    <script src="js/phaser/phaser.min.js"></script>
+
+    <!-- Load game entrance -->
+    <script src="js/start.js"></script>
+
+
+
+  </body>
+</html>

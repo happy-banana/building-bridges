@@ -1,33 +1,44 @@
-var app = require('app');
-var BrowserWindow = require('browser-window');
-var mainWindow = null;
+'use strict';
 
-app.on('window-all-closed', function() {
-	app.quit();
+const path = require('path');
+
+const electron = require('electron');
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+
+const tty = require('tty.js');
+
+let ttyServer = tty.createServer({
+  shell: 'bash',
+  port: 3000,
+  localOnly: true,
+  static: path.join(__dirname, 'tty'),
+  cwd: path.join(__dirname)
 });
 
-// This method will be called when Electron has done everything
-// initialization and ready for creating browser windows.
-app.on('ready', function() {
-	// Create the browser window.
-	mainWindow = new BrowserWindow({
-    width: 1280, height: 960,
-    "fullscreen": true,
-    "kiosk": true,
-    "auto-hide-menu-bar": true
+ttyServer.listen();
+
+let mainWindow;
+
+global.__dirname = __dirname;
+
+function createWindow () {
+  mainWindow = new BrowserWindow({width: 1280, height: 700});
+  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  mainWindow.webContents.openDevTools();
+  mainWindow.on('closed', function() {
+    mainWindow = null;
   });
+}
+app.on('ready', createWindow);
+app.on('window-all-closed', function () {
+  // if (process.platform !== 'darwin') {
+    app.quit();
+  // }
+});
 
-	// and load the index.html of the app.
-	mainWindow.loadUrl('file://' + __dirname + '/index.html');
-
-	// Open the devtools.
-	//mainWindow.openDevTools();
-
-	// Emitted when the window is closed.
-	mainWindow.on('closed', function() {
-		// Dereference the window object, usually you would store windows
-		// in an array if your app supports multi windows, this is the time
-		// when you should delete the corresponding element.
-		mainWindow = null;
-	});
+app.on('activate', function () {
+  if (mainWindow === null) {
+    createWindow();
+  }
 });

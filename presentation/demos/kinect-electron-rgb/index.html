@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kinect</title>
+  </head>
+  <body>
+    <canvas id="outputCanvas" width="1920" height="1080" style="width: 100%"></canvas>
+    <script>
+    (function(){
+      var Kinect2 = require('kinect2');
+      var kinect = new Kinect2();
+
+      var canvas = document.getElementById('outputCanvas');
+      var ctx = canvas.getContext('2d');
+      var imageData = ctx.createImageData(canvas.width, canvas.height);
+      var imageDataSize = imageData.data.length;
+      var imageDataArray = imageData.data;
+
+      var processing = false;
+
+      if(kinect.open()) {
+        console.log('kinect open');
+        kinect.on('colorFrame', function(newPixelData){
+          if(processing) {
+            return;
+          }
+          console.log('color frame');
+          processing = true;
+          for (var i = 0; i < imageDataSize; i++) {
+            imageDataArray[i] = newPixelData[i];
+          }
+          ctx.putImageData(imageData, 0, 0);
+          processing = false;
+        });
+        kinect.openColorReader();
+      }
+    })();
+    </script>
+  </body>
+</html>

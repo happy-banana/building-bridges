@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Megapudding</title>
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    </style>
+  </head>
+  <body>
+    <canvas id="rgbCanvas" width="1920" height="1080" style="width: 100%"></canvas>
+    <script>
+    (function(){
+      var Kinect2 = require('kinect2');
+      var kinect = new Kinect2();
+
+      var rgbRenderer;
+
+      function init() {
+        rgbRenderer = new ColorRenderer(document.getElementById('rgbCanvas'));
+         if(kinect.open()) {
+          console.log('kinect open');
+          kinect.on('multiSourceFrame', function(frame){
+            rgbRenderer.update(frame.color.buffer);
+          });
+          kinect.openMultiSourceReader({
+            frameTypes: Kinect2.FrameType.color
+          });
+        }
+      }
+
+      function ColorRenderer(outputCanvas) {
+        this.canvas = outputCanvas;
+        this.ctx = this.canvas.getContext('2d');
+        this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
+        this.imageDataSize = this.imageData.data.length;
+        this.imageDataArray = this.imageData.data;
+
+        this.update = function(newPixelData) {
+          for (var i = 0; i < this.imageDataSize; i++) {
+            this.imageDataArray[i] = newPixelData[i];
+          }
+          this.ctx.putImageData(this.imageData, 0, 0);
+        }
+      }
+
+      init();
+    })();
+    </script>
+  </body>
+</html>

@@ -2,10 +2,6 @@ node_modules/
 npm-debug.log
 
 # Windows image file caches
-node_modules
-npm-debug.log
-
-/settings.json
 
 Thumbs.db
 ehthumbs.db
