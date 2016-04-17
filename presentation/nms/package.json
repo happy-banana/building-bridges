@@ -1,0 +1,20 @@
+{
+  "name": "nms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "edge": "^5.0.0",
+    "express": "^4.13.4",
+    "kinect2": "^0.1.2",
+    "lodash": "^4.11.1",
+    "lwip": "0.0.8",
+    "socket.io": "^1.4.5"
+  }
+}

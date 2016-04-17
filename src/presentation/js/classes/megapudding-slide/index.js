@@ -10,13 +10,13 @@ export default class MegaPuddingSlide extends ContentBase {
     this.webview = this.$webview[0];
 
     this.webview.addEventListener("dom-ready", (function(){
-      //this.webview.openDevTools();
+      this.webview.openDevTools();
     }).bind(this));
   }
 
   onStateChanged() {
     if(this.state === Constants.STATE_ACTIVE) {
-      this.webview.setAttribute('src', 'slides/megapudding/index.html');
+      this.webview.setAttribute('src', 'demos/megapudding/index.html');
     } else {
       this.webview.setAttribute('src', '');
     }

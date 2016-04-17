@@ -1,4 +1,4 @@
-var edge = require('edge');
+var edge = require('../../nms/node_modules/edge');
 
 var hello = edge.func(function () {/*
  async (input) =>

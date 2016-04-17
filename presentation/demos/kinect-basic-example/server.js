@@ -1,4 +1,4 @@
-var Kinect2 = require('kinect2');
+var Kinect2 = require('../../nms/node_modules/kinect2');
 var kinect = new Kinect2();
 if(kinect.open()) {
   console.log('kinect opened');

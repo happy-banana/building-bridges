@@ -6,7 +6,7 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
-const tty = require('tty.js');
+/*const tty = require('tty.js');
 
 let ttyServer = tty.createServer({
   shell: 'bash',
@@ -16,7 +16,7 @@ let ttyServer = tty.createServer({
   cwd: path.join(__dirname)
 });
 
-ttyServer.listen();
+ttyServer.listen();*/
 
 let mainWindow;
 

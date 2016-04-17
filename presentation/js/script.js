@@ -2882,7 +2882,7 @@ var MegaPuddingSlide = function (_ContentBase) {
     _this.webview = _this.$webview[0];
 
     _this.webview.addEventListener("dom-ready", function () {
-      //this.webview.openDevTools();
+      this.webview.openDevTools();
     }.bind(_this));
     return _this;
   }
@@ -2891,7 +2891,7 @@ var MegaPuddingSlide = function (_ContentBase) {
     key: 'onStateChanged',
     value: function onStateChanged() {
       if (this.state === _Constants.Constants.STATE_ACTIVE) {
-        this.webview.setAttribute('src', 'slides/megapudding/index.html');
+        this.webview.setAttribute('src', 'demos/megapudding/index.html');
       } else {
         this.webview.setAttribute('src', '');
       }

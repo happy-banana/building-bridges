@@ -1,4 +1,4 @@
-var edge = require('edge');
+var edge = require('../../nms/node_modules/edge');
 
 var createKinect = edge.func(function () {/*
     using System;

@@ -1,9 +1,9 @@
-var Kinect2 = require('kinect2'),
-  express = require('express'),
+var Kinect2 = require('../../nms/node_modules/kinect2'),
+  express = require('../../nms/node_modules/express'),
   app = express(),
   server = require('http').createServer(app),
-  io = require('socket.io').listen(server),
-  lwip = require('lwip');
+  io = require('../../nms/node_modules/socket.io').listen(server),
+  lwip = require('../../nms/node_modules/lwip');
 
 var kinect = new Kinect2();
 

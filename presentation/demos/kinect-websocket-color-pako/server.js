@@ -1,8 +1,8 @@
-var Kinect2 = require('kinect2'),
-  express = require('express'),
+var Kinect2 = require('../../nms/node_modules/kinect2'),
+  express = require('../../nms/node_modules/express'),
   app = express(),
   server = require('http').createServer(app),
-  io = require('socket.io').listen(server),
+  io = require('../../nms/node_modules/socket.io').listen(server),
   zlib = require('zlib');
 
 var kinect = new Kinect2();

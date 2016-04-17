@@ -1,6 +1,6 @@
-var edge = require('edge'),
+var edge = require('../../nms/node_modules/edge'),
   path = require('path'),
-  _ = require('lodash');
+  _ = require('../../nms/node_modules/lodash');
 
 var dllPath = path.resolve('NodeKinect2.dll');
 var dllProperties = {

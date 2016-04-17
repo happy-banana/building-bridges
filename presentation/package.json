@@ -13,10 +13,9 @@
     "electron-prebuilt": "^0.37.4",
     "fs-promise": "^0.5.0",
     "isomorphic-fetch": "^2.2.1",
+    "kinect2": "^0.1.2",
     "ps-tree": "^1.0.1",
-    "pty.js": "git+https://github.com/shockone/pty.js",
-    "socket.io-client": "^1.4.5",
-    "tty.js": "^0.2.15"
+    "socket.io-client": "^1.4.5"
   },
   "devDependencies": {
     "electron-rebuild": "^1.1.3"
