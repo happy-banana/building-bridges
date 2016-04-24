@@ -76,65 +76,69 @@ var SlidesFolderParser = function () {
         });
         console.log(data.slides);
         return data;
+      }).catch(function (e) {
+        console.error(e);
       });
     }
   }, {
-    key: 'getPresentationVersionIfExists',
-    value: function getPresentationVersionIfExists(fileProperties, presentationPath, slidesByName) {
-      var ext = path.extname(fileProperties.path);
-      var pathWithoutExtension = fileProperties.path.substr(0, fileProperties.path.length - ext.length);
-      var typeExt = path.extname(pathWithoutExtension);
-      if (typeExt === '.mobile') {
-        //this might be an alternative mobile view of an existing slide
-        var nameOfPresentationVersionWithoutExtension = path.basename(pathWithoutExtension.substr(0, pathWithoutExtension.length - typeExt.length));
-        return slidesByName[nameOfPresentationVersionWithoutExtension];
-      }
-      return false;
-    }
-  }, {
-    key: 'getMobileVersionIfExists',
-    value: function getMobileVersionIfExists(fileProperties, presentationPath, slidesByName) {
-      var ext = path.extname(fileProperties.path);
-      var pathWithoutExtension = fileProperties.path.substr(0, fileProperties.path.length - ext.length);
-      var nameOfMobileVersionWithoutExtension = path.basename(pathWithoutExtension) + '.mobile';
-      return slidesByName[nameOfMobileVersionWithoutExtension];
+    key: 'parseSlideBaseName',
+    value: function parseSlideBaseName(slideBaseName) {
+      var parsed = {};
+      parsed.ext = path.extname(slideBaseName);
+      parsed.name = slideBaseName.substr(0, slideBaseName.length - parsed.ext.length);
+      var splitted = parsed.name.split('.');
+      var keywords = ['mobile', 'desktop', 'muted', 'loop'];
+      keywords.forEach(function (keyword) {
+        var index = splitted.indexOf(keyword);
+        if (index > -1) {
+          parsed[keyword] = true;
+          splitted.splice(index, 1);
+        }
+      });
+      parsed.name = splitted.join('.');
+      return parsed;
     }
   }, {
     key: 'createSlideObjectBasedOnFileProperties',
     value: function createSlideObjectBasedOnFileProperties(fileProperties, presentationPath, slidesByName) {
-      var ext = path.extname(fileProperties.path);
-      var nameWithoutExtension = path.basename(fileProperties.path.substr(0, fileProperties.path.length - ext.length));
-      var slide = {
-        path: fileProperties.path,
-        name: nameWithoutExtension,
+
+      var parsed = this.parseSlideBaseName(path.basename(fileProperties.path));
+      var url = path.relative(presentationPath, fileProperties.path);
+      if (parsed.ext === '.jpg' || parsed.ext === '.jpeg' || parsed.ext === '.gif' || parsed.ext === '.png') {
+        url = 'slides-builtin/image.html?image=' + url;
+      }
+      if (parsed.ext === '.mp4') {
+        url = 'slides-builtin/video.html?video=' + url;
+      }
+      if (slidesByName[parsed.name]) {
+        if (parsed.mobile) {
+          slidesByName[parsed.name].mobile.url = url;
+          slidesByName[parsed.name].mobile.explicit = true;
+        } else if (parsed.desktop) {
+          slidesByName[parsed.name].presentation.url = url;
+          slidesByName[parsed.name].presentation.explicit = true;
+        } else {
+          //set the one which is not set explicitly
+          if (slidesByName[parsed.name].mobile.explicit) {
+            slidesByName[parsed.name].presentation.url = url;
+          } else {
+            slidesByName[parsed.name].mobile.url = url;
+          }
+          return slidesByName[parsed.name];
+        }
+      }
+
+      return {
+        name: parsed.name,
         presentation: {
-          url: path.relative(presentationPath, fileProperties.path)
+          url: url,
+          explicit: false
         },
         mobile: {
-          url: path.relative(presentationPath, fileProperties.path)
+          url: url,
+          explicit: false
         }
       };
-
-      if (ext === '.jpg' || ext === '.gif' || ext === '.png') {
-        slide.presentation.url = 'slides-builtin/image.html?image=' + slide.presentation.url;
-      }
-      if (ext === '.mp4') {
-        slide.presentation.url = 'slides-builtin/video.html?video=' + slide.presentation.url;
-      }
-      slide.mobile.url = slide.presentation.url;
-
-      var presentationVersion = this.getPresentationVersionIfExists(fileProperties, presentationPath, slidesByName);
-      if (presentationVersion) {
-        presentationVersion.mobile.url = slide.mobile.url;
-        return presentationVersion;
-      }
-      var mobileVersion = this.getMobileVersionIfExists(fileProperties, presentationPath, slidesByName);
-      if (mobileVersion) {
-        mobileVersion.presentation.url = slide.presentation.url;
-        return mobileVersion;
-      }
-
-      return slide;
     }
   }]);
 
