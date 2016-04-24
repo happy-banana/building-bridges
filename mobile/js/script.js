@@ -1,4 +1,144 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"ShakeYourPhonesSlide":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Constants = require('../../../../shared/js/Constants');
+
+var _ContentBase2 = require('../../../../shared/js/classes/ContentBase');
+
+var _ContentBase3 = _interopRequireDefault(_ContentBase2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var teamColors = ['#c6363d', //red
+'#0684AF' //blue
+];
+
+var ShakeYourPhonesSlide = function (_ContentBase) {
+  _inherits(ShakeYourPhonesSlide, _ContentBase);
+
+  function ShakeYourPhonesSlide($slideHolder) {
+    _classCallCheck(this, ShakeYourPhonesSlide);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ShakeYourPhonesSlide).call(this, $slideHolder));
+
+    _this.currentMotion = 0;
+    _this.motion = 0;
+    _this.team = -1;
+
+    _this.$background = _this.$slideHolder.find('.background');
+    _this.$background.css('top', '100%');
+    _this.$background.css('background-color', 'rgba(255, 255, 255, 0.5)');
+
+    _this._motionUpdateHandler = _this.motionUpdateHandler.bind(_this);
+    return _this;
+  }
+
+  _createClass(ShakeYourPhonesSlide, [{
+    key: 'onStateChanged',
+    value: function onStateChanged() {
+      if (this.state === _Constants.Constants.STATE_ACTIVE) {
+        if (window.DeviceMotionEvent) {
+          window.addEventListener('devicemotion', this._motionUpdateHandler, false);
+        } else {
+          this.$slideHolder.find('.acceleration').text('Not supported on your device :-(');
+        }
+      } else {
+        window.removeEventListener('devicemotion', this._motionUpdateHandler);
+      }
+    }
+  }, {
+    key: 'receiveSocketMessage',
+    value: function receiveSocketMessage(message) {
+      if (!message.content) {
+        return;
+      }
+      if (message.content.action === _Constants.Constants.SET_TEAM) {
+        this.setTeam(parseInt(message.content.team));
+      }
+      if (message.content.action === _Constants.Constants.SET_SUBSTATE) {
+        this.setSubstate(message.content.substate);
+      }
+      if (message.content.action === _Constants.Constants.YOU_WIN) {
+        this.$slideHolder.find('.substate-finished h1').text('Your Team Won!');
+      }
+      if (message.content.action === _Constants.Constants.YOU_LOSE) {
+        this.$slideHolder.find('.substate-finished h1').text('Your Team Lost...');
+      }
+    }
+  }, {
+    key: 'setTeam',
+    value: function setTeam(team) {
+      team = team % teamColors.length;
+      if (team !== this.team) {
+        this.team = team;
+        //set body background color
+        this.$slideHolder.find('.slide').css('background-color', teamColors[this.team]);
+      }
+    }
+  }, {
+    key: 'setSubstate',
+    value: function setSubstate(substate) {
+      if (this.substate !== substate) {
+        this.substate = substate;
+        this.showCurrentState();
+      }
+    }
+  }, {
+    key: 'motionUpdateHandler',
+    value: function motionUpdateHandler(event) {
+      this.currentMotion = event.interval * (Math.abs(event.acceleration.x) + Math.abs(event.acceleration.y) + Math.abs(event.acceleration.z));
+    }
+  }, {
+    key: 'drawLoop',
+    value: function drawLoop() {
+      this.motion += this.currentMotion;
+      this.motion *= 0.97;
+      this.$background.css('top', 100 - this.motion + '%');
+      if (this.currentFrame % 10 === 0) {
+        this.postSocketMessage({
+          target: {
+            client: 'presentation',
+            slide: this.name
+          },
+          content: {
+            action: _Constants.Constants.UPDATE_MOTION,
+            motion: this.motion
+          }
+        });
+      }
+    }
+  }, {
+    key: 'showCurrentState',
+    value: function showCurrentState() {
+      this.$slideHolder.find('.substate').removeClass('active');
+      if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_GAME) {
+        this.$slideHolder.find('.substate-game').addClass('active');
+      } else if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_FINISHED) {
+        this.$slideHolder.find('.substate-finished').addClass('active');
+      } else {
+        this.$slideHolder.find('.substate-intro').addClass('active');
+      }
+    }
+  }]);
+
+  return ShakeYourPhonesSlide;
+}(_ContentBase3.default);
+
+exports.default = ShakeYourPhonesSlide;
+
+},{"../../../../shared/js/Constants":5,"../../../../shared/js/classes/ContentBase":6}],1:[function(require,module,exports){
 // the whatwg-fetch polyfill installs the fetch() function
 // on the global object (window or self)
 //
@@ -1165,147 +1305,7 @@ var SlideBridge = function () {
 
 exports.default = SlideBridge;
 
-},{"isomorphic-fetch":1}],"ShakeYourPhonesSlide":[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Constants = require('../../../../shared/js/Constants');
-
-var _ContentBase2 = require('../../../../shared/js/classes/ContentBase');
-
-var _ContentBase3 = _interopRequireDefault(_ContentBase2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var teamColors = ['#c6363d', //red
-'#0684AF' //blue
-];
-
-var ShakeYourPhonesSlide = function (_ContentBase) {
-  _inherits(ShakeYourPhonesSlide, _ContentBase);
-
-  function ShakeYourPhonesSlide($slideHolder) {
-    _classCallCheck(this, ShakeYourPhonesSlide);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ShakeYourPhonesSlide).call(this, $slideHolder));
-
-    _this.currentMotion = 0;
-    _this.motion = 0;
-    _this.team = -1;
-
-    _this.$background = _this.$slideHolder.find('.background');
-    _this.$background.css('top', '100%');
-    _this.$background.css('background-color', 'rgba(255, 255, 255, 0.5)');
-
-    _this._motionUpdateHandler = _this.motionUpdateHandler.bind(_this);
-    return _this;
-  }
-
-  _createClass(ShakeYourPhonesSlide, [{
-    key: 'onStateChanged',
-    value: function onStateChanged() {
-      if (this.state === _Constants.Constants.STATE_ACTIVE) {
-        if (window.DeviceMotionEvent) {
-          window.addEventListener('devicemotion', this._motionUpdateHandler, false);
-        } else {
-          this.$slideHolder.find('.acceleration').text('Not supported on your device :-(');
-        }
-      } else {
-        window.removeEventListener('devicemotion', this._motionUpdateHandler);
-      }
-    }
-  }, {
-    key: 'receiveSocketMessage',
-    value: function receiveSocketMessage(message) {
-      if (!message.content) {
-        return;
-      }
-      if (message.content.action === _Constants.Constants.SET_TEAM) {
-        this.setTeam(parseInt(message.content.team));
-      }
-      if (message.content.action === _Constants.Constants.SET_SUBSTATE) {
-        this.setSubstate(message.content.substate);
-      }
-      if (message.content.action === _Constants.Constants.YOU_WIN) {
-        this.$slideHolder.find('.substate-finished h1').text('Your Team Won!');
-      }
-      if (message.content.action === _Constants.Constants.YOU_LOSE) {
-        this.$slideHolder.find('.substate-finished h1').text('Your Team Lost...');
-      }
-    }
-  }, {
-    key: 'setTeam',
-    value: function setTeam(team) {
-      team = team % teamColors.length;
-      if (team !== this.team) {
-        this.team = team;
-        //set body background color
-        this.$slideHolder.find('.slide').css('background-color', teamColors[this.team]);
-      }
-    }
-  }, {
-    key: 'setSubstate',
-    value: function setSubstate(substate) {
-      if (this.substate !== substate) {
-        this.substate = substate;
-        this.showCurrentState();
-      }
-    }
-  }, {
-    key: 'motionUpdateHandler',
-    value: function motionUpdateHandler(event) {
-      this.currentMotion = event.interval * (Math.abs(event.acceleration.x) + Math.abs(event.acceleration.y) + Math.abs(event.acceleration.z));
-    }
-  }, {
-    key: 'drawLoop',
-    value: function drawLoop() {
-      this.motion += this.currentMotion;
-      this.motion *= 0.97;
-      this.$background.css('top', 100 - this.motion + '%');
-      if (this.currentFrame % 10 === 0) {
-        this.postSocketMessage({
-          target: {
-            client: 'presentation',
-            slide: this.name
-          },
-          content: {
-            action: _Constants.Constants.UPDATE_MOTION,
-            motion: this.motion
-          }
-        });
-      }
-    }
-  }, {
-    key: 'showCurrentState',
-    value: function showCurrentState() {
-      this.$slideHolder.find('.substate').removeClass('active');
-      if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_GAME) {
-        this.$slideHolder.find('.substate-game').addClass('active');
-      } else if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_FINISHED) {
-        this.$slideHolder.find('.substate-finished').addClass('active');
-      } else {
-        this.$slideHolder.find('.substate-intro').addClass('active');
-      }
-    }
-  }]);
-
-  return ShakeYourPhonesSlide;
-}(_ContentBase3.default);
-
-exports.default = ShakeYourPhonesSlide;
-
-},{"../../../../shared/js/Constants":5,"../../../../shared/js/classes/ContentBase":6}]},{},[4])
+},{"isomorphic-fetch":1}]},{},[4])
 
 
 //# sourceMappingURL=script.js.map

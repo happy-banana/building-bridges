@@ -10,7 +10,7 @@ export default class MegaPuddingSlide extends ContentBase {
     this.webview = this.$webview[0];
 
     this.webview.addEventListener("dom-ready", (function(){
-      this.webview.openDevTools();
+      //this.webview.openDevTools();
     }).bind(this));
   }
 
