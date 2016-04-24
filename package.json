@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "start": "forever --minUptime 1000 --spinSleepTime 1000 ."
+    "start": "node server/index.js"
   },
   "keywords": [],
   "author": "Wouter Verweirder <wouter.verweirder@gmail.com>",
