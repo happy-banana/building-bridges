@@ -2633,7 +2633,7 @@ var SlidesFolderParser = function () {
     value: function createSlideObjectBasedOnFileProperties(fileProperties, presentationPath, slidesByName) {
 
       var parsed = this.parseSlideBaseName(path.basename(fileProperties.path));
-      var url = path.relative(presentationPath, fileProperties.path);
+      var url = path.relative(presentationPath, fileProperties.path).replace('\\', '/');
       if (parsed.ext === '.jpg' || parsed.ext === '.jpeg' || parsed.ext === '.gif' || parsed.ext === '.png') {
         url = 'slides-builtin/image.html?image=' + url;
       }
