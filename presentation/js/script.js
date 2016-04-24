@@ -1,543 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"LiveCodeSlide":[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-var _Constants = require('../../../../shared/js/Constants');
-
-var _ContentBase2 = require('../../../../shared/js/classes/ContentBase');
-
-var _ContentBase3 = _interopRequireDefault(_ContentBase2);
-
-var _liveCode = require('../live-code');
-
-var _liveCode2 = _interopRequireDefault(_liveCode);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var LiveCodeSlide = function (_ContentBase) {
-  _inherits(LiveCodeSlide, _ContentBase);
-
-  function LiveCodeSlide($slideHolder) {
-    _classCallCheck(this, LiveCodeSlide);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LiveCodeSlide).call(this, $slideHolder));
-
-    var remote = requireNode('electron').remote;
-    var config = {
-      presentationPath: remote.getGlobal('__dirname')
-    };
-
-    //find live code element
-    _this.liveCode = new _liveCode2.default(_this.$slideHolder.find('.live-code'), config);
-    return _this;
-  }
-
-  _createClass(LiveCodeSlide, [{
-    key: 'layout',
-    value: function layout() {
-      this.liveCode.layout();
-    }
-  }, {
-    key: 'destroy',
-    value: function destroy() {
-      _get(Object.getPrototypeOf(LiveCodeSlide.prototype), 'destroy', this).call(this);
-      this.liveCode.destroy();
-    }
-  }, {
-    key: 'onStateChanged',
-    value: function onStateChanged() {
-      if (this.state === _Constants.Constants.STATE_ACTIVE) {} else {
-        //stop
-        this.liveCode.stop();
-      }
-    }
-  }]);
-
-  return LiveCodeSlide;
-}(_ContentBase3.default);
-
-exports.default = LiveCodeSlide;
-
-},{"../../../../shared/js/Constants":15,"../../../../shared/js/classes/ContentBase":16,"../live-code":12}],"MegaPuddingSlide":[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Constants = require('../../../../shared/js/Constants');
-
-var _ContentBase2 = require('../../../../shared/js/classes/ContentBase');
-
-var _ContentBase3 = _interopRequireDefault(_ContentBase2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var MegaPuddingSlide = function (_ContentBase) {
-  _inherits(MegaPuddingSlide, _ContentBase);
-
-  function MegaPuddingSlide($slideHolder) {
-    _classCallCheck(this, MegaPuddingSlide);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MegaPuddingSlide).call(this, $slideHolder));
-
-    _this.$webview = $slideHolder.find('webview');
-    _this.webview = _this.$webview[0];
-
-    _this.webview.addEventListener("dom-ready", function () {
-      //this.webview.openDevTools();
-    }.bind(_this));
-    return _this;
-  }
-
-  _createClass(MegaPuddingSlide, [{
-    key: 'onStateChanged',
-    value: function onStateChanged() {
-      if (this.state === _Constants.Constants.STATE_ACTIVE) {
-        this.webview.setAttribute('src', 'demos/megapudding/index.html');
-      } else {
-        this.webview.setAttribute('src', '');
-      }
-    }
-  }]);
-
-  return MegaPuddingSlide;
-}(_ContentBase3.default);
-
-exports.default = MegaPuddingSlide;
-
-},{"../../../../shared/js/Constants":15,"../../../../shared/js/classes/ContentBase":16}],"ShakeYourPhonesSlide":[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Constants = require('../../../../shared/js/Constants');
-
-var _ContentBase2 = require('../../../../shared/js/classes/ContentBase');
-
-var _ContentBase3 = _interopRequireDefault(_ContentBase2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var teamColors = ['#c6363d', //red
-'#0684AF' //blue
-];
-
-var ShakeYourPhonesSlide = function (_ContentBase) {
-  _inherits(ShakeYourPhonesSlide, _ContentBase);
-
-  function ShakeYourPhonesSlide($slideHolder) {
-    _classCallCheck(this, ShakeYourPhonesSlide);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ShakeYourPhonesSlide).call(this, $slideHolder));
-
-    _this.gameDuration = 13; //game lasts 10 seconds
-    _this.clientsMap = {};
-    _this.clientsByTeam = [[], []];
-    _this.motions = [0, 0];
-    _this.music = _this.$slideHolder.find('#music')[0];
-
-    _this.$slideHolder.find('#ip').text('bbridges.herokuapp.com');
-
-    _this.$slideHolder.find('.substate-intro .btn').on('click', _this.startClickHandler.bind(_this));
-
-    _this.$teamBlocks = _this.$slideHolder.find('.team');
-    _this.$teamBlocks.css({
-      position: 'absolute',
-      height: '100%',
-      top: 0
-    });
-    $(_this.$teamBlocks[0]).css('background-color', teamColors[0]);
-    $(_this.$teamBlocks[1]).css('background-color', teamColors[1]);
-    _this.displayMotions();
-
-    _this.setSubstate(_Constants.Constants.SHAKE_YOUR_PHONES_INTRO);
-    return _this;
-  }
-
-  _createClass(ShakeYourPhonesSlide, [{
-    key: 'setSubstate',
-    value: function setSubstate(substate) {
-      if (this.substate !== substate) {
-        this.substate = substate;
-        //send substate to mobile clients
-        this.postSocketMessage({
-          target: {
-            client: 'mobile',
-            slide: this.name
-          },
-          content: {
-            action: _Constants.Constants.SET_SUBSTATE,
-            substate: this.substate
-          }
-        });
-        if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_GAME) {
-          this.resetMotion();
-        }
-        this.showCurrentState();
-      }
-    }
-  }, {
-    key: 'receiveSocketMessage',
-    value: function receiveSocketMessage(message) {
-      if (!message.content) {
-        return;
-      }
-      if (message.content.action === 'updateRoomList') {
-        //message.content.ids is an array with ids in this room
-        var clientMapIds = _.keys(this.clientsMap);
-        //which ids are new? (in message.content.ids but not in clientsMap)
-        var newClientIds = _.difference(message.content.ids, clientMapIds);
-        //which ids need to be removed? (in clientsMap but not in message.content.ids)
-        var removeClientIds = _.difference(clientMapIds, message.content.ids);
-        //update our map
-        newClientIds.forEach(function (id) {
-          this.clientsMap[id] = {
-            id: id,
-            teamNr: -1,
-            motion: 0,
-            size: 10
-          };
-          //add to the smallest team
-          var teamNr = this.clientsByTeam[0].length < this.clientsByTeam[1].length ? 0 : 1;
-          this.clientsMap[id].teamNr = teamNr;
-          //send a message to this client
-          this.postSocketMessage({
-            target: {
-              client: id,
-              slide: this.name
-            },
-            content: {
-              action: _Constants.Constants.SET_TEAM,
-              team: teamNr
-            }
-          });
-          this.postSocketMessage({
-            target: {
-              client: 'mobile',
-              slide: this.name
-            },
-            content: {
-              action: _Constants.Constants.SET_SUBSTATE,
-              substate: this.substate
-            }
-          });
-          //update the list
-          this.updateClientsByTeam();
-        }, this);
-        removeClientIds.forEach(function (id) {
-          if (this.clientsMap[id]) {
-            //this.clientsMap[id].$div.remove();
-          }
-          delete this.clientsMap[id];
-          this.updateClientsByTeam();
-        }, this);
-
-        this.numClientsChanged();
-      } else if (message.content.action === _Constants.Constants.UPDATE_MOTION) {
-        if (!message.sender) {
-          return;
-        }
-        //message.sender.id contains the origin id
-        if (!this.clientsMap[message.sender.id]) {
-          return;
-        }
-        this.clientsMap[message.sender.id].motion = Math.min(130, message.content.motion); //limit max motion to 130
-      }
-    }
-  }, {
-    key: 'updateClientsByTeam',
-    value: function updateClientsByTeam() {
-      this.clientsByTeam = [[], []];
-      var self = this;
-      $.each(this.clientsMap, function (id, client) {
-        if (client.teamNr !== -1) {
-          self.clientsByTeam[client.teamNr].push(client);
-        }
-      });
-    }
-  }, {
-    key: 'startClickHandler',
-    value: function startClickHandler() {
-      this.setSubstate(_Constants.Constants.SHAKE_YOUR_PHONES_GAME);
-    }
-  }, {
-    key: 'resetMotion',
-    value: function resetMotion() {
-      this.motions = [0, 0];
-      for (var id in this.clientsMap) {
-        this.clientsMap[id].motion = 0;
-      }
-    }
-  }, {
-    key: 'numClientsChanged',
-    value: function numClientsChanged() {
-      this.$slideHolder.find('#connections span').text(_.keys(this.clientsMap).length);
-    }
-  }, {
-    key: 'showCurrentState',
-    value: function showCurrentState() {
-      this.$slideHolder.find('.substate').removeClass('active');
-      this.$slideHolder.find('.slide').css({
-        backgroundImage: 'none'
-      });
-      if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_GAME) {
-        this.music.play();
-        this.$slideHolder.find('.substate-game .countdown').html(this.gameDuration);
-        this.$slideHolder.find('.substate-game').addClass('active');
-        this.countDownTimeout = setTimeout(this.countDownHandler.bind(this, this.gameDuration - 1), 1000);
-      } else if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_FINISHED) {
-        //show winner
-        var ratio = this.calculateRatio();
-        var winningTeam = ratio > 0.5 ? 0 : 1;
-        var winningTeamColor = winningTeam === 0 ? "red" : "blue";
-        this.$slideHolder.find('.substate-finished h1').text('Team ' + winningTeamColor + ' wins!');
-        this.$slideHolder.find('.substate-finished').addClass('active');
-        //notify the mobile clients
-        var winningIds = [];
-        var losingIds = [];
-        $.each(this.clientsMap, function (id, client) {
-          if (client.teamNr === winningTeam) {
-            winningIds.push(id);
-          } else {
-            losingIds.push(id);
-          }
-        });
-        this.postSocketMessage({
-          target: {
-            client: winningIds,
-            slide: this.name
-          },
-          content: {
-            action: _Constants.Constants.YOU_WIN
-          }
-        });
-        this.postSocketMessage({
-          target: {
-            client: losingIds,
-            slide: this.name
-          },
-          content: {
-            action: _Constants.Constants.YOU_LOSE
-          }
-        });
-      } else {
-        this.$slideHolder.find('.slide').css({
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'contain',
-          backgroundPosition: 'center center',
-          backgroundImage: 'url(assets/images/iphone-connections.png)'
-        });
-        this.$slideHolder.find('.substate-intro').addClass('active');
-      }
-    }
-  }, {
-    key: 'countDownHandler',
-    value: function countDownHandler(timeLeft) {
-      this.$slideHolder.find('.substate-game .countdown').html(timeLeft);
-      if (timeLeft > 0) {
-        this.countDownTimeout = setTimeout(this.countDownHandler.bind(this, timeLeft - 1), 1000);
-      } else {
-        this.setSubstate(_Constants.Constants.SHAKE_YOUR_PHONES_FINISHED);
-      }
-    }
-  }, {
-    key: 'drawLoop',
-    value: function drawLoop() {
-      if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_GAME) {
-        //calculate current motions
-        var currentMotions = [0, 0];
-        $.each(this.clientsMap, function (id, client) {
-          if (client.teamNr > -1 && client.motion) {
-            currentMotions[client.teamNr] += client.motion;
-          }
-        });
-        //take average motion
-        currentMotions[0] = this.clientsByTeam[0].length === 0 ? 0 : currentMotions[0] / this.clientsByTeam[0].length;
-        currentMotions[1] = this.clientsByTeam[1].length === 0 ? 0 : currentMotions[1] / this.clientsByTeam[1].length;
-        //add to motion
-        this.motions[0] += currentMotions[0];
-        this.motions[1] += currentMotions[1];
-        //ease it
-        this.motions[0] *= 0.97;
-        this.motions[1] *= 0.97;
-        //visualize it
-        this.displayMotions();
-      }
-    }
-  }, {
-    key: 'calculateRatio',
-    value: function calculateRatio() {
-      var totalMotion = this.motions[0] + this.motions[1];
-      var ratio = totalMotion > 0 ? this.motions[0] / totalMotion : 0.5;
-      return ratio;
-    }
-  }, {
-    key: 'displayMotions',
-    value: function displayMotions() {
-      var ratio = this.calculateRatio();
-      //console.log(this.motions[0], this.motions[1], totalMotion, ratio);
-      $(this.$teamBlocks[0]).css({
-        left: 0,
-        width: ratio * 100 + '%'
-      });
-      $(this.$teamBlocks[1]).css({
-        right: 0,
-        width: 100 - ratio * 100 + '%'
-      });
-    }
-  }]);
-
-  return ShakeYourPhonesSlide;
-}(_ContentBase3.default);
-
-exports.default = ShakeYourPhonesSlide;
-
-},{"../../../../shared/js/Constants":15,"../../../../shared/js/classes/ContentBase":16}],"VideoSlide":[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-var _Constants = require('../../../../shared/js/Constants');
-
-var _ContentBase2 = require('../../../../shared/js/classes/ContentBase');
-
-var _ContentBase3 = _interopRequireDefault(_ContentBase2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var getParameterByName = function getParameterByName(url, name) {
-  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-      results = regex.exec(url);
-  return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-};
-
-var VideoSlide = function (_ContentBase) {
-  _inherits(VideoSlide, _ContentBase);
-
-  function VideoSlide($slideHolder) {
-    _classCallCheck(this, VideoSlide);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VideoSlide).call(this, $slideHolder));
-
-    _this.videoPlaying = false;
-    var videoUrl = getParameterByName(_this.src, 'video');
-
-    //check for extra config in the filename
-    var loop = false;
-    var muted = false;
-    var videoUrlSplitted = videoUrl.split('.');
-    videoUrlSplitted.forEach(function (part) {
-      if (part === 'loop') {
-        loop = true;
-      }
-      if (part === 'muted') {
-        muted = true;
-      }
-    });
-
-    _this.video = _this.$slideHolder.find('video')[0];
-    if (loop) {
-      $(_this.video).attr('loop', "loop");
-    }
-    if (muted) {
-      $(_this.video).attr('muted', "muted");
-    }
-    $(_this.video).attr('src', videoUrl);
-    _this._clickHandler = _this.clickHandler.bind(_this);
-    $(_this.video).on('click', _this._clickHandler);
-    return _this;
-  }
-
-  _createClass(VideoSlide, [{
-    key: 'destroy',
-    value: function destroy() {
-      _get(Object.getPrototypeOf(VideoSlide.prototype), 'destroy', this).call(this);
-      $(this.video).off('click', this._clickHandler);
-    }
-  }, {
-    key: 'onStateChanged',
-    value: function onStateChanged() {
-      if (this.state === _Constants.Constants.STATE_ACTIVE) {
-        this.setVideoPlaying(true);
-      } else {
-        this.setVideoPlaying(false);
-      }
-    }
-  }, {
-    key: 'clickHandler',
-    value: function clickHandler(event) {
-      this.toggleVideoPlaying();
-    }
-  }, {
-    key: 'setVideoPlaying',
-    value: function setVideoPlaying(value) {
-      if (value !== this.videoPlaying) {
-        this.videoPlaying = value;
-        if (this.videoPlaying) {
-          this.video.play();
-        } else {
-          this.video.pause();
-        }
-      }
-    }
-  }, {
-    key: 'toggleVideoPlaying',
-    value: function toggleVideoPlaying() {
-      this.setVideoPlaying(!this.videoPlaying);
-    }
-  }]);
-
-  return VideoSlide;
-}(_ContentBase3.default);
-
-exports.default = VideoSlide;
-
-},{"../../../../shared/js/Constants":15,"../../../../shared/js/classes/ContentBase":16}],1:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // the whatwg-fetch polyfill installs the fetch() function
 // on the global object (window or self)
 //
@@ -2514,7 +1975,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   var init = function init() {
     var settings = {
       presentationPath: presentationPath,
-      mobileServerUrl: 'http://localhost:5000',
+      mobileServerUrl: 'https://bbridges.herokuapp.com',
       mobileServerUsername: 'wouter.verweirder@gmail.com',
       mobileServerPassword: 'geheim'
     };
@@ -3317,7 +2778,546 @@ var SlideBridge = function () {
 
 exports.default = SlideBridge;
 
-},{"isomorphic-fetch":1}]},{},[13])
+},{"isomorphic-fetch":1}],"LiveCodeSlide":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _Constants = require('../../../../shared/js/Constants');
+
+var _ContentBase2 = require('../../../../shared/js/classes/ContentBase');
+
+var _ContentBase3 = _interopRequireDefault(_ContentBase2);
+
+var _liveCode = require('../live-code');
+
+var _liveCode2 = _interopRequireDefault(_liveCode);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LiveCodeSlide = function (_ContentBase) {
+  _inherits(LiveCodeSlide, _ContentBase);
+
+  function LiveCodeSlide($slideHolder) {
+    _classCallCheck(this, LiveCodeSlide);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LiveCodeSlide).call(this, $slideHolder));
+
+    var remote = requireNode('electron').remote;
+    var config = {
+      presentationPath: remote.getGlobal('__dirname')
+    };
+
+    //find live code element
+    _this.liveCode = new _liveCode2.default(_this.$slideHolder.find('.live-code'), config);
+    return _this;
+  }
+
+  _createClass(LiveCodeSlide, [{
+    key: 'layout',
+    value: function layout() {
+      this.liveCode.layout();
+    }
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      _get(Object.getPrototypeOf(LiveCodeSlide.prototype), 'destroy', this).call(this);
+      this.liveCode.destroy();
+    }
+  }, {
+    key: 'onStateChanged',
+    value: function onStateChanged() {
+      if (this.state === _Constants.Constants.STATE_ACTIVE) {} else {
+        //stop
+        this.liveCode.stop();
+      }
+    }
+  }]);
+
+  return LiveCodeSlide;
+}(_ContentBase3.default);
+
+exports.default = LiveCodeSlide;
+
+},{"../../../../shared/js/Constants":15,"../../../../shared/js/classes/ContentBase":16,"../live-code":12}],"MegaPuddingSlide":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Constants = require('../../../../shared/js/Constants');
+
+var _ContentBase2 = require('../../../../shared/js/classes/ContentBase');
+
+var _ContentBase3 = _interopRequireDefault(_ContentBase2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MegaPuddingSlide = function (_ContentBase) {
+  _inherits(MegaPuddingSlide, _ContentBase);
+
+  function MegaPuddingSlide($slideHolder) {
+    _classCallCheck(this, MegaPuddingSlide);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MegaPuddingSlide).call(this, $slideHolder));
+
+    _this.$webview = $slideHolder.find('webview');
+    _this.webview = _this.$webview[0];
+
+    _this.webview.addEventListener("dom-ready", function () {
+      //this.webview.openDevTools();
+    }.bind(_this));
+    return _this;
+  }
+
+  _createClass(MegaPuddingSlide, [{
+    key: 'onStateChanged',
+    value: function onStateChanged() {
+      if (this.state === _Constants.Constants.STATE_ACTIVE) {
+        this.webview.setAttribute('src', 'demos/megapudding/index.html');
+      } else {
+        this.webview.setAttribute('src', '');
+      }
+    }
+  }]);
+
+  return MegaPuddingSlide;
+}(_ContentBase3.default);
+
+exports.default = MegaPuddingSlide;
+
+},{"../../../../shared/js/Constants":15,"../../../../shared/js/classes/ContentBase":16}],"ShakeYourPhonesSlide":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Constants = require('../../../../shared/js/Constants');
+
+var _ContentBase2 = require('../../../../shared/js/classes/ContentBase');
+
+var _ContentBase3 = _interopRequireDefault(_ContentBase2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var teamColors = ['#c6363d', //red
+'#0684AF' //blue
+];
+
+var ShakeYourPhonesSlide = function (_ContentBase) {
+  _inherits(ShakeYourPhonesSlide, _ContentBase);
+
+  function ShakeYourPhonesSlide($slideHolder) {
+    _classCallCheck(this, ShakeYourPhonesSlide);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ShakeYourPhonesSlide).call(this, $slideHolder));
+
+    _this.gameDuration = 13; //game lasts 10 seconds
+    _this.clientsMap = {};
+    _this.clientsByTeam = [[], []];
+    _this.motions = [0, 0];
+    _this.music = _this.$slideHolder.find('#music')[0];
+
+    _this.$slideHolder.find('#ip').text('bbridges.herokuapp.com');
+
+    _this.$slideHolder.find('.substate-intro .btn').on('click', _this.startClickHandler.bind(_this));
+
+    _this.$teamBlocks = _this.$slideHolder.find('.team');
+    _this.$teamBlocks.css({
+      position: 'absolute',
+      height: '100%',
+      top: 0
+    });
+    $(_this.$teamBlocks[0]).css('background-color', teamColors[0]);
+    $(_this.$teamBlocks[1]).css('background-color', teamColors[1]);
+    _this.displayMotions();
+
+    _this.setSubstate(_Constants.Constants.SHAKE_YOUR_PHONES_INTRO);
+    return _this;
+  }
+
+  _createClass(ShakeYourPhonesSlide, [{
+    key: 'setSubstate',
+    value: function setSubstate(substate) {
+      if (this.substate !== substate) {
+        this.substate = substate;
+        //send substate to mobile clients
+        this.postSocketMessage({
+          target: {
+            client: 'mobile',
+            slide: this.name
+          },
+          content: {
+            action: _Constants.Constants.SET_SUBSTATE,
+            substate: this.substate
+          }
+        });
+        if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_GAME) {
+          this.resetMotion();
+        }
+        this.showCurrentState();
+      }
+    }
+  }, {
+    key: 'receiveSocketMessage',
+    value: function receiveSocketMessage(message) {
+      if (!message.content) {
+        return;
+      }
+      if (message.content.action === 'updateRoomList') {
+        //message.content.ids is an array with ids in this room
+        var clientMapIds = _.keys(this.clientsMap);
+        //which ids are new? (in message.content.ids but not in clientsMap)
+        var newClientIds = _.difference(message.content.ids, clientMapIds);
+        //which ids need to be removed? (in clientsMap but not in message.content.ids)
+        var removeClientIds = _.difference(clientMapIds, message.content.ids);
+        //update our map
+        newClientIds.forEach(function (id) {
+          this.clientsMap[id] = {
+            id: id,
+            teamNr: -1,
+            motion: 0,
+            size: 10
+          };
+          //add to the smallest team
+          var teamNr = this.clientsByTeam[0].length < this.clientsByTeam[1].length ? 0 : 1;
+          this.clientsMap[id].teamNr = teamNr;
+          //send a message to this client
+          this.postSocketMessage({
+            target: {
+              client: id,
+              slide: this.name
+            },
+            content: {
+              action: _Constants.Constants.SET_TEAM,
+              team: teamNr
+            }
+          });
+          this.postSocketMessage({
+            target: {
+              client: 'mobile',
+              slide: this.name
+            },
+            content: {
+              action: _Constants.Constants.SET_SUBSTATE,
+              substate: this.substate
+            }
+          });
+          //update the list
+          this.updateClientsByTeam();
+        }, this);
+        removeClientIds.forEach(function (id) {
+          if (this.clientsMap[id]) {
+            //this.clientsMap[id].$div.remove();
+          }
+          delete this.clientsMap[id];
+          this.updateClientsByTeam();
+        }, this);
+
+        this.numClientsChanged();
+      } else if (message.content.action === _Constants.Constants.UPDATE_MOTION) {
+        if (!message.sender) {
+          return;
+        }
+        //message.sender.id contains the origin id
+        if (!this.clientsMap[message.sender.id]) {
+          return;
+        }
+        this.clientsMap[message.sender.id].motion = Math.min(130, message.content.motion); //limit max motion to 130
+      }
+    }
+  }, {
+    key: 'updateClientsByTeam',
+    value: function updateClientsByTeam() {
+      this.clientsByTeam = [[], []];
+      var self = this;
+      $.each(this.clientsMap, function (id, client) {
+        if (client.teamNr !== -1) {
+          self.clientsByTeam[client.teamNr].push(client);
+        }
+      });
+    }
+  }, {
+    key: 'startClickHandler',
+    value: function startClickHandler() {
+      this.setSubstate(_Constants.Constants.SHAKE_YOUR_PHONES_GAME);
+    }
+  }, {
+    key: 'resetMotion',
+    value: function resetMotion() {
+      this.motions = [0, 0];
+      for (var id in this.clientsMap) {
+        this.clientsMap[id].motion = 0;
+      }
+    }
+  }, {
+    key: 'numClientsChanged',
+    value: function numClientsChanged() {
+      this.$slideHolder.find('#connections span').text(_.keys(this.clientsMap).length);
+    }
+  }, {
+    key: 'showCurrentState',
+    value: function showCurrentState() {
+      this.$slideHolder.find('.substate').removeClass('active');
+      this.$slideHolder.find('.slide').css({
+        backgroundImage: 'none'
+      });
+      if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_GAME) {
+        this.music.play();
+        this.$slideHolder.find('.substate-game .countdown').html(this.gameDuration);
+        this.$slideHolder.find('.substate-game').addClass('active');
+        this.countDownTimeout = setTimeout(this.countDownHandler.bind(this, this.gameDuration - 1), 1000);
+      } else if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_FINISHED) {
+        //show winner
+        var ratio = this.calculateRatio();
+        var winningTeam = ratio > 0.5 ? 0 : 1;
+        var winningTeamColor = winningTeam === 0 ? "red" : "blue";
+        this.$slideHolder.find('.substate-finished h1').text('Team ' + winningTeamColor + ' wins!');
+        this.$slideHolder.find('.substate-finished').addClass('active');
+        //notify the mobile clients
+        var winningIds = [];
+        var losingIds = [];
+        $.each(this.clientsMap, function (id, client) {
+          if (client.teamNr === winningTeam) {
+            winningIds.push(id);
+          } else {
+            losingIds.push(id);
+          }
+        });
+        this.postSocketMessage({
+          target: {
+            client: winningIds,
+            slide: this.name
+          },
+          content: {
+            action: _Constants.Constants.YOU_WIN
+          }
+        });
+        this.postSocketMessage({
+          target: {
+            client: losingIds,
+            slide: this.name
+          },
+          content: {
+            action: _Constants.Constants.YOU_LOSE
+          }
+        });
+      } else {
+        this.$slideHolder.find('.slide').css({
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'contain',
+          backgroundPosition: 'center center',
+          backgroundImage: 'url(assets/images/iphone-connections.png)'
+        });
+        this.$slideHolder.find('.substate-intro').addClass('active');
+      }
+    }
+  }, {
+    key: 'countDownHandler',
+    value: function countDownHandler(timeLeft) {
+      this.$slideHolder.find('.substate-game .countdown').html(timeLeft);
+      if (timeLeft > 0) {
+        this.countDownTimeout = setTimeout(this.countDownHandler.bind(this, timeLeft - 1), 1000);
+      } else {
+        this.setSubstate(_Constants.Constants.SHAKE_YOUR_PHONES_FINISHED);
+      }
+    }
+  }, {
+    key: 'drawLoop',
+    value: function drawLoop() {
+      if (this.substate === _Constants.Constants.SHAKE_YOUR_PHONES_GAME) {
+        //calculate current motions
+        var currentMotions = [0, 0];
+        $.each(this.clientsMap, function (id, client) {
+          if (client.teamNr > -1 && client.motion) {
+            currentMotions[client.teamNr] += client.motion;
+          }
+        });
+        //take average motion
+        currentMotions[0] = this.clientsByTeam[0].length === 0 ? 0 : currentMotions[0] / this.clientsByTeam[0].length;
+        currentMotions[1] = this.clientsByTeam[1].length === 0 ? 0 : currentMotions[1] / this.clientsByTeam[1].length;
+        //add to motion
+        this.motions[0] += currentMotions[0];
+        this.motions[1] += currentMotions[1];
+        //ease it
+        this.motions[0] *= 0.97;
+        this.motions[1] *= 0.97;
+        //visualize it
+        this.displayMotions();
+      }
+    }
+  }, {
+    key: 'calculateRatio',
+    value: function calculateRatio() {
+      var totalMotion = this.motions[0] + this.motions[1];
+      var ratio = totalMotion > 0 ? this.motions[0] / totalMotion : 0.5;
+      return ratio;
+    }
+  }, {
+    key: 'displayMotions',
+    value: function displayMotions() {
+      var ratio = this.calculateRatio();
+      //console.log(this.motions[0], this.motions[1], totalMotion, ratio);
+      $(this.$teamBlocks[0]).css({
+        left: 0,
+        width: ratio * 100 + '%'
+      });
+      $(this.$teamBlocks[1]).css({
+        right: 0,
+        width: 100 - ratio * 100 + '%'
+      });
+    }
+  }]);
+
+  return ShakeYourPhonesSlide;
+}(_ContentBase3.default);
+
+exports.default = ShakeYourPhonesSlide;
+
+},{"../../../../shared/js/Constants":15,"../../../../shared/js/classes/ContentBase":16}],"VideoSlide":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _Constants = require('../../../../shared/js/Constants');
+
+var _ContentBase2 = require('../../../../shared/js/classes/ContentBase');
+
+var _ContentBase3 = _interopRequireDefault(_ContentBase2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var getParameterByName = function getParameterByName(url, name) {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(url);
+  return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+};
+
+var VideoSlide = function (_ContentBase) {
+  _inherits(VideoSlide, _ContentBase);
+
+  function VideoSlide($slideHolder) {
+    _classCallCheck(this, VideoSlide);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VideoSlide).call(this, $slideHolder));
+
+    _this.videoPlaying = false;
+    var videoUrl = getParameterByName(_this.src, 'video');
+
+    //check for extra config in the filename
+    var loop = false;
+    var muted = false;
+    var videoUrlSplitted = videoUrl.split('.');
+    videoUrlSplitted.forEach(function (part) {
+      if (part === 'loop') {
+        loop = true;
+      }
+      if (part === 'muted') {
+        muted = true;
+      }
+    });
+
+    _this.video = _this.$slideHolder.find('video')[0];
+    if (loop) {
+      $(_this.video).attr('loop', "loop");
+    }
+    if (muted) {
+      $(_this.video).attr('muted', "muted");
+    }
+    $(_this.video).attr('src', videoUrl);
+    _this._clickHandler = _this.clickHandler.bind(_this);
+    $(_this.video).on('click', _this._clickHandler);
+    return _this;
+  }
+
+  _createClass(VideoSlide, [{
+    key: 'destroy',
+    value: function destroy() {
+      _get(Object.getPrototypeOf(VideoSlide.prototype), 'destroy', this).call(this);
+      $(this.video).off('click', this._clickHandler);
+    }
+  }, {
+    key: 'onStateChanged',
+    value: function onStateChanged() {
+      if (this.state === _Constants.Constants.STATE_ACTIVE) {
+        this.setVideoPlaying(true);
+      } else {
+        this.setVideoPlaying(false);
+      }
+    }
+  }, {
+    key: 'clickHandler',
+    value: function clickHandler(event) {
+      this.toggleVideoPlaying();
+    }
+  }, {
+    key: 'setVideoPlaying',
+    value: function setVideoPlaying(value) {
+      if (value !== this.videoPlaying) {
+        this.videoPlaying = value;
+        if (this.videoPlaying) {
+          this.video.play();
+        } else {
+          this.video.pause();
+        }
+      }
+    }
+  }, {
+    key: 'toggleVideoPlaying',
+    value: function toggleVideoPlaying() {
+      this.setVideoPlaying(!this.videoPlaying);
+    }
+  }]);
+
+  return VideoSlide;
+}(_ContentBase3.default);
+
+exports.default = VideoSlide;
+
+},{"../../../../shared/js/Constants":15,"../../../../shared/js/classes/ContentBase":16}]},{},[13])
 
 
 //# sourceMappingURL=script.js.map
