@@ -23,9 +23,15 @@ let mainWindow;
 global.__dirname = __dirname;
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 1280, height: 700});
+  mainWindow = new BrowserWindow({
+    "width": 1280,
+    "height": 700,
+    "fullscreen": true,
+    "kiosk": true,
+    "autoHideMenuBar": true
+  });
   mainWindow.loadURL('file://' + __dirname + '/index.html');
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
   mainWindow.on('closed', function() {
     mainWindow = null;
   });

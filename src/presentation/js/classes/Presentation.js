@@ -7,6 +7,7 @@ const path = requireNode('path');
 
 const KEYCODE_LEFT = 37;
 const KEYCODE_RIGHT = 39;
+const KEYCODE_SPACE = 32;
 
 export default class Presentation extends PresentationBase {
   constructor(data, role, settings) {
@@ -16,10 +17,6 @@ export default class Presentation extends PresentationBase {
     $(window).on('keydown', event => this.keydownHandler(event));
     bean.on(this, Constants.SET_CURRENT_SLIDE_INDEX, this.currentSlideIndexChangedHandler.bind(this));
 
-    //forward childapp messages
-    // ChildApp.getInstance().on('stdout-data', this.childAppDataHandler.bind(this));
-    // ChildApp.getInstance().on('stderr-data', this.childAppErrorHandler.bind(this));
-
     $('body').on(Constants.GO_TO_PREVIOUS_SLIDE, this.goToPreviousSlide.bind(this));
     $('body').on(Constants.GO_TO_NEXT_SLIDE, this.goToNextSlide.bind(this));
     $('body').on(Constants.OPEN_COMMAND_LINE, this.openCommandLine.bind(this));
@@ -27,22 +24,9 @@ export default class Presentation extends PresentationBase {
   }
 
   closeHandler(event) {
-    // if(ChildApp.getInstance().isRunning()) {
-    //   ChildApp.getInstance().stop(function(){
-    //     console.log('Presentation: childapp stopped');
-    //     requireNode('remote').getCurrentWindow().close();
-    //   });
-    //   return false;
-    // }
   }
 
   currentSlideIndexChangedHandler(slideIndex) {
-    console.log('Presentation: currentSlideIndexChangedHandler');
-    // if(ChildApp.getInstance().isRunning()) {
-    //   ChildApp.getInstance().stop(function(){
-    //     console.log('Presentation: childapp stopped');
-    //   });
-    // }
   }
 
   createMobileServerBridge() {
@@ -124,6 +108,9 @@ export default class Presentation extends PresentationBase {
           break;
         case KEYCODE_RIGHT:
           this.goToNextSlide();
+          break;
+        case KEYCODE_SPACE:
+          $('#presentation-controls').toggle();
           break;
       }
     });

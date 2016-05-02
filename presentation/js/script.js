@@ -788,6 +788,7 @@ var path = requireNode('path');
 
 var KEYCODE_LEFT = 37;
 var KEYCODE_RIGHT = 39;
+var KEYCODE_SPACE = 32;
 
 var Presentation = function (_PresentationBase) {
   _inherits(Presentation, _PresentationBase);
@@ -805,10 +806,6 @@ var Presentation = function (_PresentationBase) {
     });
     bean.on(_this, _Constants.Constants.SET_CURRENT_SLIDE_INDEX, _this.currentSlideIndexChangedHandler.bind(_this));
 
-    //forward childapp messages
-    // ChildApp.getInstance().on('stdout-data', this.childAppDataHandler.bind(this));
-    // ChildApp.getInstance().on('stderr-data', this.childAppErrorHandler.bind(this));
-
     $('body').on(_Constants.Constants.GO_TO_PREVIOUS_SLIDE, _this.goToPreviousSlide.bind(_this));
     $('body').on(_Constants.Constants.GO_TO_NEXT_SLIDE, _this.goToNextSlide.bind(_this));
     $('body').on(_Constants.Constants.OPEN_COMMAND_LINE, _this.openCommandLine.bind(_this));
@@ -818,25 +815,10 @@ var Presentation = function (_PresentationBase) {
 
   _createClass(Presentation, [{
     key: 'closeHandler',
-    value: function closeHandler(event) {
-      // if(ChildApp.getInstance().isRunning()) {
-      //   ChildApp.getInstance().stop(function(){
-      //     console.log('Presentation: childapp stopped');
-      //     requireNode('remote').getCurrentWindow().close();
-      //   });
-      //   return false;
-      // }
-    }
+    value: function closeHandler(event) {}
   }, {
     key: 'currentSlideIndexChangedHandler',
-    value: function currentSlideIndexChangedHandler(slideIndex) {
-      console.log('Presentation: currentSlideIndexChangedHandler');
-      // if(ChildApp.getInstance().isRunning()) {
-      //   ChildApp.getInstance().stop(function(){
-      //     console.log('Presentation: childapp stopped');
-      //   });
-      // }
-    }
+    value: function currentSlideIndexChangedHandler(slideIndex) {}
   }, {
     key: 'createMobileServerBridge',
     value: function createMobileServerBridge() {
@@ -928,6 +910,9 @@ var Presentation = function (_PresentationBase) {
             break;
           case KEYCODE_RIGHT:
             _this2.goToNextSlide();
+            break;
+          case KEYCODE_SPACE:
+            $('#presentation-controls').toggle();
             break;
         }
       });
