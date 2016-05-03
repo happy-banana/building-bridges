@@ -10,32 +10,34 @@
   <canvas id="outputCanvas" width="1920" height="1080" style="width: 100%"></canvas>
   <script src="http://localhost:8000/socket.io/socket.io.js"></script>
   <script>
-    var socket = io.connect('http://localhost:8000');
-    var canvas = document.getElementById('outputCanvas');
-    var ctx = canvas.getContext('2d');
-    var frameNr = 0;
-    var img = document.createElement('img');
+    'use strict';
 
-    socket.on('colorFrame', function(colorFrame){
+    let socket = io.connect('http://localhost:8000');
+    let canvas = document.getElementById('outputCanvas');
+    let ctx = canvas.getContext('2d');
+    let frameNr = 0;
+    let img = document.createElement('img');
+
+    socket.on('colorFrame', colorFrame => {
       console.log('colorFrame', ++frameNr);
       img.src = 'data:image/jpeg;base64,' + base64ArrayBuffer(colorFrame);
       ctx.drawImage(img, 0, 0);
     });
 
-    function base64ArrayBuffer(arrayBuffer) {
-      var base64    = ''
-      var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+    const base64ArrayBuffer = arrayBuffer => {
+      let base64    = ''
+      let encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
-      var bytes         = new Uint8Array(arrayBuffer)
-      var byteLength    = bytes.byteLength
-      var byteRemainder = byteLength % 3
-      var mainLength    = byteLength - byteRemainder
+      let bytes         = new Uint8Array(arrayBuffer)
+      let byteLength    = bytes.byteLength
+      let byteRemainder = byteLength % 3
+      let mainLength    = byteLength - byteRemainder
 
-      var a, b, c, d
-      var chunk
+      let a, b, c, d
+      let chunk
 
       // Main loop deals with bytes in chunks of 3
-      for (var i = 0; i < mainLength; i = i + 3) {
+      for (let i = 0; i < mainLength; i = i + 3) {
       // Combine the three bytes into a single integer
       chunk = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2]
 

@@ -14,10 +14,12 @@
     <script src="js/threejs/three.min.js"></script>
     <script src="js/threejs/TrackballControls.js"></script>
     <script>
-    (function(){
+    'use strict';
+    
+    (() => {
 
-      var ws, renderer, scene, camera, controls;
-      var canvas = document.getElementById('outputCanvas');
+      let ws, renderer, scene, camera, controls;
+      let canvas = document.getElementById('outputCanvas');
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
@@ -32,53 +34,53 @@
 
       scene = new THREE.Scene();
       // ground box
-      var geometry = new THREE.BoxGeometry( 500, 2, 500 );
-      material = new THREE.MeshNormalMaterial();
-      var mesh = new THREE.Mesh( geometry, material );
+      let geometry = new THREE.BoxGeometry( 500, 2, 500 );
+      let material = new THREE.MeshNormalMaterial();
+      let mesh = new THREE.Mesh( geometry, material );
       mesh.position.set( 0, -1, 0 );
       scene.add( mesh );
       mesh = new THREE.GridHelper( 250, 10 );
       scene.add( mesh );
       // axes
-      var axis = new THREE.AxisHelper( 250 );
+      let axis = new THREE.AxisHelper( 250 );
       scene.add( axis );
       renderer.render( scene, camera );
 
-      var geometry = new THREE.BoxGeometry( 50, 20, 50 );
-      var material = new THREE.MeshNormalMaterial();
-      var box = new THREE.Mesh( geometry, material );
+      let boxGeometry = new THREE.BoxGeometry( 50, 20, 50 );
+      let boxMaterial = new THREE.MeshNormalMaterial();
+      let box = new THREE.Mesh( boxGeometry, boxMaterial );
       scene.add( box );
 
       ws = new WebSocket("ws://localhost:6437/");
 
       // On successful connection
-      ws.onopen = function(event) {
-        var enableMessage = JSON.stringify({enableGestures: false});
+      ws.onopen = event => {
+        let enableMessage = JSON.stringify({enableGestures: false});
         ws.send(enableMessage);
       };
 
       // On message received
-      ws.onmessage = function(event) {
-        var trackingdata = JSON.parse(event.data);
+      ws.onmessage = event => {
+        let trackingdata = JSON.parse(event.data);
         if(trackingdata.hands && trackingdata.hands.length > 0) {
-          var handDirection = trackingdata.hands[0].direction;
-          var palmNormal = trackingdata.hands[0].palmNormal;
-          var position = trackingdata.hands[0].palmPosition;
+          let handDirection = trackingdata.hands[0].direction;
+          let palmNormal = trackingdata.hands[0].palmNormal;
+          let position = trackingdata.hands[0].palmPosition;
 
-          var pitch = Math.atan2(handDirection[1], -handDirection[2]);
-          var yaw = Math.atan2(handDirection[0], -handDirection[2]);
-          var roll = Math.atan2(palmNormal[0], -palmNormal[1]);
+          let pitch = Math.atan2(handDirection[1], -handDirection[2]);
+          let yaw = Math.atan2(handDirection[0], -handDirection[2]);
+          let roll = Math.atan2(palmNormal[0], -palmNormal[1]);
 
           box.position.set( position[0], position[1], position[2] );
           box.rotation.set( pitch, -yaw, roll );
         }
       };
 
-      function render() {
+      const render = () => {
         renderer.render( scene, camera );
         controls.update();
         requestAnimationFrame(render);
-      }
+      };
 
       render();
     })();

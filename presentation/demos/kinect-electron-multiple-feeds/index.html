@@ -7,35 +7,39 @@
     <canvas id="rgbCanvas" width="1920" height="1080" style="height: 400px"></canvas>
     <canvas id="depthCanvas" width="512" height="424" style="height: 400px"></canvas>
     <script>
-    (function(){
-      var Kinect2 = require('kinect2');
-      var kinect = new Kinect2();
+    'use strict';
 
-      function ColorRenderer(outputCanvas) {
-        this.canvas = outputCanvas;
-        this.ctx = this.canvas.getContext('2d');
-        this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
-        this.imageDataSize = this.imageData.data.length;
-        this.imageDataArray = this.imageData.data;
+    (() => {
+      const Kinect2 = require('kinect2');
+      let kinect = new Kinect2();
 
-        this.update = function(newPixelData) {
-          for (var i = 0; i < this.imageDataSize; i++) {
+      class ColorRenderer {
+        constructor(outputCanvas) {
+          this.canvas = outputCanvas;
+          this.ctx = this.canvas.getContext('2d');
+          this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
+          this.imageDataSize = this.imageData.data.length;
+          this.imageDataArray = this.imageData.data;
+        }
+        update(newPixelData) {
+          for (let i = 0; i < this.imageDataSize; i++) {
             this.imageDataArray[i] = newPixelData[i];
           }
           this.ctx.putImageData(this.imageData, 0, 0);
         }
       }
 
-      function GrayscaleRenderer(outputCanvas) {
-        this.canvas = outputCanvas;
-        this.ctx = this.canvas.getContext('2d');
-        this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
-        this.imageDataSize = this.imageData.data.length;
-        this.imageDataArray = this.imageData.data;
-
-        this.update = function(newPixelData) {
-          var pixelIndex = 0;
-          for (var i = 0; i < this.imageDataSize; i+=4) {
+      class GrayscaleRenderer{
+        constructor(outputCanvas) {
+          this.canvas = outputCanvas;
+          this.ctx = this.canvas.getContext('2d');
+          this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
+          this.imageDataSize = this.imageData.data.length;
+          this.imageDataArray = this.imageData.data;
+        }
+        update(newPixelData) {
+          let pixelIndex = 0;
+          for (let i = 0; i < this.imageDataSize; i+=4) {
             this.imageDataArray[i] = newPixelData[pixelIndex];
             this.imageDataArray[i+1] = newPixelData[pixelIndex];
             this.imageDataArray[i+2] = newPixelData[pixelIndex];
@@ -46,12 +50,12 @@
         }
       }
 
-      var rgbRenderer = new ColorRenderer(document.getElementById('rgbCanvas'));
-      var depthRenderer = new GrayscaleRenderer(document.getElementById('depthCanvas'));
+      let rgbRenderer = new ColorRenderer(document.getElementById('rgbCanvas'));
+      let depthRenderer = new GrayscaleRenderer(document.getElementById('depthCanvas'));
 
       if(kinect.open()) {
         console.log('kinect open');
-        kinect.on('multiSourceFrame', function(frame){
+        kinect.on('multiSourceFrame', frame => {
           rgbRenderer.update(frame.color.buffer);
           depthRenderer.update(frame.depth.buffer);
         });

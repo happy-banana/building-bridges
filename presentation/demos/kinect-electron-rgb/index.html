@@ -6,27 +6,28 @@
   <body>
     <canvas id="outputCanvas" width="1920" height="1080" style="width: 100%"></canvas>
     <script>
-    (function(){
-      var Kinect2 = require('kinect2');
-      var kinect = new Kinect2();
+    'use strict';
+    (() => {
+      const Kinect2 = require('kinect2');
+      let kinect = new Kinect2();
 
-      var canvas = document.getElementById('outputCanvas');
-      var ctx = canvas.getContext('2d');
-      var imageData = ctx.createImageData(canvas.width, canvas.height);
-      var imageDataSize = imageData.data.length;
-      var imageDataArray = imageData.data;
+      let canvas = document.getElementById('outputCanvas');
+      let ctx = canvas.getContext('2d');
+      let imageData = ctx.createImageData(canvas.width, canvas.height);
+      let imageDataSize = imageData.data.length;
+      let imageDataArray = imageData.data;
 
-      var processing = false;
+      let processing = false;
 
       if(kinect.open()) {
         console.log('kinect open');
-        kinect.on('colorFrame', function(newPixelData){
+        kinect.on('colorFrame', newPixelData => {
           if(processing) {
             return;
           }
           console.log('color frame');
           processing = true;
-          for (var i = 0; i < imageDataSize; i++) {
+          for (let i = 0; i < imageDataSize; i++) {
             imageDataArray[i] = newPixelData[i];
           }
           ctx.putImageData(imageData, 0, 0);

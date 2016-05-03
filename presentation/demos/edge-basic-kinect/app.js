@@ -1,6 +1,8 @@
-var edge = require('../../nms/node_modules/edge');
+'use strict';
 
-var createKinect = edge.func(function () {/*
+const edge = require('../../nms/node_modules/edge');
+
+const createKinect = edge.func(() => {/*
     using System;
     using System.Threading.Tasks;
 
@@ -84,9 +86,9 @@ var createKinect = edge.func(function () {/*
     }
 */});
 
-var kinect = createKinect(null, true);
+let kinect = createKinect(null, true);
 kinect.open(null, true);
 
-setTimeout(function(){
+setTimeout(() => {
   console.log('done');
 }, 2000);

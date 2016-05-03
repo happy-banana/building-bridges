@@ -1,8 +1,11 @@
-var Kinect2 = require('../../nms/node_modules/kinect2');
-var kinect = new Kinect2();
+'use strict';
+
+const Kinect2 = require('../../nms/node_modules/kinect2');
+
+let kinect = new Kinect2();
 if(kinect.open()) {
   console.log('kinect opened');
-  kinect.on('bodyFrame', function(bodyFrame){
+  kinect.on('bodyFrame', bodyFrame => {
     console.log(bodyFrame);
   });
   kinect.openBodyReader();

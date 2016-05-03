@@ -11,18 +11,20 @@
   <script src="http://localhost:8000/socket.io/socket.io.js"></script>
   <script src="js/pako/pako.inflate.min.js"></script>
   <script>
-    var socket = io.connect('http://localhost:8000');
-    var canvas = document.getElementById('outputCanvas');
-    var ctx = canvas.getContext('2d');
-    var imageData = ctx.createImageData(canvas.width, canvas.height);
-    var imageDataSize = imageData.data.length;
-    var imageDataArray = imageData.data;
-    var frameNr = 0;
+    'use strict';
 
-    socket.on('colorFrame', function(colorFrame){
+    let socket = io.connect('http://localhost:8000');
+    let canvas = document.getElementById('outputCanvas');
+    let ctx = canvas.getContext('2d');
+    let imageData = ctx.createImageData(canvas.width, canvas.height);
+    let imageDataSize = imageData.data.length;
+    let imageDataArray = imageData.data;
+    let frameNr = 0;
+
+    socket.on('colorFrame', colorFrame => {
       console.log('colorFrame', ++frameNr);
-      var newPixelData = new Uint8Array(pako.inflate(colorFrame));
-      for (var i = 0; i < imageDataSize; i++) {
+      let newPixelData = new Uint8Array(pako.inflate(colorFrame));
+      for (let i = 0; i < imageDataSize; i++) {
         imageDataArray[i] = newPixelData[i];
       }
       ctx.putImageData(imageData, 0, 0);
