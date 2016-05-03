@@ -13,7 +13,7 @@
       const Kinect2 = require('kinect2');
       let kinect = new Kinect2();
 
-      class ColorRenderer {
+      class Renderer {
         constructor(outputCanvas) {
           this.canvas = outputCanvas;
           this.ctx = this.canvas.getContext('2d');
@@ -21,6 +21,9 @@
           this.imageDataSize = this.imageData.data.length;
           this.imageDataArray = this.imageData.data;
         }
+      }
+
+      class ColorRenderer extends Renderer {
         update(newPixelData) {
           for (let i = 0; i < this.imageDataSize; i++) {
             this.imageDataArray[i] = newPixelData[i];
@@ -29,14 +32,7 @@
         }
       }
 
-      class GrayscaleRenderer{
-        constructor(outputCanvas) {
-          this.canvas = outputCanvas;
-          this.ctx = this.canvas.getContext('2d');
-          this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
-          this.imageDataSize = this.imageData.data.length;
-          this.imageDataArray = this.imageData.data;
-        }
+      class GrayscaleRenderer extends Renderer {
         update(newPixelData) {
           let pixelIndex = 0;
           for (let i = 0; i < this.imageDataSize; i+=4) {
