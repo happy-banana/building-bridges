@@ -14,13 +14,14 @@
   <body>
     <canvas id="rgbCanvas" width="1920" height="1080" style="width: 100%"></canvas>
     <script>
-    (function(){
-      var Kinect2 = require('kinect2');
-      var kinect = new Kinect2();
+    'use strict';
+    (() => {
+      let Kinect2 = require('kinect2');
+      let kinect = new Kinect2();
 
-      var rgbRenderer, activeBody;
+      let rgbRenderer, activeBody;
 
-      function init() {
+      const init = () => {
         rgbRenderer = new ColorRenderer(document.getElementById('rgbCanvas'));
          if(kinect.open()) {
           console.log('kinect open');
@@ -31,8 +32,8 @@
         }
       }
 
-      function multiSourceFrameHandler(frame) {
-        var closestBody = getClosestBody(frame.body);
+      const multiSourceFrameHandler = frame => {
+        let closestBody = getClosestBody(frame.body);
         if(closestBody && closestBody !== activeBody) {
           activeBody = closestBody;
           kinect.trackPixelsForBodyIndices([activeBody.bodyIndex]);
@@ -42,10 +43,10 @@
         }
       }
 
-      function getClosestBody(bodyFrame) {
-        var closestZ = Number.MAX_VALUE;
-        var closestBody = false;
-        bodyFrame.bodies.forEach(function(body){
+      const getClosestBody = bodyFrame => {
+        let closestZ = Number.MAX_VALUE;
+        let closestBody = false;
+        bodyFrame.bodies.forEach(body => {
           if(body.tracked && body.joints[Kinect2.JointType.spineMid].cameraZ < closestZ) {
             closestZ = body.joints[Kinect2.JointType.spineMid.cameraZ];
             closestBody = body;
@@ -54,15 +55,16 @@
         return closestBody;
       }
 
-      function ColorRenderer(outputCanvas) {
-        this.canvas = outputCanvas;
-        this.ctx = this.canvas.getContext('2d');
-        this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
-        this.imageDataSize = this.imageData.data.length;
-        this.imageDataArray = this.imageData.data;
-
-        this.update = function(newPixelData) {
-          for (var i = 0; i < this.imageDataSize; i++) {
+      class ColorRenderer {
+        constructor(outputCanvas) {
+          this.canvas = outputCanvas;
+          this.ctx = this.canvas.getContext('2d');
+          this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
+          this.imageDataSize = this.imageData.data.length;
+          this.imageDataArray = this.imageData.data;
+        }
+        update(newPixelData) {
+          for (let i = 0; i < this.imageDataSize; i++) {
             this.imageDataArray[i] = newPixelData[i];
           }
           this.ctx.putImageData(this.imageData, 0, 0);

@@ -15,13 +15,13 @@
     <div id="game"></div>
     <script src="js/phaser/phaser.min.js"></script>
     <script>
-    (function(){
-      var Kinect2 = require('kinect2');
-      var kinect = new Kinect2();
+    (() => {
+      let Kinect2 = require('kinect2');
+      let kinect = new Kinect2();
 
-      var game, bmd, hiddenCanvas, hiddenRenderer, activeBody;
+      let game, bmd, hiddenCanvas, hiddenRenderer, activeBody;
 
-      function init() {
+      const init = () => {
         game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
         hiddenCanvas = document.createElement('canvas');
@@ -38,20 +38,20 @@
         }
       }
 
-      function preload() {
+      const preload = () => {
       }
 
-      function create() {
+      const create = () => {
         console.log('create');
         bmd = game.add.bitmapData(game.width, game.height);
         bmd.addToWorld(bmd.width * 0.5, bmd.height, 0.5, 1);
       }
 
-      function update() {
+      const update = () => {
       }
 
-      function multiSourceFrameHandler(frame) {
-        var closestBody = getClosestBody(frame.body);
+      const multiSourceFrameHandler = frame => {
+        let closestBody = getClosestBody(frame.body);
         if(closestBody && closestBody !== activeBody) {
           activeBody = closestBody;
           kinect.trackPixelsForBodyIndices([activeBody.bodyIndex]);
@@ -59,10 +59,10 @@
         if(activeBody && frame.bodyIndexColor.bodies[activeBody.bodyIndex].buffer) {
           hiddenRenderer.update(frame.bodyIndexColor.bodies[activeBody.bodyIndex].buffer);
 
-          var pixelWidth = calculatePixelWidth(frame.bodyIndexColor.horizontalFieldOfView, activeBody.joints[Kinect2.JointType.spineMid].cameraZ * 1000);
-          var scale = 0.15 * pixelWidth;
+          let pixelWidth = calculatePixelWidth(frame.bodyIndexColor.horizontalFieldOfView, activeBody.joints[Kinect2.JointType.spineMid].cameraZ * 1000);
+          let scale = 0.15 * pixelWidth;
 
-          var leftJoint = activeBody.joints[0],
+          let leftJoint = activeBody.joints[0],
             topJoint = activeBody.joints[0],
             rightJoint = activeBody.joints[0];
           activeBody.joints.forEach(function(joint){
@@ -81,13 +81,13 @@
             colorX: topJoint.colorX,
             colorY: Math.min(topJoint.colorY, activeBody.joints[Kinect2.JointType.head].colorY - (activeBody.joints[Kinect2.JointType.neck].colorY - activeBody.joints[Kinect2.JointType.head].colorY))
           };
-          var srcRect = {
+          let srcRect = {
             x: leftJoint.colorX * hiddenCanvas.width,
             y: topJoint.colorY * hiddenCanvas.height,
             width: (rightJoint.colorX - leftJoint.colorX) * hiddenCanvas.width,
             height: (activeBody.joints[Kinect2.JointType.spineMid].floorColorY - topJoint.colorY) * hiddenCanvas.height
           };
-          var dstRect = {
+          let dstRect = {
             x: bmd.width * 0.5,
             y: bmd.height - (srcRect.height * scale),
             width: srcRect.width * scale,
@@ -96,7 +96,7 @@
 
           //center the user horizontally - is not minus half width of image as user might reach to one side or the other
           //do minus the space on the left size of the spine
-          var spaceLeft = activeBody.joints[Kinect2.JointType.spineMid].colorX - leftJoint.colorX;
+          let spaceLeft = activeBody.joints[Kinect2.JointType.spineMid].colorX - leftJoint.colorX;
           dstRect.x -= (spaceLeft * hiddenCanvas.width * scale);
           if(bmd) {
             bmd.cls();
@@ -105,18 +105,18 @@
         }
       }
 
-      function calculatePixelWidth(horizontalFieldOfView, depth){
+      const calculatePixelWidth = (horizontalFieldOfView, depth) => {
         // measure the size of the pixel
-        var hFov = horizontalFieldOfView / 2;
-        var numPixels = hiddenCanvas.width / 2;
-        var T = Math.tan((Math.PI * 180) / hFov);
-        var pixelWidth = T * depth;
+        let hFov = horizontalFieldOfView / 2;
+        let numPixels = hiddenCanvas.width / 2;
+        let T = Math.tan((Math.PI * 180) / hFov);
+        let pixelWidth = T * depth;
         return pixelWidth / numPixels;
       }
 
-      function getClosestBody(bodyFrame) {
-        var closestZ = Number.MAX_VALUE;
-        var closestBody = false;
+      const getClosestBody = bodyFrame => {
+        let closestZ = Number.MAX_VALUE;
+        let closestBody = false;
         bodyFrame.bodies.forEach(function(body){
           if(body.tracked && body.joints[Kinect2.JointType.spineMid].cameraZ < closestZ) {
             closestZ = body.joints[Kinect2.JointType.spineMid.cameraZ];
@@ -126,15 +126,16 @@
         return closestBody;
       }
 
-      function ColorRenderer(outputCanvas) {
-        this.canvas = outputCanvas;
-        this.ctx = this.canvas.getContext('2d');
-        this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
-        this.imageDataSize = this.imageData.data.length;
-        this.imageDataArray = this.imageData.data;
-
-        this.update = function(newPixelData) {
-          for (var i = 0; i < this.imageDataSize; i++) {
+      class ColorRenderer {
+        constructor(outputCanvas) {
+          this.canvas = outputCanvas;
+          this.ctx = this.canvas.getContext('2d');
+          this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
+          this.imageDataSize = this.imageData.data.length;
+          this.imageDataArray = this.imageData.data;
+        }
+        update(newPixelData) {
+          for (let i = 0; i < this.imageDataSize; i++) {
             this.imageDataArray[i] = newPixelData[i];
           }
           this.ctx.putImageData(this.imageData, 0, 0);
