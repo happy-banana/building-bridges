@@ -1,13 +1,30 @@
 <template>
   <article class="slide">
     <div class="slide-content">
-      <div class="live-code" data-entry-path="demos/kinect-electron-multiple-feeds" data-output-path="tmp/kinect-electron-multiple-feeds">
+      <div class="live-code" data-entry-path="demos/kinect-skeleton-websockets" data-output-path="tmp/kinect-skeleton-websockets">
         <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item"><a class="nav-link" href="#" aria-controls="index.html" role="tab">index.html</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" aria-controls="output" role="tab">output</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" aria-controls="nodejs" role="tab">nodejs</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" aria-controls="html-code" role="tab">html code</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" aria-controls="html-output" role="tab">html output</a></li>
         </ul>
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane" data-tab-id="index.html" style="height: 66rem; position: relative;">
+          <div role="tabpanel" class="tab-pane" data-tab-id="nodejs" style="height: 66rem; position: relative;">
+            <div class="split-pane fixed-bottom">
+              <div class="split-pane-component top-pane" style="bottom: 3em; margin-bottom: 5px; min-height: 5em;">
+                <textarea data-type="code" data-mode="javascript" data-language="javascript" data-file="server.js"></textarea>
+                <div class="btn-group" role="group" style="position: absolute; top: 1em; right: 1em; z-index: 10;">
+                  <button type="button" data-target="server.js" data-type="reload-button" class="btn btn-secondary"><i class="fa fa-4x fa-refresh"></i></button>
+                  <button type="button" data-target="server.js" data-type="save-button" class="btn btn-secondary"><i class="fa fa-4x fa-save"></i></button>
+                  <button type="button" data-target="node-console" data-type="run-button" class="btn btn-secondary"><i class="fa fa-4x fa-play"></i></button>
+                </div>
+              </div>
+              <div class="split-pane-divider divider" style="background: #aaa; bottom: 3em; height: 5px;"></div>
+              <div class="split-pane-component bottom-pane" style="height: 3em; min-height: 3em;">
+                <div data-id="node-console" style="height: 100%" data-type="console" data-file="server.js"></div>
+              </div>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" data-tab-id="html-code" style="height: 66rem; position: relative;">
             <textarea data-type="code" data-mode="htmlmixed" data-language="html" data-file="index.html"></textarea>
             <div class="btn-group" role="group" style="position: absolute; top: 1em; right: 1em; z-index: 10;">
               <button type="button" data-target="index.html" data-type="reload-button" class="btn btn-secondary"><i class="fa fa-4x fa-refresh"></i></button>
@@ -15,7 +32,7 @@
               <button type="button" data-target="web-preview" data-type="run-button" class="btn btn-secondary"><i class="fa fa-4x fa-play"></i></button>
             </div>
           </div>
-          <div role="tabpanel" class="tab-pane" data-tab-id="output" style="height: 66rem; position: relative;">
+          <div role="tabpanel" class="tab-pane" data-tab-id="html-output" style="height: 66rem; position: relative;">
             <div class="split-pane fixed-bottom">
               <div class="split-pane-component top-pane" style="bottom: 3em; margin-bottom: 5px; min-height: 5em;">
                 <div data-id="web-preview" data-type="web-preview" data-console="web-preview-console" data-file="index.html"></div>
@@ -54,8 +71,8 @@
     });
 
     //focus webpreview tab on run click
-    $slideHolder.find('[data-type="run-button"]').on('click', function(){
-      $slideHolder.find('a[role=tab][aria-controls=output]').click();
+    $slideHolder.find('[data-tab-id="html-code"] [data-type="run-button"]').on('click', function(){
+      $slideHolder.find('a[role=tab][aria-controls="html-output"]').click();
     });
 
     requestAnimationFrame(function(){
